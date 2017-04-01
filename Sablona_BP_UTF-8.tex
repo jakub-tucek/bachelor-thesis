@@ -136,7 +136,82 @@ Pomocí řetězení těchto selektorů jsme schopni jednoznačně získat elemen
 
 
 \section{Současný stav řešení potřeb internetových obchodů}
-TODO
+I v kontextu malého trhu jako Česká republika se lze bavit o velké konkurenci na poli 
+maloobchodů prodávající své zboží na internetu.
+Internetové obchody potřebují monitorovat konkurenci a trh. Vzhledem k jejich zaměření je tedy nejvíce zajímají 
+obchody prodávající stejné zboží. Potřebné informace o prodávaných produktů konkurencí 
+se skládají z následujících hlavních atributů:
+
+\begin{enumerate}
+\item Cena
+\item Inzerovaný název
+\item Dostupnost
+\end{enumerate}
+
+\subsection{Srovnávače cen}
+
+Data lze získat pomocí srovnávačů cen jako \textit{zbozi.cz}\cite{heureka} 
+nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb je však že jsou spíše určeny koncovým zákazníkům 
+pro nalezení nejlepší ceny na trhu pro určitý produkt. S tím souvisí to, že největší srovnávače cen neposkytují data nebo
+rozhraní přes která by je bylo možné získat.
+
+\subsection{Existující služby}
+
+Problematiku sledování trhu s důrazem na firemní klientelu, řeší aktuálně několik existujících služeb.
+\par
+Služby mají v zásadě velmi podobnou povahu služeb. Rámcově se jedná o porovnávání cen včetně historie na různých internetových
+obchodem či na srovnávačích cen. Uživatel si zadá okruh či seznam produktů, buďto formou manuální či vstupem ze souboru, případně 
+přímých napojením na e-shop. Následně je možné konkrétní data zobrazit v grafech označující vývoj cen, trendů či náhlých změn.
+Dále umožňují externí výstup do souboru v dostupných formátech.
+\par
+Největší rozdíl služeb je zda jsou data získávána přímo z obchodů nebo ze srovnávačích. Další odlišností je 
+možnost zda služba dokáže sledovat i zahraniční trh.
+\par
+Cena služeb se nejvíce odvíjí od počtu sledovaných produktů a četnosti aktualizací. Proto se měsíční platby mohou 
+pohybovat od stovek korun po desítek tisíc korun.
+
+\subsubsection{Price checking}
+
+\subsubsection{Pricing intelligence}
+
+\subsubsection{Sledování trhu}
+
+\subsubsection{Pricebot}
+
+\subsubsection{Zahraniční nástroje}
+Tyto nástroje jsou obecněji zaměřené a obvykle požadují od uživatele techničtější zaměření, 
+jelikož je nutné přesně specifikovat kde, co a jak chce sledovat. Vzhledem k tomuto omezení
+nejsou přímo pro provozovatele e-shopů vhodné kvůli nedostatečným technickým kapacitám a 
+pro tuto práci důležité.
+\par
+Bodový seznam zahraničních nástrojů:
+
+\begin{enumerate}
+\item Screen scraper \cite{Screen scraper}
+
+  \begin{itemize}
+    \item Webová služba
+    \item procházení web skrz odkazy
+    \item potvrzování formulářů
+    \item využití interního vyhledávání
+    \item export do širokého množství formátu souborů
+    \item cena: \$549 - \$2,799 za měsíc
+  \end{itemize}
+  
+\item Web extractor \cite{Web extractor}
+
+  \begin{itemize}
+    \item Windows Aplikace
+    \item procházení zadaných stránek
+    \item hledání stránek pomocí klíčových slov
+    \item export do csv formátu
+    \item cena: \$99 - \$199 jednorázově
+  \end{itemize}
+
+\item Web Scraper \cite{Web scraper}
+
+\end{enumerate}
+
 \section{Zhodnocení současného stavu projektu}
 TODO
 \section{Návrh na vylepšení}
@@ -176,8 +251,26 @@ TODO
 	San Francisco (CA): Wikimedia Foundation, 2001- [cit. 2017-04-01]. 
 	Dostupné z: 
 	\url{https://en.wikipedia.org/wiki/Cascading_Style_Sheets}}	
+\bibitem{heureka}
+	{Heuréka [online]. [cit. 2017-04-01]. Dostupné z:
+	\url{http://www.heureka.cz/}}
+\bibitem{zbozi}
+	{Zboží [online]. [cit. 2017-04-01]. Dostupné z:
+	\url{http://www.zbozi.cz/}}	
+	
+	
+	
+	
+\bibitem{Screen scraper}
+	{Screen scraper [online]. [cit. 2017-04-01]. Dostupné z:
+	\url{http://www.screen-scraper.com/}}	
+\bibitem{Web extractor}
+	{Web extractor [online]. [cit. 2017-04-01]. Dostupné z:
+	\url{http://www.webextractor.com/}}		
+\bibitem{Web scraper}
+	{Web Scraper [online]. [cit. 2017-04-01]. Dostupné z:
+	\url{http://http://webscraper.io/}}		
 \appendix
-
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
