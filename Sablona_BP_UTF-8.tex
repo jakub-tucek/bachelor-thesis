@@ -52,7 +52,7 @@ by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Va
 
 \begin{introduction}
 
-V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt pro získávání informací z webů s primárním zaměřením na potřeby
+V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt pro získávání informací z webů s primárním zaměřením na potřeby
 obchodů. Projekt řešil problém automatizace získávání dat z webů, jelikož stávající služby neposkytují veřejné rozhraní
 nebo mají velkou chybovost dat.
 \par
@@ -66,28 +66,75 @@ otestovat vylepšení a zhodnotit výsledný stav projektu.
 
 \newpage
 
-\section{Požadavky internetových obchodů}	
-Požadavky internetových obchodů 
+\newpage
 
-\section{Vzniklé řešení týmového projektu}
-TODO
 \end{introduction}
 
 \chapter{Cíl práce}
 
-\section{Automatizace získávání informací z webů}
-TODO
-\section{Zhodnocení vzniklého týmového projektu}
-TODO
-\section{Návrh možných vylepšení}
-TODO
-\section{Implementace a zhodnocení}
-TODO
+\section{Analytické cíle}
+
+\begin{enumerate}  
+\item Rešerše aktuálního stavu získávání dat pro potřeby
+internetových obchodů
+\item Analýza vzniklého řešení týmového projektu vzniklého v prostředí ČVUT FIT,
+včetně důrazu na použité postupy při softwarovém vývoji
+\item Návrh a zhodnocení implementovaných vylepšení
+\end{enumerate}
+
+\section{Praktické cíle}
+\begin{enumerate}  
+\item Implementace vylepšení systému
+\end{enumerate}
+
+\newpage
+
 
 \chapter{Analýza a návrh}
 
+V této kapitole se budu nejprve zabývat samotnou problematikou získávání informací 
+z webů s důrazem na internetové obchody.
+Jelikož je tato problematika již řešena existujícími službami, je nutné je zhodnotit a popsat
+jejích chování.
+Dále zhodnotím současný stav projektu, zvolené postupy při vývoji a výslednou funkcionalitu.
+Nakonec navrhnu vylepšení vzniklého systému, ty nejdůležitější implementuji a výsledný stav zhodnotím.
+
 \section{Získávání informací z webů}
-TODO
+
+\subsection{Problematika}
+Získávání informací z webů je efektivní možnost jak získat databázi informací, které se na internetu vyskytují.
+Tato činnost však stojí na problematice data získávat a uchovávat v potřebné struktuře, jelikož 
+jinak z dat nejsme schopni vyčíst potřebné informace.
+Vzhledem k specificitě dat, které jsou v kontextu činnosti zajímavá a dále kvůli unikátnosti webových stránek
+není možné jednoznačně určit jak data získat v požadovaném formátu.
+\subsection{Výběr dat}
+Nejčastější řešení a jediné řešení je kombinace lidské inteligence a automatizování co nejvíce činností.
+To je obvykle dosaženo roboty, která stahují data a lidské práce určující jaké informace nás zajímají.
+\par
+Získávání dat ze stažených stránek lze poté zjednodušit na problematiku lokace elementů v HTML, které jsou pro 
+nás zajímavé.
+Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně určit pomocí dvou možnosti:
+\begin{enumerate}
+\item XPath
+\item CSS Selector
+\end{enumerate}
+
+\subsection{XML Path Language}
+XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML.
+\par
+XML chápeme jako jazyk popisující strukturu dat, které jsou strojově i lidsky čitelné.
+HTML je speciální typ XML, který popisuje obsah dat pro prezentaci ve webovém prohlížeči pomocí předem definované struktury,
+které prohlížeče rozumí.\cite{XML} Díky této vlastnosti lze tedy použít XPath pro definování cesty k prvku (a jeho obsahu),
+který uchovává potřebnou informaci na webové stránce.
+\par
+\subsection{CSS Selector}
+Jazyk CSS je používán pro vizuální popis prezentace webové stránky definované v HTML. Jazyk k určení prvků se kterými
+chce pracovat používá selektory, které označují prvek v HTML. Jako selektor může být použit jak samotný název prvku,
+tak vlastní definované třídy.\cite{CSS}
+\par
+Pomocí řetězení těchto selektorů jsme schopni jednoznačně získat element v HTML.
+
+
 \section{Současný stav řešení potřeb internetových obchodů}
 TODO
 \section{Zhodnocení současného stavu projektu}
@@ -112,15 +159,34 @@ TODO
 \bibliographystyle{csn690}
 \bibliography{mybibliographyfile}
 
+\begin{thebibliography}{}
+
+\bibitem{XPath}
+	{XPath. In: Wikipedia: the free encyclopedia [online]. 
+	San Francisco (CA): Wikimedia Foundation, 2001- [cit. 2017-04-01]. 
+	Dostupné z: 
+	\url{https://en.wikipedia.org/wiki/XPath}}
+\bibitem{XML}
+	{PERUGINI, Saverio. HTML versus XML. 
+	In: Virginia Tech - College of engineering: Department of computer science [online]. 
+	Virginia Tech: Virginia Tech, 2002 [cit. 2017-04-01]. Dostupné z: 
+	\url{http://courses.cs.vt.edu/~cs1204/XML/htmlVxml.html}}
+\bibitem{CSS}
+	{Cascading Style Sheets. In: Wikipedia: the free encyclopedia [online]. 
+	San Francisco (CA): Wikimedia Foundation, 2001- [cit. 2017-04-01]. 
+	Dostupné z: 
+	\url{https://en.wikipedia.org/wiki/Cascading_Style_Sheets}}	
 \appendix
 
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
-	\item[GUI] Graphical user interface
 	\item[XML] Extensible markup language
+	\item[HTML] Hypertext Markup Language
+	\item[CSS] Cascading style sheets
 \end{description}
 
+\end{thebibliography}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % Tuto kapitolu z výsledné práce ODSTRAŇTE.
