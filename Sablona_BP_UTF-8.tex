@@ -60,8 +60,8 @@ Požadavky internetových obchodů jsou především tvořeny nutností držet k
 prodávaných produktů u konkurence. Teprve na základě těchto dat je možné reagovat na trh a měnit vlastní cenu produktů.
 \par
 Cílem této práce je popsat požadavky internetových obchodů, stávající stav a možná řešení. Dále na základě těchto poznatků
-zhodnotit vytvořené řešení a včetně korektnosti zvolených postupů navrhnout vylepšení. Ty implementovat, řádně 
-otestovat vylepšení a zhodnotit výsledný stav projektu.
+zhodnotit vytvořené řešení a včetně korektnosti zvolených postupů navrhnout vylepšení. Ty implementovat, řádně vylepšení
+otestovat a zhodnotit výsledný stav projektu.
 
 
 \newpage
@@ -94,8 +94,7 @@ včetně důrazu na použité postupy při softwarovém vývoji
 
 V této kapitole se budu nejprve zabývat samotnou problematikou získávání informací 
 z webů s důrazem na internetové obchody.
-Jelikož je tato problematika již řešena existujícími službami, je nutné je zhodnotit a popsat
-jejích chování.
+Jelikož je tato problematika již řešena existujícími službami, je nutné je zhodnotit a zanalyzovat jejich funkcionalitu.
 Dále zhodnotím současný stav projektu, zvolené postupy při vývoji a výslednou funkcionalitu.
 Nakonec navrhnu vylepšení vzniklého systému, ty nejdůležitější implementuji a výsledný stav zhodnotím.
 
@@ -108,12 +107,12 @@ jinak z dat nejsme schopni vyčíst potřebné informace.
 Vzhledem k specificitě dat, které jsou v kontextu činnosti zajímavá a dále kvůli unikátnosti webových stránek
 není možné jednoznačně určit jak data získat v požadovaném formátu.
 \subsection{Výběr dat}
-Nejčastější řešení a jediné řešení je kombinace lidské inteligence a automatizování co nejvíce činností.
-To je obvykle dosaženo roboty, která stahují data a lidské práce určující jaké informace nás zajímají.
+Nejčastější řešení a jediné řešení je kombinace automatizace a prvku lidské inteligence.
+To je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace nás ve stažených datech zajímají.
 \par
-Získávání dat ze stažených stránek lze poté zjednodušit na problematiku lokace elementů v HTML, které jsou pro 
+Získávání informací ze stažených stránek lze poté zjednodušit na problematiku určení elementů v HTML, které jsou pro 
 nás zajímavé.
-Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně určit pomocí dvou možnosti:
+Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně určit pomocí dvou možností:
 \begin{enumerate}
 \item XPath
 \item CSS Selector
@@ -151,9 +150,9 @@ se skládají z následujících hlavních atributů:
 \subsection{Srovnávače cen}
 
 Data lze získat pomocí srovnávačů cen jako \textit{zbozi.cz}\cite{heureka} 
-nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb je však že jsou spíše určeny koncovým zákazníkům 
+nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb je však že jsou určeny koncovým zákazníkům 
 pro nalezení nejlepší ceny na trhu pro určitý produkt. S tím souvisí to, že největší srovnávače cen neposkytují data nebo
-rozhraní přes která by je bylo možné získat.
+rozhraní přes která by je bylo možné jednoduše získat.
 
 \subsection{Existující služby}
 
