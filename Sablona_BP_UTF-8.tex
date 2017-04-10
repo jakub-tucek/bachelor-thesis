@@ -52,12 +52,11 @@ by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Va
 
 \begin{introduction}
 
-V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt pro získávání informací z webů s primárním zaměřením na potřeby
-obchodů. Projekt řešil problém automatizace získávání dat z webů, jelikož stávající služby neposkytují veřejné rozhraní
+V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt umožňující získávání informací z webů s primárním zaměřením na potřeby obchodů. Projekt řešil problém automatizace získávání dat z webů, jelikož stávající služby neposkytují veřejné rozhraní
 nebo mají velkou chybovost dat.
 \par
-Požadavky internetových obchodů jsou především tvořeny nutností držet krok s trhem a tedy sledovat vývoj cen
-prodávaných produktů u konkurence. Teprve na základě těchto dat je možné reagovat na trh a měnit vlastní cenu produktů.
+Práce pojednává o požadavcích internetových obchodů, které jsou především tvořeny nutností držet krok s trhem a sledovat vývoj cen
+prodávaných produktů u konkurence.
 \par
 Cílem této práce je popsat požadavky internetových obchodů, stávající stav a možná řešení. Dále na základě těchto poznatků
 zhodnotit vytvořené řešení a včetně korektnosti zvolených postupů navrhnout vylepšení. Ty implementovat, řádně vylepšení
@@ -105,9 +104,9 @@ Získávání informací z webů je efektivní možnost jak získat databázi in
 Tato činnost však stojí na problematice data získávat a uchovávat v potřebné struktuře, jelikož 
 jinak z dat nejsme schopni vyčíst potřebné informace.
 Vzhledem k specificitě dat, které jsou v kontextu činnosti zajímavá a dále kvůli unikátnosti webových stránek
-není možné jednoznačně určit jak data získat v požadovaném formátu.
+není možné jednoznačně určit jednotný a zcela automatizovaný postup, jak data získat v požadovaném formátu.
 \subsection{Výběr dat}
-Nejčastější řešení a jediné řešení je kombinace automatizace a prvku lidské inteligence.
+Nejčastější řešení je kombinace automatizace a prvku lidské inteligence.
 To je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace nás ve stažených datech zajímají.
 \par
 Získávání informací ze stažených stránek lze poté zjednodušit na problematiku určení elementů v HTML, které jsou pro 
@@ -119,11 +118,11 @@ Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně u
 \end{enumerate}
 
 \subsection{XML Path Language}
-XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML.
+XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML\cite{XML} .
 \par
 XML chápeme jako jazyk popisující strukturu dat, které jsou strojově i lidsky čitelné.
-HTML je speciální typ XML, který popisuje obsah dat pro prezentaci ve webovém prohlížeči pomocí předem definované struktury,
-které prohlížeče rozumí.\cite{XML} Díky této vlastnosti lze tedy použít XPath pro definování cesty k prvku (a jeho obsahu),
+HTML lze chápat jako strukturu podobnou XML, ačkoliv se přímo o XML dokument nejedná \cite{HTML}. HTML popisuje obsah dat pro prezentaci ve webovém prohlížeči pomocí předem definované struktury, které prohlížeče rozumí.
+Díky této vlastnosti lze použít XPath pro definování cesty k prvku (a jeho obsahu),
 který uchovává potřebnou informaci na webové stránce.
 \par
 \subsection{CSS Selector}
@@ -211,6 +210,48 @@ Bodový seznam zahraničních nástrojů:
 
 \end{enumerate}
 
+\section{Cíl týmového projektu}
+
+V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt, v souladu s osnovami těchto předmětů byl nejdříve v BI-SP1 vytvořen návrh
+systému a v BI-SP2 implementován.
+\par
+Systém je navržen, aby systém umožňoval automatizované získávání informace o produktech prodávaných konkurencí. Důraz je především kladem
+na automatizaci maximálního počtu procesů a zbylé nechat v rukách administrátora u kterého se předpokládá minimální technické vzdělání.
+Jediná nutná problematika, co musí administrátor znát je parsování HTML stránek.
+\par
+Návrh popisuje rozdělení aplikace na část poskytující veškeré webový rozhraní a na část zpracovávající všechny interní procesy.
+Vzhledem k požadavkům na škálovatelnost aplikace je druhá část z výše zmiňovaných složena z více samostatných menších služeb - modulů komunikující
+spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu je možné vytvářet více instancí modulu, čímž je možné
+procesy zpracovávat paralelně. 
+Uživatelská a interní část spolu sdílejí data pomocí relační databáze\cite{DB}.
+\par
+% TODO - DOKUMENTACE - fronty atp.
+\subsection{Webové rozhraní}
+Webové rozhraní lze rozdělit na dvě části. První je uživatelská část, což je množina podstránek určených pouze pro konečné uživatele
+služby. Uživatelská část umožňuje vytvořit kampaň. Kampaň je proces trvající určitý časový úsek, který sleduje vložené produkty u konkurence.
+V těchto běžících kampaních má poté možnost uživatel vidět vizualizaci získaných dat, případně je mu umožněn export dat do formátu
+csv nebo xlsx. Získaná data obsahují, kde se sledované produkty prodávají a za jakou cenu na těchto obchodech.
+\par
+Druhá čas je určena pouze pro administrátory a slouží k monitorování kampaní uživatelů a řešení chyb, které systém není schopný vyřešit.
+Chyby jsou typicky problémy s parsováním webových stránek, párování produktu ke stránce nebo potvrzení zda jsou získaná data validní.
+\subsection{Interní část}
+Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly jsou detailně popsány v následujících pod sekcích.
+
+\subsubsection{Manager}
+Manager je hlavní modul, který jako jediný má možnost připojení přímo do sdílené databáze a jeho instance může existovat pouze jednou.
+Manager má za úkol plánování práce pro ostatní části systému a zpracování vstupů a výstupů z front.
+\subsubsection{Finder}
+Finder je modul, který má za úkol získávat URL adresy internetových obchodů a na nich vyhledávat URL adresy vedoucí na požadované detaily produktů.
+Detailem produktu je myšlena webová stránka, kde jsou obsažený podrobné informace o prodávaném produktu. Typicky je na takové stránce pouze jeden
+produkt, případně odkazy na jiné detaily prodávaného zboží.
+\subsubsection{DataProvider}
+DataProvider je module, který zpracovává adresy vedoucí na detaily produktu. Po stažení stránky, se z ní pokusí získat požadované
+hodnoty. V případě neúspěchu odešle chybovou hlášku, v opačném případě data zanalyzuje korektnost získaných cen vůči historickým datům pokud
+existují. Výsledek je poté odeslán k zpracování  \uv{Managerem}
+
+\section{Vývoj a implementace}
+
+
 \section{Zhodnocení současného stavu projektu}
 TODO
 \section{Návrh na vylepšení}
@@ -236,27 +277,34 @@ TODO
 \begin{thebibliography}{}
 
 \bibitem{XPath}
-	{XPath. In: Wikipedia: the free encyclopedia [online]. 
-	San Francisco (CA): Wikimedia Foundation, 2001- [cit. 2017-04-01]. 
-	Dostupné z: 
-	\url{https://en.wikipedia.org/wiki/XPath}}
+	{Extensible Markup Language (XML) 1.0 (Fifth Edition) [online]. 2008 [cit. 2017-04-10]. 
+	Dostupné z:
+	\url{ https://www.w3.org/TR/2008/REC-xml-20081126/#sec-intro/}
+	}
 \bibitem{XML}
 	{PERUGINI, Saverio. HTML versus XML. 
 	In: Virginia Tech - College of engineering: Department of computer science [online]. 
 	Virginia Tech: Virginia Tech, 2002 [cit. 2017-04-01]. Dostupné z: 
-	\url{http://courses.cs.vt.edu/~cs1204/XML/htmlVxml.html}}
-\bibitem{CSS}
-	{Cascading Style Sheets. In: Wikipedia: the free encyclopedia [online]. 
-	San Francisco (CA): Wikimedia Foundation, 2001- [cit. 2017-04-01]. 
+	\url{http://courses.cs.vt.edu/~cs1204/XML/htmlVxml.html}
+	}
+\bibitem{HTML}
+	{
+	HTML5: A vocabulary and associated APIs for HTML and XHTML [online]. 2014 [cit. 2017-04-10]. 
 	Dostupné z: 
-	\url{https://en.wikipedia.org/wiki/Cascading_Style_Sheets}}	
+	\url{https://www.w3.org/TR/html5/introduction.html#html-vs-xhtml}
+	}
+\bibitem{CSS}
+	{Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) 
+	Specification [online]. 2011 [cit. 2017-04-10]. 
+	Dostupné z:
+	\url{https://www.w3.org/TR/CSS21/selector.html#q5.0/}}	
 \bibitem{heureka}
 	{Heuréka [online]. [cit. 2017-04-01]. Dostupné z:
 	\url{http://www.heureka.cz/}}
 \bibitem{zbozi}
 	{Zboží [online]. [cit. 2017-04-01]. Dostupné z:
 	\url{http://www.zbozi.cz/}}	
-	
+
 	
 	
 	
@@ -269,6 +317,13 @@ TODO
 \bibitem{Web scraper}
 	{Web Scraper [online]. [cit. 2017-04-01]. Dostupné z:
 	\url{http://http://webscraper.io/}}		
+	
+\bibitem{DB}
+	{
+	A Relational Database Overview [online]. = [cit. 2017-04-10]. 
+	Dostupné z: 
+	\url{https://docs.oracle.com/javase/tutorial/jdbc/overview/database.html}
+	}
 \appendix
 \chapter{Seznam použitých zkratek}
 % \printglossaries
