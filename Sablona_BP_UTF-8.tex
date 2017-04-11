@@ -51,7 +51,6 @@ by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Va
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-
 V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt umožňující získávání informací z webů s primárním zaměřením na potřeby obchodů. Projekt řešil problém automatizace získávání dat z webů, jelikož stávající služby neposkytují veřejné rozhraní
 nebo mají velkou chybovost dat.
 \par
@@ -232,7 +231,7 @@ služby. Uživatelská část umožňuje vytvořit kampaň. Kampaň je proces tr
 V těchto běžících kampaních má poté možnost uživatel vidět vizualizaci získaných dat, případně je mu umožněn export dat do formátu
 csv nebo xlsx. Získaná data obsahují, kde se sledované produkty prodávají a za jakou cenu na těchto obchodech.
 \par
-Druhá čas je určena pouze pro administrátory a slouží k monitorování kampaní uživatelů a řešení chyb, které systém není schopný vyřešit.
+Druhá část je určena pouze pro administrátory a slouží k monitorování kampaní uživatelů a řešení chyb, které systém není schopný vyřešit.
 Chyby jsou typicky problémy s parsováním webových stránek, párování produktu ke stránce nebo potvrzení zda jsou získaná data validní.
 \subsection{Interní část}
 Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly jsou detailně popsány v následujících pod sekcích.
@@ -251,7 +250,81 @@ existují. Výsledek je poté odeslán k zpracování  \uv{Managerem}
 
 \section{Vývoj a implementace}
 
+\subsection{Pojmy}
 
+\subsubsection{Verzovací systém Git}
+Git je pro sdílení jednotlivých verzí každého vyvojáře, umožňující jednoduchý přehled nad rozpracovanými částmi každého vyvojáře.
+Úložiště systému se nazýva repozitář, který obsahuje veškerý kód.
+Základní jednotkou tvoří verze, které jsou postupně vytvářeny vývojáře po vytvoření každé malé funkcionality.
+Verze jsou poté uchovávany v jednotlivých větví programu. Vedlejší větve slouží pro práci vývojářu a oddělení práce vývojářů. 
+Hlavních větví poté tento kód spojují.
+Git zajišťuje základní nástroje pro slučování kódu v případě spojovaní nebo slučovaní vedlejších větví.
+\subsubsection{Jednotkové a integrační testy}
+Jednotkovými testy se rozumí sada kladných a záporných testů ověřující funcionalitu jedné třídy.
+Integrační testy pokrývají komunikaci více tříd a funcionalitu závislou na externích službách, např. stažení webové stránky.
+\subsubsection{Statická analýza kódu}
+Statická analýza kódu je analýza softwerového produktu, která běží bez spuštění samotné aplikace. Kontroluje tedy
+pouze samotný kód. Označuje kritické konstrukce vedoucí k chybám nebo nedodržení programátorských konvencí daného
+jazyka.
+\subsubsection{Průběžná integrace}
+Průběžnou integrací se rozumí sada nástrojů sloužící k rychlému nalezení případnych chyb. Základní součástí je vzdálený repozitář, kde na 
+základě každé jeho změny se vytváří nový build verzovaného systému. Při buildy jsou poté spuštěny jednotkové a integrační testy.
+Na jejich základě je poté možné zjistit případné chyby.
+
+\subsection{Vývoj}
+Vývoj byl rozdělen do 5 iterací, z níchž každá obsahovala 10 sprintů. Před začátkem vývoje byla rozdělena práce do těchto částí, 
+s tím, že na konci každé iterace probíhala prezentace vyučujícímu. Každý sprint byl poté průběžně rozdělen na jednotlivé
+úkoly, které byly přiřazeny členům týmu. Stav úkolů byl uchovávan na systému Redmine, ten umožňuje přehledné řízení projektu
+a možnost sledování objevených chyb.
+\par
+Jako verzovací systém byl zvolen systém Git, zajišťován službou Gitlab. Gitlab umožňuje možnost uchovávat
+repozitář na vzdáleném serveru a poskutuje webové rozhraní pro snadnou správu. Projekt byl v rámci repozitáře rozdělen na 4 části (větve):
+\begin{itemize}
+\item Master - hlavní větev uchovávající verze určené k nasazení na produkční server
+\item Develop - vývojová větev uchovájící aktuální stav vývoje
+\item Feature - větev vytvořená pro konkrétní úkol přidávající novou funkcionalitu
+\item Fix - větev určená pro úkoly opravující naleznou chybu
+\end{itemize}
+Jelikož přístup k přidání verze do vetví Master a Develop měl pouze vedoucí projektu, musel být pro Feature a Fix větve
+vytvořen požadavek o zařazení. Ten po kontrole vedoucí projektu zařadil nebo vrátil k opravení.
+\par
+Na konci každé iterace byla poslední verze vždy označená ve verzovacím systému, ta byla poté prezentována vedoucímu.
+Označení bylo zvoleno na základě číslat iterace. Například 1. iterace je označena verzí \uv{0.1}.
+\par
+Pro vývoj se využil princip průběžné integrace. Každá verze byla zkompilována, otestována a zanalyzována na vzdáleném serveru.
+Tyto činnosti zajišťovaly systém Jenkins. Jenkins aplikaci zkompiloval, pustil testy a statickou analýzu kódu 
+zajištěnou aplikací SonarQube. Výsledky poté publikoval ve svém webovém rozhraní a zároveň v rozhraní Gitlab.  
+\subsection{Implementace}
+\subsubsection{Webové rozhraní}
+Webové rozhraní je implemetováno v jazyce PHP verze 7. Základní kamenem aplikace zajišťuje aplikační rámec Nette, poskytující 
+již napsané nástroje pro automatickou správu závislostí, komunikaci s databází, vytváření bezpečných formulářů, zabezpečení
+aplikace a rozhraní pro tvorbu jednotkových testů. Dále automaticky vynucuje MVC architekturu, která odděluje
+prezenční a logickou vrstvu.
+%TODO - PIC
+\par
+Snadnou správu závislostí umožňuje poté balíčkovací systém Composer. 
+Na základě definujícího souboru obsahující požadované knihovny a jejich verze, knihovny automaticky 
+stáhne z centrálního repozitáře. Tím je mimo automatického stažení zajištěno, že každý člen týmu pracuje se stejnými verzemi knihoven.
+\subsubsection{Interní část}
+Interní část je implemetována v jazyce Java verze 8. Kompilaci, spouštění testů a správu závislostí zajišťuje Gradle.
+Gradle je nástroj sloužící k automatickému sestavení aplikace. Umožňuje správu závislostí, které stahuje z centrálního repozitáře. V rámci sestavení lze pustit testy, včetně přídavných doplňků. Projekt používá
+doplněk Cobertura, který na základě spuštěné testovací sady vytváří zprávu obsahující pokrytí větví programu.
+Díky tomu lze jednodušše zjistit jaké větve aplikace nejsou otestované.
+\par
+Aplikace je rozdělena do nezávislých modulů běžící jako služby. Jednotlivé moduly spolu komunikují
+pomocí posílaní zpráv definovaných front. Komunikaci zajišťuje systém RabbitMQ Server implementovaný v jazyce erlang. Zprávy jsou serializovatelné objekty, jejichž definie je sdílena napříč všemi moduly.
+Serializace představuje proces, kdy je objekt serializován do posloupnosti bitů, které je poté
+možné poslat jako zpráva. Vzhledem k sdílené podobě objektu je poté možné na druhé strané
+objekt deserializovat zpět do Java objektu.
+
+\par
+Použité knihovny:
+\begin{itemize}
+\item Google Guice - automatická správa závislostí
+\item Hibernate - objektově relační zobrazení databázových entit a práce s nimi
+\item Apache Commons - pomocné knihovny pro práci s řetězcemi a soubory
+\item RabbitMQ - zajišťuje komunikaci s frontami
+\end{itemize}
 \section{Zhodnocení současného stavu projektu}
 TODO
 \section{Návrh na vylepšení}
@@ -272,7 +345,8 @@ TODO
 \end{conclusion}
 
 \bibliographystyle{csn690}
-\bibliography{mybibliographyfile}
+%\bibliography{webs}
+%\bibliography{books}
 
 \begin{thebibliography}{}
 
@@ -306,8 +380,6 @@ TODO
 	\url{http://www.zbozi.cz/}}	
 
 	
-	
-	
 \bibitem{Screen scraper}
 	{Screen scraper [online]. [cit. 2017-04-01]. Dostupné z:
 	\url{http://www.screen-scraper.com/}}	
@@ -324,6 +396,9 @@ TODO
 	Dostupné z: 
 	\url{https://docs.oracle.com/javase/tutorial/jdbc/overview/database.html}
 	}
+	
+\end{thebibliography}
+
 \appendix
 \chapter{Seznam použitých zkratek}
 % \printglossaries
@@ -333,7 +408,6 @@ TODO
 	\item[CSS] Cascading style sheets
 \end{description}
 
-\end{thebibliography}
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % Tuto kapitolu z výsledné práce ODSTRAŇTE.
