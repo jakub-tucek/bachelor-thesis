@@ -216,9 +216,7 @@ Bodový seznam zahraničních nástrojů:
 
 \chapter{Analýza týmového projektu}
 V kapitole analýza týmového se budu věnovat řešení vytvořeného v rámci školní výuky na ČVUT FIT v akademickém roce 2015/16.
-Nejprve popíšu cíl, který měl projekt za úkol řešit, jaké byly použité postupy při vývoji a výslednou funkcionalitu.
-Nakonec popíši mou roli v tomto projektu.
-
+Nejprve popíšu cíl, který měl projekt za úkol řešit, jaké byly použité postupy při vývoji a mou roli v tomto projektu.
 
 \section{Cíl týmového projektu}
 
@@ -235,7 +233,7 @@ procesy zpracovávat paralelně.
 Uživatelská a interní část spolu sdílejí data pomocí relační databáze\cite{DB}.
 \par
 %TODO - DOKUMENTACE - fronty atp.
-\subsection{Webové rozhraní}
+\section{Webové rozhraní}
 Webové rozhraní lze rozdělit na dvě části. Uživatelskou část obsahující množinu podstránek určených pouze pro konečné uživatele
 služby. Uživatelská část umožňuje vytvořit kampaň. Kampaň je proces trvající určitý časový úsek, který sleduje vložené produkty u konkurence.
 V těchto běžících kampaních má poté uživatel možnost uživatel vidět vizualizaci získaných dat, případně je umožněn export dat do formátu
@@ -243,12 +241,12 @@ csv nebo xlsx. Získaná data obsahují, kde se sledované produkty nacházejí 
 \par
 Druhá část je určena pouze pro administrátory a slouží k monitorování kampaní uživatelů a řešení chyb, které systém není schopný vyřešit.
 Chyby jsou typicky problémy s parsováním webových stránek, párování produktu ke stránce nebo potvrzení zda jsou získaná data validní.
-\subsection{Interní část}
+\section{Interní část}
 Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly jsou detailně popsány v následujících podsekcích.
-\subsubsection{Manager}
+\subsection{Manager}
 Manager je hlavní modul, který jako jediný má možnost připojení přímo do sdílené databáze a jeho instance může existovat pouze jednou.
 Manager má za úkol plánování práce pro ostatní části systému a zpracování vstupů a výstupů z front.
-\subsubsection{Finder}
+\subsection{Finder}
 Finder je modul, který má za úkol získávat URL adresy internetových obchodů a na nich vyhledávat URL adresy vedoucí na požadované detaily produktů.
 Detailem produktu je myšlena webová stránka, kde jsou obsažený podrobné informace o prodávaném produktu. Typicky je na takové stránce pouze jeden
 produkt, případně odkazy na jiné detaily prodávaného zboží.
@@ -257,30 +255,31 @@ DataProvider je module, který zpracovává adresy vedoucí na detaily produktu.
 hodnoty. V případě neúspěchu odešle chybovou hlášku, v opačném případě data zanalyzuje korektnost získaných cen vůči historickým datům pokud
 existují. Výsledek je poté odeslán k zpracování  \uv{Managerem}
 
-\section{Vývoj a implementace}
+\chapter{Vývoj a implementace týmového projektu}
 
-\subsection{Pojmy}
+Nakonec rozeberu výslednou funkcionalitu oproti nárokům na plně funkční systém.
+\section{Pojmy}
 
-\subsubsection{Verzovací systém Git}
+\subsection{Verzovací systém Git}
 Git je pro sdílení jednotlivých verzí každého vývojáře, umožňující jednoduchý přehled nad rozpracovanými částmi každého vývojáře.
 Úložiště systému se nazývá repositář, který obsahuje veškerý kód.
 Základní jednotkou tvoří verze, které jsou postupně vytvářeny vývojáře po vytvoření každé malé funkcionality.
 Verze jsou poté uchovávány v jednotlivých větví programu. Vedlejší větve slouží pro samotnou postupnou práci. 
 Hlavní větve poté tento kód spojují.
 Git také zajišťuje základní nástroje pro slučování kódu v případě spojování nebo slučovaní vedlejších větví do větví hlavních.
-\subsubsection{Jednotkové a integrační testy}
+\subsection{Jednotkové a integrační testy}
 Jednotkovými testy se rozumí sada kladných a záporných testů ověřující funkcionalitu jedné třídy.
 Integrační testy pokrývají komunikaci více tříd.
-\subsubsection{Statická analýza kódu}
+\subsection{Statická analýza kódu}
 Statická analýza kódu je analýza softwarového produktu, která běží bez spuštění samotné aplikace. Kontroluje 
 pouze samotný kód. Označuje kritické konstrukce vedoucí k chybám nebo nedodržení programátorských konvencí daného
 jazyka.
-\subsubsection{Průběžná integrace}
+\subsection{Průběžná integrace}
 Průběžnou integrací se rozumí sada nástrojů sloužící k rychlému nalezení případných chyb. Základní součástí je vzdálený repozitář, kde na 
 základě každé jeho změny se vytváří nový build. Při buildu jsou poté spuštěny jednotkové a integrační testy.
 Na jejich základě je poté možné zjistit případné chyby.
 
-\subsection{Vývoj}
+\section{Vývoj}
 Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. Před začátkem vývoje byla rozdělena práce do těchto částí, 
 s tím, že na konci každé iterace probíhala prezentace vyučujícímu. Každý sprint se skládal z jednotlivých
 úkolů, které byly přiřazeny členům týmu. Stav úkolů byl uchováván na systému Redmine, ten umožňuje přehledné řízení projektu
@@ -303,8 +302,10 @@ Označení bylo zvoleno na základě pořadí iterace. 1. iterace je označena v
 Pro vývoj se využil princip průběžné integrace. Každá verze byla zkompilována, otestována a zanalyzována na vzdáleném serveru.
 Tyto činnosti zajišťovaly systém Jenkins a Gitlab. Jenkins aplikaci zkompiloval, spustil testy a statickou analýzu kódu 
 zajištěnou systémem SonarQube. Výsledky poté publikoval ve svém webovém rozhraní a zároveň v rozhraní Gitlab.  
-\subsection{Implementace}
-\subsubsection{Webové rozhraní}
+\section{Implementace}
+
+
+\subsection{Webové rozhraní}
 Webové rozhraní je implementováno v jazyce PHP verze 7. Základní kamenem aplikace zajišťuje aplikační rámec Nette. Nette
 obsahuje nástroje pro automatickou správu závislostí, komunikaci s databází, vytváření bezpečných formulářů, zabezpečení
 aplikace, šablonovací systém a rozhraní pro tvorbu jednotkových testů. Dále automaticky vynucuje MVC architekturu, která odděluje
@@ -316,7 +317,7 @@ TODO = OBRAZEK MVC
 Snadnou správu závislostí umožňuje balíčkovací systém Composer. 
 Na základě definujícího souboru, kde jsou uložený názvy požadovaných knihoven a jejich verze jsou automaticky 
 stáhnuté z centrálního repositáře. Tím je mimo automatického stažení zajištěno, že každý člen týmu pracuje se stejnými verzemi knihoven.
-\subsubsection{Interní část}
+\subsection{Interní část}
 Interní část je implementována v jazyce Java verze 8. Kompilaci, spouštění testů a správu závislostí zajišťuje Gradle.
 Gradle je nástroj sloužící k automatickému sestavení aplikace. Umožňuje správu závislostí, které stahuje z centrálního repositáře. V rámci sestavení lze pustit testy, včetně přídavných doplňků. Projekt používá
 doplněk Cobertura, který na základě spuštěné testovací sady vytváří zprávu obsahující pokrytí větví programu.
@@ -340,6 +341,36 @@ Použité knihovny:
 \section{Má role}
 
 \chapter{Zhodnocení týmového projektu}
+Pro nutnost návaznosti na kapitolu o vylepšeních je nejprve nutné uvést v jakém kontextu jsou vylepšení navrhovány. K tomu je třeba
+popsat výsledný stav projektu a jeho funkcionalitu. 
+
+\section{Pojmy}
+
+\subsection{JSON}
+JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o formát, který je čitelný jak pro lidské oko tak pro stroj\cite{JSON} a jeho zpracování je implementováno pro velké množství programovacích jazyků\cite{JSON-impl}. Základní stavební jednotkou
+tvoří kolekce párů klíč a hodnotu spolu se seřazeným polem hodnot.
+
+\subsection{Web API}
+Rozhraní, které na definovaný dotaz vrací data, ke kterým má poskytující služba přístup. Data jsou standardně vracena ve
+formátech JSON nebo XML.
+
+V kontextu této práce se jedná o rozhraní běžící v rámci webového rozhraní.
+
+
+\section{Stav}
+Ačkoliv stav projektu odpovídal nárokům na úspěšné odevzdání. Na druhou stranu nebyla dosažena implementace všech procesů, co by 
+umožňovali reálné použití systému.
+\par
+Odevzdávaný stav obsahoval funkční webové rozhraní, to se skládalo ze základní funkcionality pro uživatele a pro administrátory.
+Část pro administrátory obsahovalo správu uživatelů, možnost parsování stránek, evidenci známých obchodů a produktů či sledování
+chyb vzniklých v interní části.
+Uživatelská část umožňovala především správu a vytvoření kampaně či kampaní. Jejich implementace splňovala návrh z analytické částí,
+která byla zmíněna výše.
+Kvůli potřebě jiného jsme vytvořili REST rozhraní poskytující získané data.
+\par
+
+
+
 
 \chapter{Návrh na vylepšení}
 TODO
@@ -365,8 +396,7 @@ TODO
 
 \bibliographystyle{csn690}
 
-
-\bibliography{webs}
+\bibliography{mybibliografy}
 
 \appendix
 \chapter{Seznam použitých zkratek}
@@ -375,6 +405,7 @@ TODO
 	\item[XML] Extensible markup language
 	\item[HTML] Hypertext Markup Language
 	\item[CSS] Cascading style sheets
+	\item[JSON] JavaScript Object Notation
 \end{description}
 
 
