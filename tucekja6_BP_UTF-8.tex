@@ -141,6 +141,9 @@ obchody prodávající stejné zboží. Potřebné informace o prodávaných pro
 se skládají z následujících hlavních atributů:
 
 \begin{enumerate}
+\item Název
+\item Model
+\item EAN
 \item Cena
 \item Inzerovaný název
 \item Dostupnost
@@ -152,6 +155,27 @@ Data lze získat pomocí srovnávačů cen jako \textit{zbozi.cz}\cite{heureka}
 nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto spočívá v určení pro koncové zákazníky, kterým umožňuje
 pro nalezení nejlepší ceny na trhu pro hledaný produkt. S tím souvisí to, že největší srovnávače cen neposkytují data nebo
 rozhraní přes která by je bylo možné jednoduše získat.
+\par
+V rámci výzkumu pro bakalářskou práce jsem měl možnost nahlédnout do dat, které heuréka poskytuje obchodům. \cite{hunka}
+
+Data obsahují následující informace:
+\begin{itemize}
+\item Informace o produktu - Segment, Kategorie, Jméno, ID, Výrobce, EAN, Item ID
+\item Url na vlastním obchodu
+\item Url na heuréce
+\item Počet konkurence a popularita na trhu
+\item Vlastní cena a pozice dle ní
+\item Deset nejvyšších a nejnižších cen
+\end{itemize}
+
+
+
+První zásadní nedostatek zprávy z jmenovaného srovnávače se ukázal být logistický a to že obchod musí být označen \uv{Ověřeno zákazníky},
+aby měl k datům přístup. Další nedostatek je, že data neobsahují žádná jména konkurenčních obchodů \cite{heureka-report}.
+Vzhledem k povaze struktury a splatnosti generovaných dat je také nemožné ceny sledovat v časovém období.
+Ostatní srovnávače mají údajně výstup velmi podobný nebo jako bylo výše řečeno data neposkytují. Díky tomu se ukázali
+srovnávače jako nedostatečný zdroj dat.\cite{hunka}
+
 
 \subsection{Existující služby}
 
@@ -351,11 +375,7 @@ JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o for
 tvoří kolekce párů klíč a hodnotu spolu se seřazeným polem hodnot.
 
 \subsection{Web API}
-Rozhraní, které na definovaný dotaz vrací data, ke kterým má poskytující služba přístup. Data jsou standardně vracena ve
-formátech JSON nebo XML.
-
-V kontextu této práce se jedná o rozhraní běžící v rámci webového rozhraní.
-
+Rozhraní, které na definovaný HTTP dotaz vrací data. Ty jsou standardně vracena ve formátech JSON nebo XML.
 
 \section{Stav}
 Ačkoliv stav projektu odpovídal nárokům na úspěšné odevzdání. Na druhou stranu nebyla dosažena implementace všech procesů, co by 
@@ -366,9 +386,15 @@ Odevzdávaný stav obsahoval funkční webové rozhraní, to se skládalo ze zá
 chyb vzniklých v interní části.
 Uživatelská část umožňovala především správu a vytvoření kampaně či kampaní. Jejich implementace splňovala návrh z analytické částí,
 která byla zmíněna výše.
-Kvůli potřebě jiného jsme vytvořili REST rozhraní poskytující získané data.
+Kvůli potřebě jiného jsme vytvořili REST rozhraní poskytující získané získané ceny pro detail produktu.
 \par
-
+Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. Manager 
+zjistil jako produktů jsou v aktivní kampani a je třeba je aktualizovat, z databáze přečetl potřebná data a výsledek odeslal požadavek
+pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům
+a informacích o produktu. Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
+V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný, byla odeslána chyba
+zpět do Manageru. Manager výsledek korektně zpracoval a uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
+nebo nalezení ceny.
 
 
 
@@ -402,10 +428,12 @@ TODO
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
+	\item[EAN] European Article Number
 	\item[XML] Extensible markup language
 	\item[HTML] Hypertext Markup Language
 	\item[CSS] Cascading style sheets
 	\item[JSON] JavaScript Object Notation
+	\item[HTTP] Hypertext Transfer Protocol
 \end{description}
 
 
