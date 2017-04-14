@@ -88,17 +88,14 @@ včetně důrazu na použité postupy při softwarovém vývoji
 \newpage
 
 
-\chapter{Analýza a návrh}
+\chapter{Popis problematiky získávání informací z webů}
 
 V této kapitole se budu nejprve zabývat samotnou problematikou získávání informací 
 z webů s důrazem na internetové obchody.
 Jelikož je tato problematika již řešena existujícími službami, je nejprve nutné služby zhodnotit a zanalyzovat jejich funkcionalitu.
-Dále zhodnotím současný stav projektu, zvolené postupy při vývoji a výslednou funkcionalitu.
-Následně navrhnu vylepšení vzniklého systému, ty nejdůležitější implementuji a výsledný stav opět zhodnotím.
 
-\section{Získávání informací z webů}
 
-\subsection{Problematika}
+\section{Problematika}
 Získávání informací z webů je efektivní možnost jak získat databázi informací, které se na internetu vyskytují.
 Tato činnost však stojí na problematice data získávat a uchovávat v potřebné struktuře, jelikož 
 jinak z dat nejsme schopni vyčíst potřebné informace.
@@ -107,7 +104,7 @@ není možné jednoznačně určit jednotný a zcela automatizovaný postup, jak
 
 \newpage
 
-\subsection{Výběr dat}
+\section{Výběr dat}
 Nejčastější řešení je kombinace automatizace a prvku lidské inteligence.
 To je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace nás ve stažených datech zajímají.
 \par
@@ -119,7 +116,7 @@ Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně u
 \item CSS Selector
 \end{enumerate}
 
-\subsection{XML Path Language}
+\section{XML Path Language}
 XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML\cite{XML} .
 \par
 XML chápeme jako jazyk popisující strukturu dat, které jsou strojově i lidsky čitelné.
@@ -127,7 +124,7 @@ HTML lze chápat jako strukturu podobnou XML, ačkoliv se přímo o XML dokument
 Díky této vlastnosti lze použít XPath pro definování cesty k prvku (a jeho obsahu),
 který uchovává potřebnou informaci na webové stránce.
 \par
-\subsection{CSS Selector}
+\section{CSS Selector}
 Jazyk CSS je používán pro vizuální popis prezentace webové stránky definované v HTML. Jazyk k určení prvků se kterými
 chce pracovat používá selektory, které označují prvek v HTML. Jako selektor může být použit jak samotný název prvku,
 tak vlastní definované třídy.\cite{CSS}
@@ -214,6 +211,14 @@ Bodový seznam zahraničních nástrojů:
 \item Web Scraper \cite{WebScraper}
 
 \end{enumerate}
+
+\newpage
+
+\chapter{Analýza týmového projektu}
+V kapitole analýza týmového se budu věnovat řešení vytvořeného v rámci školní výuky na ČVUT FIT v akademickém roce 2015/16.
+Nejprve popíšu cíl, který měl projekt za úkol řešit, jaké byly použité postupy při vývoji a výslednou funkcionalitu.
+Nakonec popíši mou roli v tomto projektu.
+
 
 \section{Cíl týmového projektu}
 
@@ -310,17 +315,17 @@ TODO = OBRAZEK MVC
 \par
 Snadnou správu závislostí umožňuje balíčkovací systém Composer. 
 Na základě definujícího souboru, kde jsou uložený názvy požadovaných knihoven a jejich verze jsou automaticky 
-stáhnuty z centrálního repozitáře. Tím je mimo automatického stažení zajištěno, že každý člen týmu pracuje se stejnými verzemi knihoven.
+stáhnuté z centrálního repositáře. Tím je mimo automatického stažení zajištěno, že každý člen týmu pracuje se stejnými verzemi knihoven.
 \subsubsection{Interní část}
 Interní část je implementována v jazyce Java verze 8. Kompilaci, spouštění testů a správu závislostí zajišťuje Gradle.
-Gradle je nástroj sloužící k automatickému sestavení aplikace. Umožňuje správu závislostí, které stahuje z centrálního repozitáře. V rámci sestavení lze pustit testy, včetně přídavných doplňků. Projekt používá
+Gradle je nástroj sloužící k automatickému sestavení aplikace. Umožňuje správu závislostí, které stahuje z centrálního repositáře. V rámci sestavení lze pustit testy, včetně přídavných doplňků. Projekt používá
 doplněk Cobertura, který na základě spuštěné testovací sady vytváří zprávu obsahující pokrytí větví programu.
 Díky tomu lze jednoduše zjistit jaké větve aplikace nejsou otestované.
 \par
 Aplikace je rozdělena do nezávislých modulů běžící jako služby. Jednotlivé moduly spolu komunikují
 pomocí posílání zpráv definovaných front. Komunikaci zajišťuje systém RabbitMQ Server implementovaný v jazyce Erlang. Zprávy jsou serializovatelné objekty, jejichž definice je sdílena napříč všemi moduly.
 Serializace představuje proces, kdy je objekt serializovaný do posloupnosti bitů, které je poté
-možné poslat jako zpráva. Vzhledem k sdílené podobě objektu je poté možné na druhé strané
+možné poslat jako zpráva. Vzhledem k sdílené podobě objektu je poté možné na druhé straně
 objekt deserializovat zpět do Java objektu.
 
 \par
@@ -331,9 +336,17 @@ Použité knihovny:
 \item Apache Commons - pomocné knihovny pro práci s řetězcemi a soubory
 \item RabbitMQ - zajišťuje komunikaci s frontami
 \end{itemize}
-\section{Zhodnocení současného stavu projektu}
+
+\section{Má role}
+
+\chapter{Zhodnocení týmového projektu}
+
+\chapter{Návrh na vylepšení}
 TODO
-\section{Návrh na vylepšení}
+
+\chapter{Realizace vylepšení}
+
+\chapter{Zhodnocení provedených vylepšení}
 TODO
 \section{Analýza nového řešení}
 TODO
