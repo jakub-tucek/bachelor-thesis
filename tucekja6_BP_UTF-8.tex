@@ -275,9 +275,15 @@ Finder je modul, který má za úkol získávat URL adresy internetových obchod
 Detailem produktu je myšlena webová stránka, kde jsou obsažený podrobné informace o prodávaném produktu. Typicky je na takové stránce pouze jeden
 produkt, případně odkazy na jiné detaily prodávaného zboží.
 \subsubsection{DataProvider}
-DataProvider je module, který zpracovává adresy vedoucí na detaily produktu. Po stažení stránky, se z ní pokusí získat požadované
+DataProvider je module, který zpracovává adresy vedoucí na detaily produktu. Zde existují čtyři hlavní větve možností zpracování požadavků.
+Po stažení stránky, se z ní pokusí získat požadované
 hodnoty. V případě neúspěchu odešle chybovou hlášku, v opačném případě data zanalyzuje korektnost získaných cen vůči historickým datům pokud
-existují. Výsledek je poté odeslán k zpracování  \uv{Managerem}
+existují. Výsledek je poté odeslán k zpracování.  \uv{Managerem}
+
+\begin{figure}\centering
+ 	\includegraphics[width=0.8\textwidth]{resources/DataProvider-activity}
+	\caption[DataProvider diagram]{Diagram zobrazující aktivity v DataProvider modulu}\label{fig:float}
+\end{figure}
 
 \chapter{Vývoj a implementace týmového projektu}
 
@@ -378,25 +384,38 @@ tvoří kolekce párů klíč a hodnotu spolu se seřazeným polem hodnot.
 Rozhraní, které na definovaný HTTP dotaz vrací data. Ty jsou standardně vracena ve formátech JSON nebo XML.
 
 \section{Stav}
-Ačkoliv stav projektu odpovídal nárokům na úspěšné odevzdání. Na druhou stranu nebyla dosažena implementace všech procesů, co by 
-umožňovali reálné použití systému.
+Ačkoliv stav projektu odpovídal nárokům na úspěšné odevzdání nebyla dosažena implementace všech procesů, aby byla umožněno reálně
+použití systému.
 \par
-Odevzdávaný stav obsahoval funkční webové rozhraní, to se skládalo ze základní funkcionality pro uživatele a pro administrátory.
-Část pro administrátory obsahovalo správu uživatelů, možnost parsování stránek, evidenci známých obchodů a produktů či sledování
+Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze základní funkcionality pro uživatele a pro administrátory.
+Část pro administrátory obsahovala správu uživatelů, možnost parsování stránek, evidenci známých obchodů a produktů či sledování
 chyb vzniklých v interní části.
-Uživatelská část umožňovala především správu a vytvoření kampaně či kampaní. Jejich implementace splňovala návrh z analytické částí,
+Uživatelská část umožňovala správu a vytvoření kampaně či kampaní. Implementace kampaní pak splňovala návrh z analytické částí,
 která byla zmíněna výše.
-Kvůli potřebě jiného jsme vytvořili REST rozhraní poskytující získané získané ceny pro detail produktu.
+Na žádost jiného týmu jsme také vytvořili REST rozhraní, poskytující získané ceny pro daný produktu.
 \par
-Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. Manager 
-zjistil jako produktů jsou v aktivní kampani a je třeba je aktualizovat, z databáze přečetl potřebná data a výsledek odeslal požadavek
-pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům
+Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. 
+Manager dokázal zjistit vybrat produkty, které jsou v aktivní kampani a je třeba je aktualizovat.
+Na základě výsledků poté vybral potřeba data odeslal požadavek pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům
 a informacích o produktu. Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
 V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný, byla odeslána chyba
-zpět do Manageru. Manager výsledek korektně zpracoval a uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
+zpět do Manageru. Manager výsledek korektně a uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
 nebo nalezení ceny.
+\par
+Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, že může pokračovat v práci hledání cen.
 
-
+\subsection{Nedostatky}
+Vytvořené řešení obsahovalo spoustu nedostatků, které je třeba v rámci této práce detekovat a ty nejdůležitější se pokusit opravit.
+První zásadní problém bylo neefektivní chování komunikace modulu Manager s ProductProviderem. V rámci testování jsem zjistil, že v 
+případě chyby při parsování stránky je stažené HTML odesláno pro znovupoužití, tak se po opravení parsovací šablony stažené HTML
+nepoužije a detail je tak opětovně stažen. V případě chyb při analyzování, vznikal problém, že pro administrátora objevovali 
+po jednou, což značně zhoršovalo efektivitu práce a celkovou uživatelskou přívětivost. Podobný případ se vyskytoval při neexistenci 
+parsovací šablony. Systém totiž odeslal požadavek pro všechny uložené adresy na obchodu, ačkoliv šablona neexistovala. To vyústilo
+ve vytvoření mnoho chyb, které musel administrátor všechny vyřešit.
+\par
+Druhy zásadní problém byla pouze částečná implementace modulu Finder u kterého byla funkcionalita ověřena pouze pomocí jednotkových
+testů a modul jako celek nebyl zapojen do systému. Neexistovalo tedy rozhraní pro práci s frontami, ani část zajišťující vytváření
+požadavků. K tomu je spojený celý proces párování detailu produktu.
 
 \chapter{Návrh na vylepšení}
 TODO
