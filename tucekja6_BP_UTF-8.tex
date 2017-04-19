@@ -407,18 +407,58 @@ Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, ž
 \subsection{Nedostatky}
 Vytvořené řešení obsahovalo spoustu nedostatků, které je třeba v rámci této práce detekovat a ty nejdůležitější se pokusit opravit.
 První zásadní problém bylo neefektivní chování komunikace modulu Manager s ProductProviderem. V rámci testování jsem zjistil, že v 
-případě chyby při parsování stránky je stažené HTML odesláno pro znovupoužití, tak se po opravení parsovací šablony stažené HTML
-nepoužije a detail je tak opětovně stažen. V případě chyb při analyzování, vznikal problém, že pro administrátora objevovali 
-po jednou, což značně zhoršovalo efektivitu práce a celkovou uživatelskou přívětivost. Podobný případ se vyskytoval při neexistenci 
-parsovací šablony. Systém totiž odeslal požadavek pro všechny uložené adresy na obchodu, ačkoliv šablona neexistovala. To vyústilo
-ve vytvoření mnoho chyb, které musel administrátor všechny vyřešit.
+případě chyby při parsování stránky není použit uložený HTML dokument, ač je odesláno do ProductProvider modulu.
+Stránka se tak znova redundatně stáhla.
+Dále v případě chyb při analyzování byl administrátor zahlcen chybami týkající se té samé webové adresy vedoucí
+na detail produktu, což značně zhoršovalo uživatelskou
+přívětivost. Zde je požadovaný výsledek chyby pro analyzování spojit pro daný detail.
+Podobný případ se vyskytoval při neexistenci 
+parsovací šablony. Systém odeslal požadavek pro všechny uložené adresy na obchodu, ačkoliv šablona neexistovala. To vyústilo
+ve vytvoření mnoho chyb, kde musel administrátor všechny postupně vyřešit.
 \par
-Druhy zásadní problém byla pouze částečná implementace modulu Finder u kterého byla funkcionalita ověřena pouze pomocí jednotkových
-testů a modul jako celek nebyl zapojen do systému. Neexistovalo tedy rozhraní pro práci s frontami, ani část zajišťující vytváření
+Druhy zásadní problém byla pouze částečná implementace modulu Finder, kde pouze jednotkové testy poskytovaly
+informace o samotné funkčnosti, jelikož modul nebyl zapojen do systému. Neexistovalo tedy rozhraní pro práci s frontami, ani část zajišťující vytváření
 požadavků. K tomu je spojený celý proces párování detailu produktu.
+\par
+Třetí nedostatek se skládal z absence plánování práce vůči požadovanému intervalu, kdy mají být nová data
+stáhnuty. Plánování práce také ignorovalo stávající průběh a data která jsou k dispozici. Díky tomu
+docházelo k dalšímu zahlcování chyb pro administrátora, což je úzce spjato s prvním bodem.
+\par
+Poslední obecný problém byl špatný návrh, nepřehledná implementace a chybějící testy. Z tohoto důvodu
+je velký problém oprava nebo implementace jakkýkoliv nových požadavků. Systém proto v tomto stavu
+není vhodný pro následný rozvoj z důvodu velké časové investice.
 
 \chapter{Návrh na vylepšení}
-TODO
+V této kapitole popíšu všechny části, které považuji za nutné opravit.
+\subsection{Refactoring}
+Při předběžném zkoumání kódu vůči opravě stávající funcionality a implementaci nových vylepšeních bylo
+zjištěno, že kód neodpovídá požadavkům na další rozvoj a bylo tedy nejprve kritické části přepsat.
+Přepsaní se týkalo téměř všech částí v Managerovi a ProductProviderovi. Stávající implementace byla
+chaotická a jakkákoliv menší změna znamenala obrovskou časovou zátěž.
+\par
+Z hlediska Managera a ProductProvideru bylo třeba sktriktně oddělit třídy týkající se odesílání a přijímání požadavků.
+Stávající implementaci dekomponovat na menší části, které jsou na sobě závislé pouze přes
+veřejné rozhraní. 
+
+\subsection{Plánování práce}
+Dále chyběla jenoduchá možnost, jak ověřit zda adresa, ze které chceme vytvořit
+požadavek, je k tomu způsobilá. To ovlivňují aktuálně tyto známé stavy:
+
+\begin{itemize}
+\item Pro eshop existuje nevyřešená parsovací chyba
+\item Existuje nevyřešená chyba analyzátoru
+\item Není požadován výstup z důvodu potřeb kampaní
+\item Požadavek pro adresu byl již odeslán
+\end{itemize}
+
+Stavy je tedy potřeba implementovat ideálně takovým způsobem, kdy bude velmi jednoduché 
+kdykoliv kontrolu přidat nebo odebrat. K tomuto účelu jsem navrhl rozhraní, které na základě adresy 
+vratí hodnotu Ano či Ne pokud adresa splňuje nebo nesplňuje kontrolu. Přišlušná třída poté
+kolekci těchto rozhraní, aniž by znala implementaci použije. Třida iteruje těmito kontrolami a pokud
+splňuje adresa všechny kontroly, je použita.
+
+\subsection{Oprava komunikace Manager - ProductProvider}
+
 
 \chapter{Realizace vylepšení}
 
