@@ -404,11 +404,11 @@ nebo nalezení ceny.
 \par
 Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, že může pokračovat v práci hledání cen.
 
-\subsection{Nedostatky}
+\section{Nedostatky}
 Vytvořené řešení obsahovalo spoustu nedostatků, které je třeba v rámci této práce detekovat a ty nejdůležitější se pokusit opravit.
 První zásadní problém bylo neefektivní chování komunikace modulu Manager s ProductProviderem. V rámci testování jsem zjistil, že v 
 případě chyby při parsování stránky není použit uložený HTML dokument, ač je odesláno do ProductProvider modulu.
-Stránka se tak znova redundatně stáhla.
+Stránka se tak znova redundantně stáhla.
 Dále v případě chyb při analyzování byl administrátor zahlcen chybami týkající se té samé webové adresy vedoucí
 na detail produktu, což značně zhoršovalo uživatelskou
 přívětivost. Zde je požadovaný výsledek chyby pro analyzování spojit pro daný detail.
@@ -418,34 +418,61 @@ ve vytvoření mnoho chyb, kde musel administrátor všechny postupně vyřešit
 \par
 Druhy zásadní problém byla pouze částečná implementace modulu Finder, kde pouze jednotkové testy poskytovaly
 informace o samotné funkčnosti, jelikož modul nebyl zapojen do systému. Neexistovalo tedy rozhraní pro práci s frontami, ani část zajišťující vytváření
-požadavků. K tomu je spojený celý proces párování detailu produktu.
+požadavků. K tomu je spojený celý proces párování detailu produktu. Proces párování, pak nebyl implementován ani jak v samotném modulu
+ProductProvider, tak s ním nebylo počítáno při plánování práce.
 \par
 Třetí nedostatek se skládal z absence plánování práce vůči požadovanému intervalu, kdy mají být nová data
 stáhnuty. Plánování práce také ignorovalo stávající průběh a data která jsou k dispozici. Díky tomu
 docházelo k dalšímu zahlcování chyb pro administrátora, což je úzce spjato s prvním bodem.
 \par
 Poslední obecný problém byl špatný návrh, nepřehledná implementace a chybějící testy. Z tohoto důvodu
-je velký problém oprava nebo implementace jakkýkoliv nových požadavků. Systém proto v tomto stavu
+je velký problém oprava nebo implementace jakýkoliv nových požadavků. Systém proto v tomto stavu
 není vhodný pro následný rozvoj z důvodu velké časové investice.
 
 \chapter{Návrh na vylepšení}
-V této kapitole popíšu všechny části, které považuji za nutné opravit.
-\subsection{Refactoring}
-Při předběžném zkoumání kódu vůči opravě stávající funcionality a implementaci nových vylepšeních bylo
-zjištěno, že kód neodpovídá požadavkům na další rozvoj a bylo tedy nejprve kritické části přepsat.
-Přepsaní se týkalo téměř všech částí v Managerovi a ProductProviderovi. Stávající implementace byla
-chaotická a jakkákoliv menší změna znamenala obrovskou časovou zátěž.
-\par
-Z hlediska Managera a ProductProvideru bylo třeba sktriktně oddělit třídy týkající se odesílání a přijímání požadavků.
-Stávající implementaci dekomponovat na menší části, které jsou na sobě závislé pouze přes
-veřejné rozhraní. Tyto části poté kompletně pokrýt jednotkovými testy.
+V této kapitole popíšu návrh na vylepšení a samotný důvod, proč považuji tyto změny za důležité.
 
-\subsection{Plánování práce}
-Dále chyběla jenoduchá možnost, jak ověřit zda adresa, ze které chceme vytvořit
-požadavek, je k tomu způsobilá. To ovlivňují aktuálně tyto známé stavy:
+\section{Pojmy}
+
+\subsection{Mock}
+V objektově orientovaném programování se Mock objekt požívá pro simulování reálné třídy\cite{mock}.
+Při testování tak není třída závislá na implementaci tříd na kterých je závislá, ale pouze na instanci Mock objektu, který
+se chová podle nedefinovaného chování. Dále Mock objekt uchovává všechny na něho provedené volání, díky čemuž je možné
+testovat vnitřní chování a ne pouze návratovou hodnotu.
+
+\section{Oprava komunikace Manager - ProductProvider}
+Jak bylo zmíněno výše bylo třeba komunikaci existujících dvou modulů optimalizovat. Neefektivní chování je
+velký problém při zpracování velkého počtu dat, především při stahování webových stránek. Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu, která může způsobit nestabilitu
+systému. Tento problém je spojoval s tím, že je velmi obtížné pokrýt jednotkovými testy. Navíc tyto testy v 
+kritických částech vůbec neexistují a proto každá změna může vyústit v neočekávané chování.
+
+\subsection{Refactoring}
+Jako první možnost úprav je tedy přepsání stávajících kritických částí systému, aby odpovídaly architektuře, která počítá s efektivnějším plánování
+práce, umožňuje rychlé modifikace a jednotkové testování je nenáročné. Přepsaní se poté týká téměř všech hlavních částí v Managerovi a ProductProviderovi.
+\par
+Funkcionalita vytváření požadavků je úzce spjatá s částí, která pracuje přímo s rozhraním front. Těchto pár řádků kódu totiž způsobuje
+nemožnost napsat čistě jednotkové testy. Není tedy možné jednoduše použít Mock objekty z důvodu interní iniciace připojení k frontám.
+Stávající implementaci by bylo vhodné vhodně dekomponovat na menší části, které jsou na sobě závislé pouze přes
+veřejné rozhraní. Ty poté pokrýt jednotkovými testy.
+\section{Plánování práce}
+Přepsání částí se také úzce týká otázky, jak pojmout plánování práce, určující jaké požadavky budou odeslány při spuštění kódu.
+\par
+Základním kamenem požadavků je vždy adresa url. Až na základně adresy jsou poté zjištěny všechny ostatní údaje, které jsou uloženy do požadavku, který je odeslán a zpracován. 
+\par
+Požadavky je možné rozdělit podle těchto kritérií a priority, kde první má prioritu nejvyšší:
 
 \begin{itemize}
-\item Pro eshop existuje nevyřešená parsovací chyba
+\item Url bez známého produktu
+\item Vyřešená chyba analyzátoru
+\item Vyřešená chyba šablony pro parsování
+\item Url adresy detailů, které jsou v aktivní kampani
+\end{itemize}
+
+Po nalezení těchto disjunktních množin bez duplicit bylo také potřeba vyřadit ty, které z nějakého důvodu nevyhovují svým stavem.
+Nežádoucí stavy jsou momentálně tyto:
+
+\begin{itemize}
+\item Pro obchod existuje nevyřešená parsovací chyba
 \item Existuje nevyřešená chyba analyzátoru
 \item Není požadován výstup z důvodu potřeb kampaní
 \item Požadavek pro adresu byl již odeslán
@@ -453,11 +480,10 @@ požadavek, je k tomu způsobilá. To ovlivňují aktuálně tyto známé stavy:
 
 Stavy je tedy potřeba implementovat ideálně takovým způsobem, kdy bude velmi jednoduché 
 kdykoliv kontrolu přidat nebo odebrat. K tomuto účelu jsem navrhl rozhraní, které na základě adresy 
-vrátí hodnotu Ano či Ne pokud adresa splňuje nebo nesplňuje kontrolu. Příslušná třída poté
-kolekci těchto rozhraní, aniž by znala jejich implementaci použije. Třida iteruje těmito kontrolami a pokud
-splňuje adresa všechny kontroly, je použita.
+vrátí příznak, zda adresa splňuje nebo nesplňuje prochází kontrolou. Příslušná třída poté
+kolekci těchto rozhraní, aniž by znala jejich implementaci použije, tak že iteruje těmito kontrolami a pokud
+splňuje adresa všechny kontroly adresu použije a vytvoří pomocí ní požadavek.
 
-\subsection{Oprava komunikace Manager - ProductProvider}
 
 
 
