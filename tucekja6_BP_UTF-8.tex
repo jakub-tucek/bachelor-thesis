@@ -396,8 +396,9 @@ Na žádost jiného týmu jsme také vytvořili REST rozhraní, poskytující z�
 \par
 Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. 
 Manager dokázal zjistit vybrat produkty, které jsou v aktivní kampani a je třeba je aktualizovat.
-Na základě výsledků poté vybral potřeba data odeslal požadavek pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům
-a informacích o produktu. Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
+Na základě výsledků poté vybral potřeba data odeslal požadavek pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a informacích o produktu. 
+\par
+Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
 V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný, byla odeslána chyba
 zpět do Manageru. Manager výsledek korektně a uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
 nebo nalezení ceny.
@@ -406,44 +407,118 @@ Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, ž
 
 \section{Nedostatky}
 Vytvořené řešení obsahovalo spoustu nedostatků, které je třeba v rámci této práce detekovat a ty nejdůležitější se pokusit opravit.
+Z důvodu kontextu a odlišnosti od původního návrhu nejprve popíšu systém plánování práce, který je důvodem mnoha chyba.
+
+\subsection{Vytváření požadavků pro ProductProvider}
+Následující nedostatky jsou úzce spjaty s tím, jak aplikace plánovala práci. Plánováním práce je myšleno proces ve kterém 
+jsou vybrány požadováné adresy detailů a z nich vytvářeny požadavky pro ProductProvider k zpracování. 
+\par
+Jak bylo řečeno, prvotním kritériem jsou adresy detailů. Ty se mohou vyskytovat v různých stavech. Systém je vybral v 
+následujícím pořadí, z kterého následně vybral první 10:
+
+\begin{itemize}
+\item Adresy, které jsou v zaplacené kampani
+\item Adresy bez produktů
+\item Adresy, kde není šablona pro parsování
+\item Adresy, které mají vyřešenou chybu
+\end{itemize}
+
+Z této množiny byly poté odebrány odeslané a ty které mají nevyřešenou chybu. Opakované spuštění v předefinovaném intervalu poté 
+zajistilo, že požadavky byly vytvořeny pro všechny požadované adresy.
+
+\subsection{Neefektivní chování modulu Manager a ProductProvider}
 První zásadní problém bylo neefektivní chování komunikace modulu Manager s ProductProviderem. V rámci testování jsem zjistil, že v 
-případě chyby při parsování stránky není použit uložený HTML dokument, ač je odesláno do ProductProvider modulu.
-Stránka se tak znova redundantně stáhla.
-Dále v případě chyb při analyzování byl administrátor zahlcen chybami týkající se té samé webové adresy vedoucí
-na detail produktu, což značně zhoršovalo uživatelskou
-přívětivost. Zde je požadovaný výsledek chyby pro analyzování spojit pro daný detail.
-Podobný případ se vyskytoval při neexistenci 
-parsovací šablony. Systém odeslal požadavek pro všechny uložené adresy na obchodu, ačkoliv šablona neexistovala. To vyústilo
-ve vytvoření mnoho chyb, kde musel administrátor všechny postupně vyřešit.
+případě chyby při parsování stránky není použit uložený HTML dokument.
+To pramenilo z výše popsaného návrhu plánování, které nalezlo korektně adresy, ale vytváření samotného objektu představující požadavek,
+bylo stejné pro všechny adresy. Vytváření tedy neobsahovalo použití již staženého dokumentu, na jehož základě byla vytvořena 
+chyba parsování nebo analyzování. Každý požadavek tedy vyústil v opětovné stažení příslušné stránky.
+
+\subsection{Chyby analyzování}
+Poslední fáze procesu v modulu ProductProvider byla navržena jako analyzování získaných dat vůči již dříve uloženým. Implementace analyzátoru 
+spouštěla jednotlivé validace, jejíž logika se nacházela v oddělených třídách. V případě, že validační třída objevila nežádoucí data,
+vyhodila výjimku ve které byly uložené informace o chybě. Tento způsob řízení programu však způsoboval, že celá validace skončila při první chybě.
 \par
-Druhy zásadní problém byla pouze částečná implementace modulu Finder, kde pouze jednotkové testy poskytovaly
-informace o samotné funkčnosti, jelikož modul nebyl zapojen do systému. Neexistovalo tedy rozhraní pro práci s frontami, ani část zajišťující vytváření
-požadavků. K tomu je spojený celý proces párování detailu produktu. Proces párování, pak nebyl implementován ani jak v samotném modulu
-ProductProvider, tak s ním nebylo počítáno při plánování práce.
+Informace byly následné odeslány a manager na jejich základě vytvořil chybu pro administrátora k vyřešení. Administrátor mohl 
+chybu označit jako chybnou. Na základě označení bylo poté vytvořeno nastavení, že daná chyba se má na celém obchodě ignorovat. V opačném případě se adresa přestala používat. Problém nastával pokud se na adrese objevilo více chyb. To znamenalo, že každý další požadavek vytvořil další
+chybu analyzátoru a administrátor tak všechny vyřešit a při každém požadavku bylo nutné obsah adresy znova stáhnout.
+
+\subsection{Vytváření chyb šablon}
+Další problém se ukázalo plánování práce založené na kritériu, kdy jsou k vytvoření požadavku vybrány všechny adresy, které neobsahují šablony.
+Systém odeslal požadavek pro všechny uložené adresy na obchod. To vyústilo
+ve vytvoření mnoho chyb, které musel administrátor všechny postupně vyřešit.
 \par
-Třetí nedostatek se skládal z absence plánování práce vůči požadovanému intervalu, kdy mají být nová data
-stáhnuty. Plánování práce také ignorovalo stávající průběh a data která jsou k dispozici. Díky tomu
-docházelo k dalšímu zahlcování chyb pro administrátora, což je úzce spjato s prvním bodem.
+\subsection{Modul Finder}
+Module Finder nebyl zapojený do systému. Existovala pouze hlavní implementace interních procesů, jejíchž funkčnost byla
+pouze ověřena jednotkovými testy. Neexistují rozhraní pro práci s frontami a třídy Managera zajišťující vytváření příslušných požadavků
+neumožňovaly ověření celkové funkcionality této části. Z tohoto důvodu nebyl systém jako celek použitelný pro jakékoliv reálné použití, jelikož
+jediná možnost jak využít funkcionalitu interní částí bylo vytvořit SQL insert skripty obsahující adresy detailů produktů
+a ty spustit nad databází, kterou systém používal.
 \par
-Poslední obecný problém byl špatný návrh, nepřehledná implementace a chybějící testy. Z tohoto důvodu
-je velký problém oprava nebo implementace jakýkoliv nových požadavků. Systém proto v tomto stavu
-není vhodný pro následný rozvoj z důvodu velké časové investice.
+Další důsledek byla neexistence procesu párování produktů. Finder byl navržený tak, že po nalezení internetového obchodu a na něm 
+pomocí interního vyhledávání nalezne detaily produktů, na kterých je velká pravděpodobnost, že patří hledanému produktu.
+To je však třeba ověřit. Po získání hodnot ze stránky je třeba nežádoucí odkazy vyloučit a ostatní se pokusit spárovat s produktem.
+\subsection{Plánování práce}
+Poslední nedostatek se skládal z absence plánování práce vůči požadovanému intervalu, kdy mají být nová data
+staženy. Jak bylo řečeno výše, aktuální stav pouze hledal adresy produktů, které se nachází v zaplacené kampani.
+\subsection{Obecný návrh a testy}
+Implementace samotná, byla velmi nepřehledná. Procesy v DataProvider modulu byly řízené pomocí výjimek obsahující 
+přídavné informace i v případech, kdy byl takový výsledek očekávaný nebo dokonce chtěný. 
+Toto použití je však v rozporu ideou použití výjimek, které mají signalizovat neočekávaný stav, kdy není možné dále pokračovat
+\cite{exception}. Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k nim možný přístup.
+\par
+V kritických částek dále chyběly částečně či kompletně testy. Jmenovitě například: databázová vrstva, vytváření požadavků pro DataProvider,
+hlavní servisní třída DataProvideru a validace dat. Z tohoto důvodu jakákoliv oprava nebo implementace nových požadavků mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. Tím by mohla být jakákoliv změna velmi časově náročná a s velmi nejistým konečným výsledkem. 
+Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
+
+\begin{figure}\centering
+ 	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-old-1}
+ 	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-old-2}
+	\caption[DataProvider diagram]{Pokrytí testy vytvořeného řešení týmového projektu}\label{fig:float}
+\end{figure}
+
 
 \chapter{Návrh na vylepšení}
-V této kapitole popíšu návrh na vylepšení a samotný důvod, proč považuji tyto změny za důležité.
+V této kapitole popíšu návrhy možná vylepšení. Tyto návrhy jsou ty, které považuji za nejvíce důležité a proto jsou
+v rámci této práce i implementované. Samotné implementaci se poté věnuji v následující kapitole. 
+Návrhy, které nebyly uskutečněny nebo byly zjištěny v průběhu vylepšování aplikace, budou zmíněny v kapitole věnující 
+se zhodnocení finálního stavu.
 
 \section{Pojmy}
 
 \subsection{Mock}
-V objektově orientovaném programování se Mock objekt požívá pro simulování reálné třídy\cite{mock}.
-Při testování tak není třída závislá na implementaci tříd na kterých je závislá, ale pouze na instanci Mock objektu, který
-se chová podle nedefinovaného chování. Dále Mock objekt uchovává všechny na něho provedené volání, díky čemuž je možné
-testovat vnitřní chování a ne pouze návratovou hodnotu.
+V objektově orientovaném programování se Mock objekt požívá pro simulování chování konkrétní třídy\cite{mock}.
+Při testování je tedy možné docílit testů, které nejsou závislé na ostatních třídách kromě té která je přímo testována.
+Jelikož testovaná třída obvykle vyžaduje závislost na jiných třídách či rozhraní, jsou tyto části pomocí Mocku simulované.
+Mimo nadefinování požadovaného chování, lze také na MOck objektu sledovat jaká na něm byly provedené volání, včetně toho
+s jakými parametry. Díky tomu je možné testovat i vnitřní chování testované třídy a ne pouze návratovou hodnotu na základě 
+obdrženého vstupu.
+
+\section{Refactoring}
+Vzhledem ke stavu kódové základní na které nebylo možné stavět, jak opravy tak možná vylepšení, rozhodl jsem se přepsat téměř celou interní část.
+Přepsání nejprve popíšu obecně, což se týká všech interních částí aplikace.
+
+\subsection{Servisní třídy}
+Pro větší přehlednost bylo třeba přesunout všechny servisní třídy vykonávající do samostatného balíku, které leží v nadřazeném balíčku 
+\uv{service}. Servisní třídou jsou takové, které nespadají do ani jedné z těchto skupin:
+
+\begin{itemize}
+\item Frekvenční probouzení aplikace v daném internalu
+\item Přímá komunikace s frontami
+\item Objekty přistupující k databázi, zkráceně DAO
+\item Fasády, které obalují komunikaci servisních tříd s DAO objekty
+\item Konfigurační soubory automatické správy závislostí
+\item Pomocné třídy
+\end{itemize}
+
+\subsection{Řízení aplikace}
+Aplikace, především v modulu ProductProvider, byla řízena pomocí chytání výjimek obsahující informace o chybě.
+
+
 
 \section{Oprava komunikace Manager - ProductProvider}
-Jak bylo zmíněno výše bylo třeba komunikaci existujících dvou modulů optimalizovat. Neefektivní chování je
+Jak bylo zmíněno výše, bylo nejprve třeba komunikaci existujících dvou modulů optimalizovat. Neefektivní chování je
 velký problém při zpracování velkého počtu dat, především při stahování webových stránek. Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu, která může způsobit nestabilitu
-systému. Tento problém je spojoval s tím, že je velmi obtížné pokrýt jednotkovými testy. Navíc tyto testy v 
+systému. Tento problém se úzce spojoval s tím, že je velmi obtížné pokrýt jednotkovými testy. Navíc tyto testy v 
 kritických částech vůbec neexistují a proto každá změna může vyústit v neočekávané chování.
 
 \subsection{Refactoring}
@@ -484,6 +559,10 @@ vrátí příznak, zda adresa splňuje nebo nesplňuje prochází kontrolou. Př
 kolekci těchto rozhraní, aniž by znala jejich implementaci použije, tak že iteruje těmito kontrolami a pokud
 splňuje adresa všechny kontroly adresu použije a vytvoří pomocí ní požadavek.
 
+\section{Spojení chyb analyzátoru}
+V případě detekce možné chyby při analyzování získaných požadavků jsou vytvářeny chyby, které jsou určeny pro vyřešení administrátorem.
+
+
 
 
 
@@ -511,6 +590,8 @@ TODO
 	\item[CSS] Cascading style sheets
 	\item[JSON] JavaScript Object Notation
 	\item[HTTP] Hypertext Transfer Protocol
+	\item[DAO] Data Access Object
+	
 \end{description}
 
 
