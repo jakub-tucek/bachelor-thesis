@@ -11,7 +11,7 @@
 \usepackage[utf8]{inputenc}
 
 % \usepackage[unicode]{hyperref}
-
+\usepackage{listings}
 \usepackage{graphicx} %graphics files inclusion
 % \usepackage{amsmath} %advanced maths
 % \usepackage{amssymb} %additional math symbols
@@ -466,7 +466,7 @@ přídavné informace i v případech, kdy byl takový výsledek očekávaný ne
 Toto použití je však v rozporu ideou použití výjimek, které mají signalizovat neočekávaný stav, kdy není možné dále pokračovat
 \cite{exception}. Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k nim možný přístup.
 \par
-V kritických částek dále chyběly částečně či kompletně testy. Jmenovitě například: databázová vrstva, vytváření požadavků pro DataProvider,
+V kritických částek dále chyběly některé důležité testy. Jmenovitě například: databázová vrstva, vytváření požadavků pro DataProvider,
 hlavní servisní třída DataProvideru a validace dat. Z tohoto důvodu jakákoliv oprava nebo implementace nových požadavků mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. Tím by mohla být jakákoliv změna velmi časově náročná a s velmi nejistým konečným výsledkem. 
 Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 
@@ -489,12 +489,17 @@ se zhodnocení finálního stavu.
 V objektově orientovaném programování se Mock objekt požívá pro simulování chování konkrétní třídy\cite{mock}.
 Při testování je tedy možné docílit testů, které nejsou závislé na ostatních třídách kromě té která je přímo testována.
 Jelikož testovaná třída obvykle vyžaduje závislost na jiných třídách či rozhraní, jsou tyto části pomocí Mocku simulované.
-Mimo nadefinování požadovaného chování, lze také na MOck objektu sledovat jaká na něm byly provedené volání, včetně toho
+Mimo nadefinování požadovaného chování, lze také na Mock objektu sledovat jaká na něm byly provedené volání, včetně toho
 s jakými parametry. Díky tomu je možné testovat i vnitřní chování testované třídy a ne pouze návratovou hodnotu na základě 
 obdrženého vstupu.
 
 \section{Refactoring}
-Vzhledem ke stavu kódové základní na které nebylo možné stavět, jak opravy tak možná vylepšení, rozhodl jsem se přepsat téměř celou interní část.
+Vzhledem ke výše popsaným problémům týkající se samotné implementace v interní části, nebylo možné na napsaném kódu stavět
+případné opravy nebo celková vylepšení. Z tohoto důvodu jsem se rozhodl přepsat téměř celou interní část, tak aby bylo možné
+kód lépe udržovat. Zároveň se pokusím z důvodů efektivních, zachovat co nejvíce původních částí. Obzvlášť takové, které jsou ověřeny
+že fungují pomocí testů a testovaní. Při přepsání se tedy budu především věnovat nastavení komunikace jednotlivých tříd mezi sebou.
+Kvůli tomu bude potřeba změnit jejich komunikační rozhraní, nicméně vnitřní logická funkcionalita by měla ve většina případů zůstat
+stejná.
 Přepsání nejprve popíšu obecně, což se týká všech interních částí aplikace.
 
 \subsection{Servisní třídy}
@@ -511,7 +516,62 @@ Pro větší přehlednost bylo třeba přesunout všechny servisní třídy vyko
 \end{itemize}
 
 \subsection{Řízení aplikace}
-Aplikace, především v modulu ProductProvider, byla řízena pomocí chytání výjimek obsahující informace o chybě.
+Aplikace, především v modulu ProductProvider, byla řízena pomocí chytání výjimek obsahující informace o chybě. Výjimky jsem 
+se rozhodl odstranit a návratové hodnoty změnit na objekt obalující celkový výsledek. Ten obsahuje, zda proces skončil validně
+a na základě tohoto příznaku, obsahuje buď data, která byla vrácena původně nebo informace o chybě či chybách.
+
+\newpage
+Příklad takového objektu, lze demonstrovat na následují struktuře, která byla redakčně zkrácena oproti originálu.
+
+\begin{lstlisting}[language=Java]
+/**
+ * Entity to keep parsed response. Almost every 
+ * attribute can be null, 
+ * so getters return {@link Optional} of nullable type.
+ *
+ * @author Jakub Tucek
+ * @created 24.1.2017
+ */
+public class DPParserResponse {
+
+    /**
+     * Flag for keeping result of parsing
+     */
+    boolean finishedProperly;
+
+    /**
+     * Parsed name of the product
+     */
+    private String name;
+
+    public boolean isFinishedProperly() {
+        return finishedProperly;
+    }
+
+    public void setFinishedProperly(
+    	boolean finishedProperly) {
+    	
+        this.finishedProperly = finishedProperly;
+    }
+
+    public Optional<String> getName() {
+        return Optional.ofNullable(name);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+\end{lstlisting}
+
+Tato struktura je použita jako návratový typ pro rozhraní a implementaci části pro parsování hodnot 
+ze stažené stránky v modulu DataProvider. Ukazuje použití příznaku označující, zda parsování proběhlo korektně. Další důležitý prvek
+je zapouzdření proměnným uchovávající data a přístup k ním je možné pouze pomocí \textit{get} a \textit{set} metod. To zajišťuje 
+odstínění tříd, které k datům přistupují od implementačních detailů a odstínění od irelevantních detailů implementace \cite{encapsulation}.
+Metody \textit{get} jsou pak oproti standardnímu návrhu pozměněny tak, že nevrací přímo proměnnou, ale \textit{Optional} této proměnné.
+Optional je kontejner, který může nebo nemusí obsahovat prázdnou hodnotu \cite{optional}. Před přístup k hodnotě se proto musí nejdříve
+programátor objektu zeptat, zda obsahuje hodnotu. Mechanismus vynucení ověření prázdnoty hodnoty pak zamezuje nežádoucím výjimkám, především
+v tomto případě častých \textit{NullPointerException} \cite{nullPointerException}.
 
 
 
