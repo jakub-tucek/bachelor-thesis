@@ -419,7 +419,7 @@ následujícím pořadí, z kterého následně vybral první 10:
 \begin{itemize}
 \item Adresy, které jsou v zaplacené kampani
 \item Adresy bez produktů
-\item Adresy, kde není šablona pro parsování
+\item Adresy, pro které neexistuje šablona pro parsování
 \item Adresy, které mají vyřešenou chybu
 \end{itemize}
 
@@ -461,13 +461,27 @@ To je však třeba ověřit. Po získání hodnot ze stránky je třeba nežádo
 Poslední nedostatek se skládal z absence plánování práce vůči požadovanému intervalu, kdy mají být nová data
 staženy. Jak bylo řečeno výše, aktuální stav pouze hledal adresy produktů, které se nachází v zaplacené kampani.
 \subsection{Obecný návrh a testy}
-Implementace samotná, byla velmi nepřehledná. Procesy v DataProvider modulu byly řízené pomocí výjimek obsahující 
+Implementace samotná, byla velmi nepřehledná. Vykytovaly se prvky značící špatný návrh aplikace.
+Zde bych rád zmínil například dlouhé a nepřehledné metody v
+\uv{DataProviderServiceImpl:process a AbstractFinderUrlListWorkerImpl:getProductUrl}, kde ačkoliv jejich velikost 
+nepřesahovala 60 řádků bylo velmi obtížné zjistit, co mají vykonávat. Problém byly také velké třídy
+jako například \uv{DataProviderServiceImpl} zajišťující celý proces v modulu DataProvider, který byl již zmíněn a popsán výše.
+\par
+Je nutné podotknou, že spoustu špatných konstrukcí byly eliminovány již v průběhu implementace týmového projektu.
+První důvod byla automatická analýza kódu detekující mnoho konstrukcí, které by se neměly v kódu vyskytovat. Automatická analýza
+však nebyla schopná najít všechny problémy. Druhý důvod byla moje kontrola při schvalování vytvořeného kódu pro 
+zadaný úkol. Z důvodu časové tísně, ale nebyl vždy čas na to vrátit kód k přepsaní a opravení všech chyb. To způsobilo, že
+se vědomě dostaly konstrukce, které nebyly považovány za ideální s myšlenkou, že budou přepracovány později, což se ne vždy povedlo.
+\par
+Další problém návrhu byly procesy v DataProvider modulu řízené pomocí výjimek obsahující 
 přídavné informace i v případech, kdy byl takový výsledek očekávaný nebo dokonce chtěný. 
 Toto použití je však v rozporu ideou použití výjimek, které mají signalizovat neočekávaný stav, kdy není možné dále pokračovat
-\cite{exception}. Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k nim možný přístup.
+\cite{exception}. Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k údajům možný pozdější přístup.
 \par
-V kritických částek dále chyběly některé důležité testy. Jmenovitě například: databázová vrstva, vytváření požadavků pro DataProvider,
-hlavní servisní třída DataProvideru a validace dat. Z tohoto důvodu jakákoliv oprava nebo implementace nových požadavků mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. Tím by mohla být jakákoliv změna velmi časově náročná a s velmi nejistým konečným výsledkem. 
+V kritických částek dále chyběly některé důležité testy, jelikož třídy snažící se dělat více věcí najednou by bylo velmi
+složité otestovat. Chybějící testy se vykytovaly například u následujících částí: databázová vrstva, vytváření požadavků pro DataProvider,
+hlavní servisní třída DataProvideru nebo validace dat analyzátorem. Z tohoto důvodu jakákoliv oprava nebo implementace nových požadavků 
+mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. Tím by mohla být jakákoliv změna velmi časově náročná a s velmi nejistým konečným výsledkem. 
 Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 
 \begin{figure}\centering
@@ -478,10 +492,10 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 
 
 \chapter{Návrh na vylepšení}
-V této kapitole popíšu návrhy možná vylepšení. Tyto návrhy jsou ty, které považuji za nejvíce důležité a proto jsou
+V této kapitole popíšu návrhy možná vylepšení. Tyto návrhy považuji za nejvíce důležité a proto jsou
 v rámci této práce i implementované. Samotné implementaci se poté věnuji v následující kapitole. 
-Návrhy, které nebyly uskutečněny nebo byly zjištěny v průběhu vylepšování aplikace, budou zmíněny v kapitole věnující 
-se zhodnocení finálního stavu.
+Návrhy, které nebyly uskutečněny, jelikož se v době návrhu nezdály tolik důležité nebo byly zjištěny až v průběhu 
+vylepšování, budou zmíněny v samostatné kapitole.
 
 \section{Pojmy}
 
@@ -493,7 +507,22 @@ Mimo nadefinování požadovaného chování, lze také na Mock objektu sledovat
 s jakými parametry. Díky tomu je možné testovat i vnitřní chování testované třídy a ne pouze návratovou hodnotu na základě 
 obdrženého vstupu.
 
-\section{Refactoring}
+\subsection{Refaktorování kódu}
+Refaktorování v softwarovém vývoji chápeme jako proces restrukturalizace existující kódu, aniž by byla 
+pozměněna funkcionalita. Refaktorování se provádí za účelem dosáhnout průhlednějšího a čitelnějšího kódu, který
+se lépe udržuje a rozšiřuje \cite{refaktoring}. Refaktorování kódu se především provádí při existenci konstrukcí
+značící špatný návrh aplikace. 
+\par
+V kontextu této práce jsou důležité především následující konstrukce značící možné problémy: \cite{refaktoring} 
+\begin{itemize}
+\item Dlouhá metoda
+\item Velká třída
+\item Dlouhý seznam parametrů
+\item Složité struktury podmínek
+\end{itemize}
+
+
+\section{Refaktorování stávajícího řešení}
 Vzhledem ke výše popsaným problémům týkající se samotné implementace v interní části, nebylo možné na napsaném kódu stavět
 případné opravy nebo celková vylepšení. Z tohoto důvodu jsem se rozhodl přepsat téměř celou interní část, tak aby bylo možné
 kód lépe udržovat. Zároveň se pokusím z důvodů efektivních, zachovat co nejvíce původních částí. Obzvlášť takové, které jsou ověřeny
@@ -581,14 +610,7 @@ velký problém při zpracování velkého počtu dat, především při stahov�
 systému. Tento problém se úzce spojoval s tím, že je velmi obtížné pokrýt jednotkovými testy. Navíc tyto testy v 
 kritických částech vůbec neexistují a proto každá změna může vyústit v neočekávané chování.
 
-\subsection{Refactoring}
-Jako první možnost úprav je tedy přepsání stávajících kritických částí systému, aby odpovídaly architektuře, která počítá s efektivnějším plánování
-práce, umožňuje rychlé modifikace a jednotkové testování je nenáročné. Přepsaní se poté týká téměř všech hlavních částí v Managerovi a ProductProviderovi.
-\par
-Funkcionalita vytváření požadavků je úzce spjatá s částí, která pracuje přímo s rozhraním front. Těchto pár řádků kódu totiž způsobuje
-nemožnost napsat čistě jednotkové testy. Není tedy možné jednoduše použít Mock objekty z důvodu interní iniciace připojení k frontám.
-Stávající implementaci by bylo vhodné vhodně dekomponovat na menší části, které jsou na sobě závislé pouze přes
-veřejné rozhraní. Ty poté pokrýt jednotkovými testy.
+
 \section{Plánování práce}
 Přepsání částí se také úzce týká otázky, jak pojmout plánování práce, určující jaké požadavky budou odeslány při spuštění kódu.
 \par
