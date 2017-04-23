@@ -117,7 +117,7 @@ Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně u
 \end{enumerate}
 
 \section{XML Path Language}
-XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML\cite{XML} .
+XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML\cite{XML}.
 \par
 XML chápeme jako jazyk popisující strukturu dat, které jsou strojově i lidsky čitelné.
 HTML lze chápat jako strukturu podobnou XML, ačkoliv se přímo o XML dokument nejedná \cite{HTML}. HTML popisuje obsah dat pro prezentaci ve webovém prohlížeči pomocí předem definované struktury, které prohlížeče rozumí.
@@ -171,7 +171,7 @@ Data obsahují následující informace:
 
 
 První zásadní nedostatek zprávy z jmenovaného srovnávače se ukázal být logistický a to že obchod musí být označen \uv{Ověřeno zákazníky},
-aby měl k datům přístup. Další nedostatek je, že data neobsahují žádná jména konkurenčních obchodů \cite{heureka-report}.
+aby měl k datům přístup. Další nedostatek je, že data neobsahují žádná jména konkurenčních obchodů.\cite{heureka-report}
 Vzhledem k povaze struktury a splatnosti generovaných dat je také nemožné ceny sledovat v časovém období.
 Ostatní srovnávače mají údajně výstup velmi podobný nebo jako bylo výše řečeno data neposkytují. Díky tomu se ukázali
 srovnávače jako nedostatečný zdroj dat.\cite{hunka}
@@ -306,8 +306,8 @@ pouze samotný kód. Označuje kritické konstrukce vedoucí k chybám nebo nedo
 jazyka.
 \subsection{Průběžná integrace}
 Průběžnou integrací se rozumí sada nástrojů sloužící k rychlému nalezení případných chyb. Základní součástí je vzdálený repozitář, kde na 
-základě každé jeho změny se vytváří nový build. Při buildu jsou poté spuštěny jednotkové a integrační testy.
-Na jejich základě je poté možné zjistit případné chyby.
+základě každé jeho změny je spuštěna sestavovací sekvence. Při sestavení jsou poté spuštěny jednotkové a integrační testy.
+Na jejich základě je možné zjistit případné chyby.
 
 \section{Vývoj}
 Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. Před začátkem vývoje byla rozdělena práce do těchto částí, 
@@ -435,7 +435,13 @@ chyba parsování nebo analyzování. Každý požadavek tedy vyústil v opětov
 
 \subsection{Chyby analyzování}
 Poslední fáze procesu v modulu ProductProvider byla navržena jako analyzování získaných dat vůči již dříve uloženým. Implementace analyzátoru 
-spouštěla jednotlivé validace, jejíž logika se nacházela v oddělených třídách. V případě, že validační třída objevila nežádoucí data,
+spouštěla jednotlivé validace, jejíž logika se nacházela v oddělených třídách. 
+Analýza kontrolovala zda se shoduje získaný EAN, název a modelové číslo, vůči uloženým identifikátorům. Pokud na jedné ze stran hodnota neexistovala
+byly data označená, že jsou pravděpodobně chybná. Dále probíhala kontrola získané ceny s a bez DPH oproti cenám získané na konkrétní stránce dříve.
+Kontrola zde porovnala průměr historických hodnot se získanými cenami. V případě, že rozdíl byl větší jak 25\%, byly ceny označené jako
+možná chyba.
+\par
+V případě, že validační třída objevila nežádoucí data,
 vyhodila výjimku ve které byly uložené informace o chybě. Tento způsob řízení programu však způsoboval, že celá validace skončila při první chybě.
 \par
 Informace byly následné odeslány a manager na jejich základě vytvořil chybu pro administrátora k vyřešení. Administrátor mohl 
@@ -459,7 +465,7 @@ pomocí interního vyhledávání nalezne detaily produktů, na kterých je velk
 To je však třeba ověřit. Po získání hodnot ze stránky je třeba nežádoucí odkazy vyloučit a ostatní se pokusit spárovat s produktem.
 \subsection{Plánování práce}
 Poslední nedostatek se skládal z absence plánování práce vůči požadovanému intervalu, kdy mají být nová data
-staženy. Jak bylo řečeno výše, aktuální stav pouze hledal adresy produktů, které se nachází v zaplacené kampani.
+staženy. Jak bylo řečeno výše, aktuální stav pouze hledal adresy produktů, které se nachází v zaplacené kampani nebo měli vyřešenou chybu.
 \subsection{Obecný návrh a testy}
 Implementace samotná, byla velmi nepřehledná. Vykytovaly se prvky značící špatný návrh aplikace.
 Zde bych rád zmínil například dlouhé a nepřehledné metody v
@@ -475,8 +481,8 @@ se vědomě dostaly konstrukce, které nebyly považovány za ideální s myšle
 \par
 Další problém návrhu byly procesy v DataProvider modulu řízené pomocí výjimek obsahující 
 přídavné informace i v případech, kdy byl takový výsledek očekávaný nebo dokonce chtěný. 
-Toto použití je však v rozporu ideou použití výjimek, které mají signalizovat neočekávaný stav, kdy není možné dále pokračovat
-\cite{exception}. Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k údajům možný pozdější přístup.
+Toto použití je však v rozporu ideou použití výjimek, které mají signalizovat neočekávaný stav, kdy není možné dále pokračovat.\cite{exception}
+Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k údajům možný pozdější přístup.
 \par
 V kritických částek dále chyběly některé důležité testy, jelikož třídy snažící se dělat více věcí najednou by bylo velmi
 složité otestovat. Chybějící testy se vykytovaly například u následujících částí: databázová vrstva, vytváření požadavků pro DataProvider,
@@ -491,7 +497,7 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 \end{figure}
 
 
-\chapter{Návrh na vylepšení}
+\chapter{Návrhy na vylepšení}
 V této kapitole popíšu návrhy možná vylepšení. Tyto návrhy považuji za nejvíce důležité a proto jsou
 v rámci této práce i implementované. Samotné implementaci se poté věnuji v následující kapitole. 
 Návrhy, které nebyly uskutečněny, jelikož se v době návrhu nezdály tolik důležité nebo byly zjištěny až v průběhu 
@@ -500,7 +506,7 @@ vylepšování, budou zmíněny v samostatné kapitole.
 \section{Pojmy}
 
 \subsection{Mock}
-V objektově orientovaném programování se Mock objekt požívá pro simulování chování konkrétní třídy\cite{mock}.
+V objektově orientovaném programování se Mock objekt požívá pro simulování chování konkrétní třídy.\cite{mock}
 Při testování je tedy možné docílit testů, které nejsou závislé na ostatních třídách kromě té která je přímo testována.
 Jelikož testovaná třída obvykle vyžaduje závislost na jiných třídách či rozhraní, jsou tyto části pomocí Mocku simulované.
 Mimo nadefinování požadovaného chování, lze také na Mock objektu sledovat jaká na něm byly provedené volání, včetně toho
@@ -509,10 +515,10 @@ obdrženého vstupu.
 
 \subsection{Refaktorování kódu}
 Refaktorování v softwarovém vývoji chápeme jako proces restrukturalizace existující kódu, aniž by byla 
-pozměněna funkcionalita. Refaktorování se provádí za účelem dosáhnout průhlednějšího a čitelnějšího kódu, který
-se lépe udržuje a rozšiřuje \cite{refaktoring}. Refaktorování kódu se především provádí při existenci konstrukcí
-značící špatný návrh aplikace. 
-\par
+pozměněna funkcionalita. Provádí se za účelem dosáhnout průhlednějšího a čitelnějšího kódu, který
+se lépe udržuje a rozšiřuje. \cite{refaktoring} Hlavní spouštěcí příčina refaktorování kódu je však existence 
+konstrukcí značící špatný návrh aplikace. 
+
 V kontextu této práce jsou důležité především následující konstrukce značící možné problémy: \cite{refaktoring} 
 \begin{itemize}
 \item Dlouhá metoda
@@ -521,18 +527,16 @@ V kontextu této práce jsou důležité především následující konstrukce 
 \item Složité struktury podmínek
 \end{itemize}
 
-
 \section{Refaktorování stávajícího řešení}
 Vzhledem ke výše popsaným problémům týkající se samotné implementace v interní části, nebylo možné na napsaném kódu stavět
-případné opravy nebo celková vylepšení. Z tohoto důvodu jsem se rozhodl přepsat téměř celou interní část, tak aby bylo možné
+případné opravy nebo celková vylepšení. Z tohoto důvodu by bylo vhodné přepsat téměř celou interní část, tak aby bylo možné
 kód lépe udržovat. Zároveň se pokusím z důvodů efektivních, zachovat co nejvíce původních částí. Obzvlášť takové, které jsou ověřeny
 že fungují pomocí testů a testovaní. Při přepsání se tedy budu především věnovat nastavení komunikace jednotlivých tříd mezi sebou.
 Kvůli tomu bude potřeba změnit jejich komunikační rozhraní, nicméně vnitřní logická funkcionalita by měla ve většina případů zůstat
 stejná.
-Přepsání nejprve popíšu obecně, což se týká všech interních částí aplikace.
 
 \subsection{Servisní třídy}
-Pro větší přehlednost bylo třeba přesunout všechny servisní třídy vykonávající do samostatného balíku, které leží v nadřazeném balíčku 
+Pro větší přehlednost je třeba přesunout všechny servisní třídy vykonávající do samostatného balíku, které leží v nadřazeném balíčku 
 \uv{service}. Servisní třídou jsou takové, které nespadají do ani jedné z těchto skupin:
 
 \begin{itemize}
@@ -545,8 +549,123 @@ Pro větší přehlednost bylo třeba přesunout všechny servisní třídy vyko
 \end{itemize}
 
 \subsection{Řízení aplikace}
-Aplikace, především v modulu ProductProvider, byla řízena pomocí chytání výjimek obsahující informace o chybě. Výjimky jsem 
-se rozhodl odstranit a návratové hodnoty změnit na objekt obalující celkový výsledek. Ten obsahuje, zda proces skončil validně
+Aplikace, především v modulu ProductProvider, byla řízena pomocí chytání výjimek obsahující informace o chybě. Výjimky by bylo vhodné 
+odstranit a návratové hodnoty změnit na objekt obalující celkový výsledek. Tento návrh poté ulehčí běh procesů, kde není žádoucí
+skončit při první chybě. Kód bude možné lépe rozdělit a metody následně zkrátit, což výrazně zlepší přehlednost kódu.
+
+
+\section{Oprava komunikace Manager - ProductProvider}
+Vzhledem k problémům zmíněných výše, je třeba komunikaci těchto dvou modulů optimalizovat. Neefektivní chování je
+velký problém při zpracování velkého počtu dat, především při nutnosti opakovaného stahování webových stránek. Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu, která může způsobit nestabilitu systému. Rychlá oprava by znamenala, že pro každou vytvářenou adresu je nutné se nejdříve pokusit najít vyřešenou chybu šablony 
+nebo analyzátoru, ze které případně použít staženou stránku.
+\par
+Pro korektní opravu, která bude odpovídat čistého objektového návrhu, bylo tedy nejprve předělat celý proces vytváření požadavků.
+Jelikož důvodů pro vytvoření požadavků z adresy může být více, je žádoucí chovat se při vytváření požadavků k adresám
+různě.
+\par
+Výsledek hledání požadovaných adres, by měl mít striktně oddělené adresy dle toho jak byly nalezeny. Na základně typů poté
+požadavky vytvářet a doplnit o požadované atributy.
+
+\section{Plánování práce}
+Samotná logika plánování práce, tedy nalezení adres detailů, které chceme použít, byla velmi nedostatečná a proto jí je
+třeba doplnit o požadovanou funkcionalitu.
+\par
+Základním kamenem požadavků je vždy adresa url. Až na základně adresy jsou poté zjištěny všechny ostatní údaje, které jsou uloženy do požadavku, který je odeslán a zpracován. Požadavky je možné rozdělit podle těchto kritérií a priority, kde první má prioritu nejvyšší:
+
+\begin{itemize}
+\item Url bez známého produktu
+\item Vyřešená chyba analyzátoru
+\item Vyřešená chyba šablony pro parsování
+\item Url adresy detailů, které jsou v aktivní kampani
+\end{itemize}
+
+Po nalezení těchto disjunktních množin a odstranění duplicit jsou vyřazeny adresy, které z nějakého důvodu nevyhovují svým stavem.
+Nežádoucí stavy jsou momentálně tyto:
+
+\begin{itemize}
+\item Pro obchod existuje nevyřešená parsovací chyba
+\item Existuje nevyřešená chyba analyzátoru
+\item Není požadován výstup z důvodu potřeb kampaní
+\item Požadavek pro adresu byl již odeslán
+\end{itemize}
+
+Stavy je tedy potřeba implementovat ideálně takovým způsobem, kdy bude velmi jednoduché 
+kdykoliv kontrolu přidat nebo odebrat.
+
+\section{Spojení chyb analyzátoru}
+V případě detekce možné chyby při analyzování získaných požadavků jsou vytvářeny chyby, které jsou určeny pro vyřešení administrátorem.
+Zde je nutné požadováno chyby spojit do jedné, tak aby administrátor mohl vyřešit všechny možné chyby analyzátoru najednou.
+Po úpravě samotného DataProvideru, tak aby nechal proběhnout všechny kontroly a neskončil při první chybě, je výsledek uložen do databáze
+Managerem. Úprava se týká i webového rozhraní, které tuto možnost neposkytuje.
+
+\section{Monitorování}
+Na virtuálním serveru probíhá sestavení aplikace, včetně všech jeho procesů. Dále zde běží vývojová a produkční verze interní i webové části.
+Momentální stav poskytuje pouze omezenou možnost, jak sledovat využití prostředků virtuálního serveru.
+\par
+Pro lepší přehled běžících prostředků by bylo tedy vhodné zvolit lepší monitorovací službu, která umožňuje unifikovat sledování
+probíhajících procesů na serveru a zobrazovalo stav na jedné stránce.
+
+\section{Získání adres obchodů a příslušných detailů produktů}
+Interní část vyžaduje ke své funkcionalitě, již uložené adresy detailů produktů, se kterými následně pracovala, resp. pracoval
+především modul ProductProvider. Původní návrh počítal s modulem Finder, který se však nepodařilo zapojit v rámci týmového projektu. Ten 
+měl za úkol hledat internetové obchody na cenových srovnávačích a na nich pomocí vyhledávaní nelézt adresy.
+\par
+Funkce Finderu je však navržena jako duální, zajišťuje tedy jak hledání samotných obchodů, tak i detailů adres. Komunikační třída, představující příslušný požadavek, proto musí obsahovat příznak o jaký typ požadavků se jedná. Jelikož předávané informace
+jsou ale odlišné, vytvořený požadavek obsahuje velké množství prázdných hodnot, což přispívá k celkové nepřehlednosti.
+\par
+Z tohoto důvodu navrhuji rozdělení Finderu na dva samostatné moduly. První bude zastávat funkci hledání obchodů a druhý
+vyhledávat na obchodu a získávat požadované adresy detailů.
+
+
+\section{Párování produktu}
+Po nalezení detailu produktu, jeho stažení v DataProvider modulu a následném vyparsování hodnot je třeba adresu spárovat s 
+existující produktem. Důsledek nutnosti párování je, že po nalezení detailu není jisté, zda opravdu patří produktu, pro který 
+byl detail vyhledán. 
+\par
+Párování musí být provedeno s velkou jistotou. Proto navrhuji vytvořit proces, který se nejprve pokusí produkt spárovat v případě 
+přesně shody některého z identifikátoru, což představuje název, modelové číslo nebo EAN kód produktu. 
+\par
+Proces není možné zcela zautomatizovat, jelikož velká část internetových obchodů neposkytuje na svých stránkách validní informace.\cite{hunka}
+Buď obchod používá název, který není oficiální od distributora nebo jsou odlišné od uložených identifikátorů jako 
+modelové číslo nebo EAN kód. Odlišnosti těchto dvou identifikátorů může způsobit například jiná barva nebo přidaná velikost za nebo před modelové
+číslo. Jako řešení se jeví hledat podřetězec modelového čísla a EAN kódu, což řeší i problém pokud je ze stránky vyparsován text okolo
+identifikátoru. Obchod také může poskytovat pouze název.
+\par
+V případě neúspěchu párovaní  možnost produkt spárovat manuálně, tedy po akci administrátora. Tento proces pak spoléhá na to, že vložena data
+při vytváření kampaně jsou validní a neobsahují hodnoty, které by proces párování narušily, tak aby pároval chybně.
+
+% TODO - PROOF
+
+\section{Pokročilé párování produktu}
+Párování produktu lze vylepšit o uchovávaní více hodnot pro identifikátory produktů, která systém může použít při dalším 
+párování na jiných obchodech. Ukládání nových identifikátorů by mělo probíhat pouze se souhlasem administrátora, například 
+při úspěšném párování nebo manuálním vložením.
+
+\section{Uchování hodnot z nespárovaných adres}
+Při vyhledávání na obchodu je zpravidla výsledek hledání větší množina adres, z nichž je většina nepotřebná. Pro dlouhodobě 
+efektivnější chod systému se proto jeví uchovávat získaná data. Zde se jeví možnost získaná data z detailů uchovávat mimo interně uložené produkty
+a v případě přidání nových produktů do systému v rámci vytvořené kampaně se pokusit najít shodu v těchto datech. To umožní odlehčení zátěže
+na stahování stránek a celkové zrychlí chod systému.
+\par
+Získaná data a k nim adresy však mohou být neaktuální, kdy obchod už daný produkt neprodává a nebo adresa již nefunguje. Zde je proto nutné
+nastavit mechanismus maximálního stáří dat při použití nebo ověření zda jsou platná.
+% TODO - PROOF
+
+\chapter{Realizace vylepšení}
+Kapitola realizace vylepšení se věnuje implementovaným vylepšení. Popisuje tak jaké změny byly provedeny. Většina těchto změn
+byla zmíněna v návrhu vylepšení, které byly určeny v kontextu vytvořeného řešení. Bohužel ne všechny tyto změny byly dostačující
+s dosažení běžícího systému. Proto byly v rámci implementace provedeny i změny se kterými se původně nepočítalo.
+
+
+\section{Refaktorování stávajícího řešení}
+
+
+\subsection{Servisní třídy}
+
+
+\subsection{Řízení aplikace}
+
+Ten obsahuje, zda proces skončil validně
 a na základě tohoto příznaku, obsahuje buď data, která byla vrácena původně nebo informace o chybě či chybách.
 
 \newpage
@@ -599,56 +718,58 @@ je zapouzdření proměnným uchovávající data a přístup k ním je možné 
 odstínění tříd, které k datům přistupují od implementačních detailů a odstínění od irelevantních detailů implementace \cite{encapsulation}.
 Metody \textit{get} jsou pak oproti standardnímu návrhu pozměněny tak, že nevrací přímo proměnnou, ale \textit{Optional} této proměnné.
 Optional je kontejner, který může nebo nemusí obsahovat prázdnou hodnotu \cite{optional}. Před přístup k hodnotě se proto musí nejdříve
-programátor objektu zeptat, zda obsahuje hodnotu. Mechanismus vynucení ověření prázdnoty hodnoty pak zamezuje nežádoucím výjimkám, především
-v tomto případě častých \textit{NullPointerException} \cite{nullPointerException}.
+programátor objektu zeptat, zda obsahuje hodnotu. Mechanismus nutného ověření hodnoty, pak zamezuje nežádoucím výjimkám, především \textit{NullPointerException} \cite{nullPointerException}.
 
 
 
 \section{Oprava komunikace Manager - ProductProvider}
-Jak bylo zmíněno výše, bylo nejprve třeba komunikaci existujících dvou modulů optimalizovat. Neefektivní chování je
-velký problém při zpracování velkého počtu dat, především při stahování webových stránek. Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu, která může způsobit nestabilitu
-systému. Tento problém se úzce spojoval s tím, že je velmi obtížné pokrýt jednotkovými testy. Navíc tyto testy v 
-kritických částech vůbec neexistují a proto každá změna může vyústit v neočekávané chování.
 
 
 \section{Plánování práce}
-Přepsání částí se také úzce týká otázky, jak pojmout plánování práce, určující jaké požadavky budou odeslány při spuštění kódu.
-\par
-Základním kamenem požadavků je vždy adresa url. Až na základně adresy jsou poté zjištěny všechny ostatní údaje, které jsou uloženy do požadavku, který je odeslán a zpracován. 
-\par
-Požadavky je možné rozdělit podle těchto kritérií a priority, kde první má prioritu nejvyšší:
-
-\begin{itemize}
-\item Url bez známého produktu
-\item Vyřešená chyba analyzátoru
-\item Vyřešená chyba šablony pro parsování
-\item Url adresy detailů, které jsou v aktivní kampani
-\end{itemize}
-
-Po nalezení těchto disjunktních množin bez duplicit bylo také potřeba vyřadit ty, které z nějakého důvodu nevyhovují svým stavem.
-Nežádoucí stavy jsou momentálně tyto:
-
-\begin{itemize}
-\item Pro obchod existuje nevyřešená parsovací chyba
-\item Existuje nevyřešená chyba analyzátoru
-\item Není požadován výstup z důvodu potřeb kampaní
-\item Požadavek pro adresu byl již odeslán
-\end{itemize}
-
-Stavy je tedy potřeba implementovat ideálně takovým způsobem, kdy bude velmi jednoduché 
-kdykoliv kontrolu přidat nebo odebrat. K tomuto účelu jsem navrhl rozhraní, které na základě adresy 
+K tomuto účelu jsem navrhl rozhraní, které na základě adresy 
 vrátí příznak, zda adresa splňuje nebo nesplňuje prochází kontrolou. Příslušná třída poté
 kolekci těchto rozhraní, aniž by znala jejich implementaci použije, tak že iteruje těmito kontrolami a pokud
 splňuje adresa všechny kontroly adresu použije a vytvoří pomocí ní požadavek.
 
 \section{Spojení chyb analyzátoru}
-V případě detekce možné chyby při analyzování získaných požadavků jsou vytvářeny chyby, které jsou určeny pro vyřešení administrátorem.
 
 
+\section{Monitorování}
+To lze dosáhnout pomocí monitorování, které poskytuje například služba DataDog \cite{dataDog}. Po instalaci hlavního monitorovacího programu na serveru, jsou všechny přístupné
+informace odesílány na servery DataDog. Přes webové rozhraní je poté možné sledovat tyto údaje. Základní funkcionalita poskytuje
+pouze informace o využití prostředků. Službu je však možné rozšířit o velký počet doplňků. Pomocí těch je pak možné sledovat
+například stav buildu v Jenkins nebo obsah a využití RabbitMQ front.
 
 
+\section{Získání adres obchodů a příslušných detailů produktů}
+Vzhledem pouze k malé možnosti využitelnosti implementované části v modulu Finder, především z důvodu dlouhých metod, které zajišťují
+základní stavební kámen tohoto modulu jsem se rozhodl modul Finder rozdělit. Myšlenkou rozdělení bylo oddělení části, která vyhledává na internetovém obchodu a části, která samotné obchody, které by mohly produkt nabízet hledá. Důvod byl, že jsem se rozhodl implementovat pouze
+první část, jelikož hledání samotných obchodů lze nahradit manuálním přidání konkurence na které chceme vyhledávat, případně 
+využít některý se seznamů internetových obchodů v České republice a ty manuálně vložit.
 
-\chapter{Realizace vylepšení}
+
+\par
+Nový návrh obsahoval odstranění modulu Finder a jeho příslušných front. Místo toho byl vytvořen modul nový, ProductDetailProvider.
+Tento modul má za úkol zajišťovat hledání detailů produktu, což je dosaženo na základě šablony pro daný e-shop, která obsahuje 
+tyto atributy:
+\begin{itemize}
+\item formát url vyhledávající produkt na obchodu
+\item oddělovač slov v url adrese
+\item selektory pro výběr url adres vedoucí na detaily produktu
+\end{itemize}
+Pro samotné vytvoření požadavku je nutné kritérium existence pouze částečné šablony, která obsahuje informace jak na obchodě vyhledávat.
+Tento požadavek poté vytvoří chybu pro administrátora, aby specifikoval jak na stránce vyhledávat detaily adres. Webové rozhraní
+pro tento proces, bylo vytvořeno již v rámci týmového projektu a lze tedy použít.
+
+
+\section{Párování produktu}
+\par
+Byl navržen proce, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
+Pokud se spárování nepodaří, jsou provedeny heuristiky hledající pravděpodobné shody. Z množiny těchto možností je pak 
+vytvořena chyba, kterou musí zpracovat administrátor.
+\par
+Pro tuto možnost a zpracování bylo poté nutné vytvořit webové rozhraní, které administrátorovi umožňuje jednoduché přiřazení 
+adresy k produktu nebo všechny možnosti odmítnout.
 
 \chapter{Zhodnocení provedených vylepšení}
 TODO
