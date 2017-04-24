@@ -63,17 +63,14 @@ otestovat a zhodnotit výsledný stav projektu.
 
 \newpage
 
-\newpage
-
 \end{introduction}
+
 
 \chapter{Popis problematiky získávání informací z webů}
 
 V této kapitole se budu nejprve zabývat samotnou problematikou získávání informací 
 z webů s důrazem na internetové obchody.
 Jelikož je tato problematika již řešena existujícími službami, existující služby zhodnotím.
-
-\newpage
 
 \section{Problematika}
 Získávání informací z webů je efektivní možnost jak získat databázi informací, které se na internetu vyskytují.
@@ -88,7 +85,7 @@ To je obvykle dosaženo roboty, kteří data stahují a lidské práce určujíc
 \par
 Získávání informací ze stažených stránek lze poté zjednodušit na problematiku určení elementů v HTML, které jsou pro 
 nás zajímavé.
-Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně určit pomocí dvou možností:
+Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně určit například pomocí těchto dvou možností:
 \begin{enumerate}
 \item XPath
 \item CSS Selector
@@ -128,6 +125,8 @@ se skládají z následujících atributů:
 \item Dostupnost
 \end{enumerate}
 
+S těmito daty je poté možné dále pracovat, například při analýze konkurence schopnosti na trhu. \cite{hunka}
+
 \subsection{Srovnávače cen}
 
 Data lze získat pomocí srovnávačů cen jako \textit{zbozi.cz}\cite{heureka} 
@@ -158,8 +157,8 @@ srovnávače jako nedostatečný zdroj dat.\cite{hunka}
 
 Problematiku sledování trhu s důrazem na firemní klientelu, řeší aktuálně několik existujících služeb.
 \par
-Služby mají v zásadě velmi podobnou povahu služeb. Rámcově se jedná o porovnávání cen včetně historie na různých internetových
-obchodem či na srovnávačích cen. Uživatel si zadá okruh či seznam produktů, buďto formou manuální či vstupem ze souboru, případně 
+Služby mají v zásadě velmi podobnou povahu poskytovaných možností. Rámcově se jedná o porovnávání cen včetně historie na různých internetových
+obchodem či na srovnávačích. Uživatel si zadá okruh či seznam produktů, buďto formou manuální či vstupem ze souboru, případně 
 přímých napojením na e-shop. Následně je možné konkrétní data zobrazit v grafech označující vývoj cen, trendů či náhlých změn.
 Dále umožňují externí výstup do souboru v dostupných formátech.
 \par
@@ -169,23 +168,185 @@ možnost zda služba dokáže sledovat i zahraniční trh.
 Cena služeb se nejvíce odvíjí od počtu sledovaných produktů a četnosti aktualizací. Proto se měsíční platby mohou 
 pohybovat od stovek korun po desítek tisíc korun.
 
-\subsubsection{Price checking}
+\section{Popis konkrétních existujících služeb}
 
-\subsubsection{Pricing intelligence}
+\subsection{Price checking\cite{priceChecking}} 
 
-\subsubsection{Sledování trhu}
 
-\subsubsection{Pricebot}
+\textbf{Hlavní funkce}
+\begin{itemize}
+\item porovnává a vyhledává ceny zadaných výrobků v reálném čase
+\item sleduje dostupnost produktů
+\item automatické stahování dat v intervalech
+\item statistické pohledy, nahlížení do historie
+\item generování grafů
+\item cenotvorba
+\end{itemize}
+
+\textbf{Vstup}
+\begin{itemize}
+\item souhrn produktů určený pro sledování
+\item libovolný formát, například xsl nebo xml
+\item možný manuální vstup
+\end{itemize}
+
+\textbf{Výstup}
+\begin{itemize}
+\item libovolný formát, například xsl nebo xml
+\item webové rozhraní
+\end{itemize}
+
+\textbf{Prostředí}
+\begin{itemize}
+\item webové rozhraní
+\end{itemize}
+
+\textbf{Data}
+\begin{itemize}
+\item přes 250 výrobců, 300 obchodů a 1 200 000 výrobků
+\item český, slovenský, polský, slovinský, německý a maďarský trh
+\item aktualizace denně, maximálně 144 krát za den
+\item počet sledovaných obchodů je fixní, lze však přidat na požádání
+\item převážně elektronika, bílé zboží, pneumatiky a hračky
+\end{itemize}
+
+\textbf{Cena}
+\begin{itemize}
+\item 6000 - 85 000 Kč (bez dph) za licenci měsíčně
+\item minimální doba smlouvy 12 měsíců
+\end{itemize}
+
+\begin{figure}[h]\centering
+ 	\includegraphics[width=0.9\textwidth]{resources/priceChecking}
+	\caption[Price checking]{Ukázka služby price checking}\label{fig:priceChecking}
+\end{figure}
 
 \newpage
 
-\subsubsection{Zahraniční nástroje}
+\subsection{Pricing intelligence\cite{pricingIntelligence}} 
+
+\textbf{Hlavní funkce}
+\begin{itemize}
+\item monitorování a srovnávání cen konkurence, vývoj cen a trendů v čase
+\item přehledné výpisy výsledků
+\item u většiny cenových nabídek nutno definovat počet konkurentů
+\item upozornění na změny cen v čase
+\end{itemize}
+
+\textbf{Výstup}
+\begin{itemize}
+\item formát xsl nebo pdf
+\end{itemize}
+
+\textbf{Prostředí}
+\begin{itemize}
+\item webové rozhraní
+\end{itemize}
+
+\textbf{Data}
+\begin{itemize}
+\item nespecifikované data a zaměřený trh
+\end{itemize}
+
+\textbf{Cena}
+\begin{itemize}
+\item 599 až 4999 Kč měsíčně
+\item minimálně tři měsíce
+\item neomezené sledování produktů a konkurentů je možné pouze s nejvyšším tarifem a po individuální ceně
+\end{itemize}
+
+
+\subsection{Sledování trhu\cite{sledovaniTrhu}} 
+\textbf{Hlavní funkce}
+\begin{itemize}
+\item sledování cen, pozic, dostupnosti a hodnocení na porovnávačích zboží i jednotlivých obchodech
+\item uchování historie
+\item možné napojení přímo na vlastní internetový obchod
+\item notifikace změn
+\item možnost více účtů s oddělenými přístupy
+\item cenotvorba
+\item detekce cenových spirál (kdo první zlevnil a následující dopady)
+\end{itemize}
+
+\textbf{Vstup}
+\begin{itemize}
+\item xml, xsl nebo manuálně
+\end{itemize}
+
+\textbf{Výstup}
+\begin{itemize}
+\item xsl nebo webový
+\end{itemize}
+
+\textbf{Prostředí}
+\begin{itemize}
+\item webové rozhraní
+\end{itemize}
+
+\textbf{Data}
+\begin{itemize}
+\item srovnávače cen: heureka.cz, zbozi.cz, najnakup.sk, pricemania.sk, ceneo.pl, nokaut.pl, argep.hu, preisroboter.de
+\item přímé sledování na obchodu
+\item z toho plyne záběr na český, slovenský, německý a maďarský trh
+\item aktualizace až několikrát denně
+\end{itemize}
+
+\textbf{Cena}
+\begin{itemize}
+\item platba za každé vyhledání
+\item individuální cena
+\end{itemize}
+
+\subsection{Pricebot \cite{priceBot}}
+
+Web je datován roku 2015, avšak popis funkcí není dokončený. Obsahuje výplňový text, proto je popis funkcí nekompletní.
+
+\textbf{Hlavní funkce}
+\begin{itemize}
+\item denní monitoring cen na heureka.cz
+\item možnost sledovat produkty konkurence
+\item poskytuje pravidelný výsledek nalezených cen a vizualizaci změn
+\item notifikace o změnách
+\item notifikace o konkurentech prodávajících za nižší cenu
+\item maximum lze sledovat 600 produktů 
+\item maximum sledovaných konkurentů je 70
+\end{itemize}
+
+\textbf{Vstup}
+\begin{itemize}
+\item produkty ke sledování
+\end{itemize}
+
+\textbf{Výstup}
+\begin{itemize}
+\item pdf na email
+\end{itemize}
+
+\textbf{Prostředí}
+\begin{itemize}
+\item webové rozhraní
+\end{itemize}
+
+\textbf{Data}
+\begin{itemize}
+\item srovnávač cen Heureka.cz
+\end{itemize}
+
+\textbf{Cena}
+\begin{itemize}
+\item dle počtů produktů
+\item od 299 do 1299 Kč
+\end{itemize}
+
+\newpage
+
+\subsection{Zahraniční nástroje}
 Tyto nástroje jsou obecněji zaměřené a obvykle požadují od uživatele techničtější zaměření, 
 jelikož je nutné přesně specifikovat kde, co a jak chce sledovat. Vzhledem k tomuto omezení
 nejsou přímo pro provozovatele e-shopů vhodné kvůli nedostatečným technickým kapacitám a 
 pro tuto práci důležité.
 \par
-Bodový seznam zahraničních nástrojů:
+Příklad zahraničních nástrojů:
 
 \begin{enumerate}
 \item Screen scraper \cite{ScreenScraper}
@@ -209,7 +370,6 @@ Bodový seznam zahraničních nástrojů:
     \item cena: \$99 - \$199 jednorázově
   \end{itemize}
 
-\item Web Scraper \cite{WebScraper}
 
 \end{enumerate}
 
@@ -256,7 +416,7 @@ Manager má za úkol plánování práce pro ostatní části systému a zpracov
 Finder je modul, který má za úkol získávat URL adresy internetových obchodů a na nich vyhledávat URL adresy vedoucí na požadované detaily produktů.
 Detailem produktu je myšlena webová stránka, kde jsou obsažený podrobné informace o prodávaném produktu. Obchody samotné jsou
 získávány pomocí vyhledávání na internetových srovnávačích. K vyhledání je použit název produktu. 
-\subsubsection{DataProvider}
+\subsection{DataProvider}
 DataProvider je modul, který zpracovává adresy vedoucí na detaily produktu. Zde existují čtyři hlavní větve možností zpracování požadavků.
 Po stažení stránky, se z ní pokusí získat požadované
 hodnoty. V případě neúspěchu odešle příslušnou chybu, v opačném případě zanalyzuje korektnost získaných cen vůči historickým datům pokud
@@ -272,8 +432,6 @@ V této kapitole se věnuji průběhu vývoje týmového projektu a vytvořeném
 projektu, jelikož jsem věděl, že budu téma dále rozvíjet v rámci bakalářské práce. 
 Z tohoto důvodu jsem se projektu věnoval nad rámec předmětu. 
 
-\newpage
-
 \section{Pojmy}
 
 \subsection{Verzovací systém Git}
@@ -288,6 +446,8 @@ Základní jednotkou tvoří verze, které jsou postupně vytvářeny vývojář
 Verze jsou poté uchovávány v jednotlivých větví programu. Vedlejší větve slouží pro samotnou postupnou práci. 
 Hlavní větve poté tento kód spojují. Git také zajišťuje základní nástroje pro slučování kódu v případě spojování 
 nebo slučovaní vedlejších větví do větví hlavních.
+
+\newpage
 
 \begin{figure}[h]\centering
  	\includegraphics[width=0.7\textwidth]{resources/branches}
@@ -316,15 +476,13 @@ příslušné verze do produkce.\cite{CI}
 Princip sdílení dat pomocí front je na odesílání zpráv, které reprezentují objekty. Fungují na principu, kdy jedna strana objekty
 odesílá a druhá přijímá. Příklad takové implementace pak může být například RabbitMQ. \cite{rabbitMQ}
 
-\newpage
-
 \section{Vývoj}
 Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. Před začátkem vývoje byla rozdělena práce do těchto částí, 
 s tím, že na konci každé iterace probíhala prezentace vyučujícímu. Každý sprint se skládal z jednotlivých
 úkolů, které byly přiřazeny členům týmu. Stav úkolů byl uchováván na systému Redmine\cite{Redmine}, ten umožňuje přehledné řízení projektu
 a možnost sledování objevených chyb.
 \par
-Jako verzovací systém byl zvolen systém Git, se vzdáleným repozitářem uložený na službě Gitlab\cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a spouštění služeb na základě změn. Projekt byl v rámci repozitáře rozdělen na 4 části (větve):
+Jako verzovací systém byl zvolen systém Git, se vzdáleným repozitářem uložený na službě \cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a spouštění služeb na základě změn. Projekt byl v rámci repozitáře rozdělen na 4 části (větve):
 \begin{itemize}
 \item Master - hlavní větev uchovávající verze určená k nasazení na produkční server
 \item Develop - vývojová větev obsahující aktuální stav vývoje
@@ -406,8 +564,6 @@ jednoduše kontrolovat, zda jsou správně napsané všechny testy.
 \chapter{Zhodnocení týmového projektu}
 Pro nutnost návaznosti na kapitolu o vylepšeních je nejprve nutné uvést v jakém kontextu jsou vylepšení navrhovány. K tomu je třeba
 popsat výsledný stav projektu a jeho funkcionalitu. 
-
-\newpage
 
 \section{Pojmy}
 
@@ -533,7 +689,7 @@ mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. T�
 
 Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 
-\begin{figure}\centering
+\begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-old-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-old-2}
 	\caption[Pokrytí testy vytvořeného řešení]{Pokrytí testy vytvořeného řešení týmového projektu}\label{fig:dp-dia}
@@ -545,8 +701,6 @@ V této kapitole popíšu návrhy možná vylepšení. Tyto návrhy považuji za
 v rámci této práce i implementované. Samotné implementaci se poté věnuji v následující kapitole. 
 Návrhy, které nebyly uskutečněny, jelikož se v době návrhu nezdály tolik důležité nebo byly zjištěny až v průběhu 
 vylepšování, budou zmíněny v samostatné kapitole.
-
-\newpage
 
 \section{Pojmy}
 
@@ -692,8 +846,6 @@ nastavit mechanismus maximálního stáří dat při použití nebo ověření z
 Kapitola realizace vylepšení se věnuje implementovaným vylepšení. Popisuje jak byly navržené změny provedeny.
 V průběhu realizace byly objeveny nové nedostatky, z nichž některé byly také zpracovány, i když se s nimi původně nepočítalo.
 
-\par
-
 \section{Refaktorování stávajícího řešení}
 První krok realizace bylo refaktorování stávajícího řešení. Zde bylo provedeno především přesunutí tříd do jednotného balíčku, 
 rozdělení tříd na více malých, zkrácení dlouhých metod a zmenšení počtu parametrů metod.
@@ -716,7 +868,6 @@ Servisní třídou jsou takové, které nespadají do ani jedné z těchto skupi
 V návaznosti na tento návrh tak byly odstraněny a nahrazeny úpravou návratového typu, který obsahuje příznak výsledku 
 a příslušné informace, což jsou data validní odpovědi, či informace o zjištěné chybě, například v získaných datech.
 \par
-\newpage
 Návratový typ, lze lze demonstrovat na následují zkrácené třídě \textit{DPParserRespose}, která je vrácena v DataProvider modulu
 po provedení parsování.
 
@@ -825,7 +976,7 @@ adresy k produktu nebo všechny možnosti odmítnout.
 
 
 \section{Pokrytí testy}
-\begin{figure}\centering
+\begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-new-2}
 	\caption[Pokrytí testy po provedených vylepšení]{Pokrytí testy vytvořeného řešení týmového projektu}\label{fig:cober-new}
