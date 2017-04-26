@@ -587,7 +587,7 @@ jednoduše kontrolovat, zda jsou správně napsané všechny testy.
 
 \chapter{Zhodnocení týmového projektu}
 Pro nutnost návaznosti na kapitolu o vylepšeních je nejprve nutné uvést v jakém kontextu jsou vylepšení navrhovány. K tomu je třeba
-popsat výsledný stav projektu a jeho funkcionalitu. 
+popsat výsledný stav týmového projektu a jeho funkcionalitu. 
 
 \section{Pojmy}
 
@@ -607,11 +607,11 @@ Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze
 chyb vzniklých v interní části.
 Uživatelská část umožňovala správu a vytvoření kampaně či kampaní. Implementace kampaní pak splňovala návrh z analytické částí,
 která byla zmíněna výše.
-Na žádost jiného týmu jsme také vytvořili REST rozhraní, poskytující získané ceny pro daný produktu.
+Na žádost jiného týmu jsme také vytvořili REST rozhraní, poskytující získané ceny pro danný produkt.
 \par
 Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. 
-Manager dokázal zjistit vybrat produkty, které jsou v aktivní kampani a je třeba je aktualizovat.
-Na základě výsledků poté vybral potřeba data odeslal požadavek pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a informacích o produktu. 
+Manager dokázal vybrat produkty, které jsou v aktivní kampani a je třeba je aktualizovat.
+Na základě výsledků poté vybral potřebná data a odeslal požadavek pomocí front pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a informacích o produktu. 
 \par
 Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
 V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný a byla odeslána chyba
@@ -638,7 +638,7 @@ následujícím pořadí, z kterého následně vybral první 10:
 \item Adresy, které mají vyřešenou chybu
 \end{itemize}
 
-Z této množiny byly poté odebrány odeslané a ty které mají nevyřešenou chybu. Opakované spuštění v předefinovaném intervalu poté 
+Z této množiny byly poté odebrány odeslané a s nevyřešenou chybu. Opakované spuštění v předefinovaném intervalu poté 
 zajistilo, že požadavky byly vytvořeny pro všechny požadované adresy.
 
 \subsection{Neefektivní chování modulu Manager a ProductProvider}
@@ -695,7 +695,7 @@ Zde bych rád zmínil například dlouhé a nepřehledné metody v
 nepřesahovala 60 řádků bylo velmi obtížné zjistit, co mají vykonávat. Problém byly také velké třídy
 jako například \uv{DataProviderServiceImpl} zajišťující celý proces v modulu DataProvider, který byl již zmíněn a popsán výše.
 \par
-Je nutné podotknou, že spoustu špatných konstrukcí byly eliminovány již v průběhu vývoje týmového projektu.
+Je nutné podotknout, že spoustu špatných konstrukcí bylo eliminováno již v průběhu vývoje týmového projektu.
 První důvod byla automatická analýza kódu detekující mnoho konstrukcí, které by se neměly v kódu vyskytovat. Automatická analýza
 však nebyla schopná najít všechny problémy. Druhý důvod byla moje kontrola při schvalování vytvořeného kódu pro 
 zadaný úkol. Z důvodu časové tísně, ale nebyl vždy čas na to vrátit kód k přepsaní a opravení všech chyb. To způsobilo, že
@@ -716,7 +716,8 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-old-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-old-2}
-	\caption[Pokrytí testy vytvořeného řešení]{Pokrytí testy vytvořeného řešení týmového projektu}\label{fig:dp-dia}
+	\caption[Pokrytí testy vytvořeného řešení]{Vizualizace pokrytí testy vytvořeného řešení pomocí nástroje Cobertura v
+	Jenkins s instalovaným příslušným doplňkem}\label{fig:dp-dia}
 \end{figure}
 
 
@@ -841,8 +842,7 @@ přesně shody některého z identifikátoru, což představuje název, modelov�
 Proces není možné zcela zautomatizovat, jelikož velká část internetových obchodů neposkytuje na svých stránkách validní informace.\cite{hunka}
 Buď obchod používá název, který není oficiální od distributora nebo jsou odlišné od uložených identifikátorů jako 
 modelové číslo nebo EAN kód. Odlišnosti těchto dvou identifikátorů může způsobit například jiná barva nebo přidaná velikost za nebo před modelové
-číslo. Jako řešení se jeví hledat podřetězec modelového čísla a EAN kódu, což řeší i problém pokud je ze stránky vyparsován text okolo
-identifikátoru. Obchod také může poskytovat pouze název, což lze demonstrovat na obchodu \textit{glamot.cz}, například
+číslo. Jako řešení se jeví hledat podřetězec v nalezených hodnotách, což řeší i problém pokud je ze stránky vyparsován text okolo hodnoty, který s ní nesouvísí. Obchod také může poskytovat pouze název, což lze demonstrovat na obchodu \textit{glamot.cz}, například
 pro produkt 
 \href{https://www.glamot.cz/p/19128/difuzer-k-vysouseci-babyliss-pro-difuser-murano}{BaByliss PRO Difuser Murano \textit{[cit. 24.4.2017]}}.
 \par
@@ -989,7 +989,7 @@ pro tento proces, bylo vytvořeno již v rámci týmového projektu a lze tedy p
 
 
 \section{Párování produktu}
-Byl navržen proce, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
+Byl navržen proces, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
 Pokud se spárování nepodaří, jsou provedeny heuristiky hledající pravděpodobné shody. Z množiny těchto možností je pak 
 vytvořena chyba, kterou musí zpracovat administrátor.
 \par
@@ -1003,7 +1003,7 @@ adresy k produktu nebo všechny možnosti odmítnout.
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-new-2}
-	\caption[Pokrytí testy po provedených vylepšení]{Pokrytí testy vytvořeného řešení týmového projektu}\label{fig:cober-new}
+	\caption[Pokrytí testy po provedených vylepšení]{Vizualizace pokrytí testy nového řešení pomocí nástroje Cobertura v	Jenkins s instalovaným příslušným doplňkem}\label{fig:cober-new}
 \end{figure}
 
 
