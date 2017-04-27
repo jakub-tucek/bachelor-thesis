@@ -640,6 +640,11 @@ následujícím pořadí, z kterého následně vybral první 10:
 
 Z této množiny byly poté odebrány odeslané a ty které mají nevyřešenou chybu. Opakované spuštění v předefinovaném intervalu poté 
 zajistilo, že požadavky byly vytvořeny pro všechny požadované adresy.
+\par
+Další nedostatek se skládal z ukládání stavu do databáze. Část nejdůležitějších atributů vytvářeného požadavku byla uložena do databáze 
+s příznakem odesláno. Tento příznak bylo nutné uchovávat i u chyb, kde je potřeba označit, že byla zpracována. Zde se však 
+ovšem nastavil příznak o zpracování, ale pokud se požadavek nepodařilo odeslat nebyl již změněn. To způsobilo, že chyba již 
+nebyla nikdy zpracována.
 
 \subsection{Neefektivní chování modulu Manager a ProductProvider}
 První zásadní problém bylo neefektivní chování komunikace modulu Manager s ProductProviderem. V rámci testování jsem zjistil, že v 
@@ -753,9 +758,9 @@ V kontextu této práce jsou důležité především následující konstrukce 
 
 \section{Refaktorování stávajícího řešení}
 Vzhledem ke výše popsaným problémům týkající se samotné implementace v interní části, nebylo možné na napsaném kódu stavět
-případné opravy nebo celková vylepšení. Z tohoto důvodu by bylo vhodné přepsat téměř celou interní část, tak aby bylo možné
-kód lépe udržovat. Zároveň se pokusím z důvodů efektivních, zachovat co nejvíce původních částí. Obzvlášť takové, které jsou ověřeny
-že fungují pomocí testů a testovaní. Při přepsání se tedy budu především věnovat nastavení komunikace jednotlivých tříd mezi sebou.
+případné opravy nebo celková vylepšení. Z tohoto důvodu by bylo vhodné upravit téměř celou interní část, tak aby bylo možné
+kód lépe udržovat. Zároveň se pokusím, zachovat co nejvíce původních částí. Obzvlášť takové, které jsou ověřeny
+že fungují pomocí testů. Při přepsání se budu především věnovat nastavení komunikace jednotlivých tříd mezi sebou.
 Kvůli tomu bude potřeba změnit jejich komunikační rozhraní, nicméně vnitřní logická funkcionalita by měla ve většina případů zůstat
 stejná.
 \par
@@ -767,18 +772,6 @@ budou poté v samostatných balíčcích.
 Aplikace, především v modulu ProductProvider, byla řízena pomocí chytání výjimek obsahující informace o chybě. Výjimky by bylo vhodné 
 odstranit a návratové hodnoty změnit na objekt obalující celkový výsledek. Tento návrh poté ulehčí běh procesů, kde není žádoucí
 skončit při první chybě. Kód bude možné lépe rozdělit a metody následně zkrátit, což výrazně zlepší přehlednost kódu.
-
-
-\section{Oprava komunikace Manager - ProductProvider}
-Vzhledem k problémům zmíněných výše, je třeba komunikaci těchto dvou modulů optimalizovat. Neefektivní chování je
-velký problém při zpracování velkého počtu dat, především při nutnosti opakovaného stahování webových stránek. Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu, která může způsobit nefunkčnost systému. Rychlá oprava by znamenala, že pro každou vytvářenou adresu je nutné se nejdříve pokusit najít vyřešenou chybu šablony 
-nebo analyzátoru, ze které případně použít staženou stránku. Hledání by tak probíhalo ve většině případů zbytečně, jelikož chyba by neexistovala.
-\par
-Pro korektní opravu, která bude odpovídat čistého objektového návrhu, je nutné nejprve předělat celý proces vytváření požadavků.
-Jelikož důvodů pro vytvoření požadavků z adresy může být více, je žádoucí chovat se při vytváření požadavků k adresám dle typů..
-\par
-Výsledek hledání požadovaných adres, by měl mít striktně oddělené množiny adres dle toho jak byly nalezeny. Na základně typů poté
-požadavky vytvářet a doplnit o požadované atributy.
 
 \section{Plánování práce}
 Samotná logika plánování práce, tedy nalezení adres detailů, které chceme použít, byla velmi nedostatečná a proto jí je
@@ -801,10 +794,22 @@ Nežádoucí stavy jsou momentálně tyto:
 \item Existuje nevyřešená chyba analyzátoru
 \item Není požadován výstup z důvodu potřeb kampaní
 \item Požadavek pro adresu byl již odeslán
+\item Product není třeba v aktuálním dni zpracovat
 \end{itemize}
 
 Stavy je tedy potřeba implementovat ideálně takovým způsobem, kdy bude velmi jednoduché 
 kdykoliv kontrolu přidat nebo odebrat.
+
+\section{Oprava komunikace Manager - ProductProvider}
+Vzhledem k problémům zmíněných výše, je třeba komunikaci těchto dvou modulů optimalizovat. Neefektivní chování je
+velký problém při zpracování velkého počtu dat, především při nutnosti opakovaného stahování webových stránek. Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu, která může způsobit nefunkčnost systému. Rychlá oprava by znamenala, že pro každou vytvářenou adresu je nutné se nejdříve pokusit najít vyřešenou chybu šablony 
+nebo analyzátoru, ze které případně použít staženou stránku. Hledání by tak probíhalo ve většině případů zbytečně, jelikož chyba by neexistovala.
+\par
+Korektní oprava je úzce spjata s předchozími kapitolami, především s refaktorováním a úpravou plánování práce. Vzhledem k úpravě vytváření
+požadavků je možně se zachovat k příslušným adresám a požadavkům z nich vytvořených odlišně. Jedná se o především správné nastavení atributů
+a příznaků o stavu odeslání.
+\par
+V případě refaktorování, pak stačí pouze ověřit zda se šablona vyskytuje v šabloně a v kladném případě opětovně nestahovat stránku.
 
 \section{Spojení chyb analyzátoru} \label{analyser-join}
 V případě detekce možné chyby při analyzování získaných požadavků jsou vytvářeny chyby, které jsou určeny pro vyřešení administrátorem.
@@ -875,7 +880,7 @@ tag \textit{v0.53}, realizované vylepšení jsou poté označeny verzí \textit
 
 \section{Refaktorování stávajícího řešení}
 První krok realizace bylo refaktorování stávajícího řešení. Zde bylo provedeno především přesunutí tříd do jednotného balíčku, 
-rozdělení tříd na více malých, zkrácení dlouhých metod a zmenšení počtu parametrů metod.
+rozdělení tříd na více malých, zkrácení dlouhých metod,z menšení počtu parametrů metod a nahrazení výjimek za návratové typy.
 
 \subsection{Servisní třídy}
 Pro větší přehlednost byly všechny servisní třídy do nadřazeném balíčku \uv{service}. 
@@ -897,11 +902,11 @@ Změnu lze demonstrovat například na třídě zajišťující získávání da
 nadřazených balíčků, kdy název samotné třídy je v prvním případě \textit{ParserImpl}.
 
 \subsection{Řízení aplikace}
-Řízení aplikace, především v DataProvideru byl program řízen pomocí výjimek, které představovaly problémy popsané v návrhu na vylepšení.
+Řízení aplikace, především v DataProvideru bylo řízeno pomocí výjimek, které způsobovaly problémy popsané v návrhu na vylepšení.
 V návaznosti na tento návrh tak byly odstraněny a nahrazeny úpravou návratového typu, který obsahuje příznak výsledku 
-a příslušné informace, což jsou data validní odpovědi, či informace o zjištěné chybě, například v získaných datech.
+a příslušné informace o něm.
 \par
-Návratový typ, lze lze demonstrovat na následují zkrácené třídě \textit{DPParserRespose}, která je vrácena v DataProvider modulu
+Návratový typ, lze demonstrovat na následují zkrácené třídě \textit{DPParserRespose}, která je vrácena v DataProvider modulu
 po provedení parsování.
 
 \begin{lstlisting}[language=Java]
@@ -945,15 +950,15 @@ public class DPParserResponse {
 }
 \end{lstlisting}
 
-Tato struktura je použita jako návratový typ pro rozhraní a implementaci části pro parsování hodnot 
+Tato struktura je použita jako návratový typ rozhraní a implementace části pro parsování hodnot 
 ze stažené stránky v modulu DataProvider. Ukazuje použití příznaku označující, zda parsování proběhlo korektně. Další důležitý prvek
-je zapouzdření proměnným uchovávající data a přístup k ním je možné pouze pomocí \textit{get} a \textit{set} metod. To zajišťuje 
-odstínění tříd, které k datům přistupují od implementačních detailů a odstínění od irelevantních detailů implementace \cite{encapsulation}.
-Metody \textit{get} jsou pak oproti standardnímu návrhu pozměněny tak, že nevrací přímo proměnnou, ale \textit{Optional} této proměnné.
-Optional je kontejner, který může nebo nemusí obsahovat prázdnou hodnotu \cite{optional}. Před přístup k hodnotě se proto musí nejdříve
-programátor objektu zeptat, zda obsahuje hodnotu. Mechanismus nutného ověření hodnoty, pak zamezuje nežádoucím výjimkám, především \textit{NullPointerException} \cite{nullPointerException}.
+je zapouzdření proměnným uchovávající data a přístup k ním je možný pouze pomocí \textit{get} a \textit{set} metod.
 \par
-Výjimky jsou tak použity pouze v případech, kdy nastal neočekávaný stav a je nutné přerušit následující akce.
+Třídy přistupující k datům, jsou tak odstíněny k implementačnímu detailu třídy a odstínění irelevantních detailů implementace \cite{encapsulation}.
+Metody \textit{get} jsou pak oproti standardnímu návrhu pozměněny tak, že nevrací přímo proměnnou, ale \textit{Optional} této proměnné.
+Optional je kontejner, který může nebo nemusí obsahovat prázdnou hodnotu \cite{optional}. Před přístupem k hodnotě je proto vyžadováno se objektu zeptat, zda obsahuje hodnotu. Mechanismus očividné demonstrace, že hodnota může být prázdná, pak zamezuje nežádoucím výjimkám, především \textit{NullPointerException} \cite{nullPointerException}.
+\par
+Po nahrazení návratovými typy, jsou pak výjimky použity pouze v případech, kdy nastal neočekávaný stav a je nutné přerušit následující akce.
 
 \subsection{Spouštění validací}
 Porovnání změn lze demonstrovat na analyzování získaných výsledků v modulu DataProvider. Hlavní změny v této části jsou tři.
@@ -964,26 +969,26 @@ do  \\
 \textit{cvut.fit.dataprovider.service.analyser}. 
 
 \par
-Druhá změna obsahuje změna rozhraní, kdy bylo potřeba
+Druhá změna představuje změnu rozhraní, kdy bylo potřeba
 zmenšit počet parametrů a odstranit výjimku, která byla vyhozena v případě nalezení chyby. 
 \par
-Třetí změna je poté samotné pouštění 
-validací. V původním řešení byla třída závislá na všech příslušných validací, které spouštěla a navíc skončila při první chybě, což je jedna 
-z příčin chování, které jsem popsal v kapitole poukazující na možnosti spojit chyby analyzátoru \autoref{analyser-join}
+Třetí změna je poté samotné spouštění 
+validací. V původním řešení byla třída závislá na všech příslušných validací, které spustila, ale skončila při první chybě, což je jedna 
+z příčin chování, které jsem popsal v kapitole poukazující na možnosti spojení chyb analyzátoru \autoref{analyser-join}.
 \par
 Vytvořil jsem nový návrh, který je pak použit i na ostatních místech interní části v závislosti na
-prováděných vylepšení. Servisní třídě jsem odebral jednotlivé závislosti na validacích a nahradil je množinou 
+prováděných vylepšení. Analyzující servisní třídě jsem odebral jednotlivé závislosti na konkrétních validacích a nahradil je množinou 
 obsahující validační rozhraní. Validační rozhraní je pak nastaveno v konfiguračním souboru automatické správy závislostí, kde je možné
 definovat jaké validace se mají použít.
 \par
-Validačnímu rozhraní byl změněn návratový typ na \textit{Optional} případné chyby
-nebo prázdnou hodnotu \textit{Optional}. Implementace těchto rozhraní pak zahrnovala kontrolu jednotlivých hodnot.
-Při úpravě validací, aby odpovídaly novému rozhraní jsem zjistil, že základní validace lze rozdělit na dvě skupiny, validace řetězce a čísla.
+Validačnímu rozhraní byl také změněn návratový typ na \textit{Optional} případné zprávy o chybě. Pokud chyba nenastala je vrácena
+prázdná hodnota. Implementace těchto rozhraní byly rozděleny podle toho, jakou hodnotu kontrolují.
+Při úpravě validací jsem zároveň zjistil, že základní validace lze rozdělit na dvě skupiny, validace řetězce a čísla.
 \par
 V případě těchto skupin se vytvořený kód lišil pouze v jaká hodnota se má získat ze získaných dat a z dat již uložených.
 Poslední rozdíl byl poté pouze v chybové hlášce. Z toho důvodu jsem společnou logiku obou skupin implementoval
-pomocí abstraktní a generické třídy \textit{AbstractAnalysis}. Vlastnosti skupin pak obsahují třídy \textit{AbstractStringAnalysis} 
-a \textit{AbstractPriceAnalysis}. Výsledná základní validace kontrolující, zda získaná hodnota odpovídá nějaké historické hodnotě
+pomocí abstraktní a generické třídy \textit{AbstractAnalysis}. Vlastnosti jednotlivých skupin pak obsahují třídy \textit{AbstractStringAnalysis} 
+nebo \textit{AbstractPriceAnalysis}. Výsledná základní validace kontrolující, zda získaná hodnota odpovídá nějaké historické hodnotě
 vypadá následovně:
 
 \begin{lstlisting}[language=Java]
@@ -1092,24 +1097,113 @@ obsahuje více zřetězených volání.
 
     }
 \end{lstlisting}
-\section{Oprava komunikace Manager - ProductProvider}
-
 
 
 \section{Plánování práce}
-Implementoval jsem rozhraní, které na základě adresy 
-vrátí příznak, zda adresa splňuje nebo nesplňuje prochází kontrolou. Příslušná třída poté
-kolekci těchto rozhraní, aniž by znala jejich implementaci použije, tak že iteruje těmito kontrolami a pokud
-splňuje adresa všechny kontroly adresu použije a vytvoří pomocí ní požadavek.
+Plánování práce bylo rozděleno do tříd částí, nalezení adres, vytvoření požadavků a samotné odeslání.
+Tato kapitola se pak týká pouze samotného nalezení adres, které je požadováno použít v dalším zpracování.
+\par
+V rámci hledání samotných adres byly implementovány servisní třídy, které samotné adresy hledají podle kritérií popsaných v 
+návrhu. Následně jsou vráceny, ale rozdělené dle způsobu nalezení. Nalezení adres nově počítá i s frekvencí, 
+která je nastavena u aktivní kampaně.
+\par
+Nalezené adresy všechny typů je poté nutné dále vyfiltrovat o nežádoucí stavy. K tomuto účelu jsem navrhl rozhraní kontrol, rozhodující 
+o tom, zda je požadované adresu použít. Návrh se pak podobá spuštění kontrol analyzátoru.
+
+\section{Oprava komunikace Manager - ProductProvider}
+Důležitý prvek samotné opravy komunikace modulů Manager a ProductProvider je samotné vytváření požadavků z nalezených adres.
+Vzhledem k změně rozhraní, které zachovává způsob nalezení, stačilo vytvořit ostatní části Managera, tak aby odpovídali novému rozhraní.
+\par
+Celý proces v Managerovi je rozdělen do tří částí a to nalezení adres, vytvoření požadavků a samotné odeslání. Hlavní metoda servisní třídy \textit{DPRequestSenderServiceImpl} vypadá následovně:
+\begin{lstlisting}[language=Java]
+    /**
+     * Creates requests and sends them.
+     *
+     * @throws MQConnectionException when sending fails
+     */
+    @Override
+    public void createRequests() throws MQConnectionException {
+        ProductUrlSets requiredProductUrls = prioritizeService.findRequiredProductUrls();
+
+        DPRequestProductUrlWrapper dpRequestWrapper = requestBuilderService.create(
+                requiredProductUrls);
+
+
+        senderService.sendDPRequests(dpRequestWrapper);
+    }
+\end{lstlisting}
+Vzhledem ke změně celému procesu neuvádím původní kód, jelikož jeho architektura je značně odlišná. Vytváření bylo v předchozím
+řešení ve stejné třídě, která zajišťovala i odesílání. Nový návrh vytváření požadavků tento proces deleguje do nové 
+třídy \textit{DPRequestBuilderServiceImpl}. Návratový typ této třídy pak slučuje množinu požadavků obsahující adresy bez produktů a 
+ty v aktivní kampani, jelikož po vytvoření požadavků, již není potřeba odlišné chování k takovým požadavkům. Vzhledem k potřebě 
+pracovat entitou obsahující adresu detailu i při odesílání požadavků, obsahuje \textit{DPRequestProductUrlWrapper}
+množiny obsahující dvojice požadavek a adresa detailu.
+
+
+\subsection{Odesílání požadavků}
+Odesílání požadavků jsem upravil, aby odpovídalo novému návrhu. Před odesláním je každý požadavek uložen do databáze a nastaven
+příznak o zpracování. V případě neočekávané chyby při odesílání, jsou tyto příznaky změněny na údaj obsahující informaci
+o chybném odeslání.
+\par
+Samotné odeslání má však u všech požadavků stejný postup. Nejprve jsem proto extrahoval části obsahující ukládání a změnu stavu požadavků či chyb do samostatné třídy
+\textit{DPRequestPersistServiceImpl}. Poté jsem využil nativního rozhraní Java 8 \textit{Consumer<T>}, které reprezentuje
+operaci, která přijímá jeden vstup a nevrací žádný výsledek. Rozhraní jsem použil k reprezentaci operace uložení a
+změny stavu v případě chyby.
+\par
+\begin{lstlisting}[language=Java, caption={Společná metoda zajišťující odeslání DataProvider požadavků}]
+    /**
+     * Sends request via {@link RequestHandler}.
+     * Request is first persisted via {@link PersistanceDPRequestFacade} and it's id is set to the request in wrapper
+     * object. If failure while sending object through MQ occurs, then {@link Consumer} failureHandler is called,
+     * exception logged and rethrown.
+     * Package private because of static code analysis.
+     *
+     * @param requestProductUrl wrapped object containing {@link cvut.fit.persistence.entity.ProductUrl}, {@link DataProviderRequest}
+     * @param persistConsumer   persisting consumer that is called before sending
+     * @param revertConsumer    revert consumer that is called in case of sending failure
+     */
+    void send(DPRequestProductUrl requestProductUrl,
+              Consumer<DPRequestProductUrl> persistConsumer,
+              Consumer<DPRequestProductUrl> revertConsumer) {
+        try {
+            persistConsumer.accept(requestProductUrl);
+            providerRequestHandler.send(
+                    requestProductUrl.getDataProviderRequest());
+        } catch (MQConnectionException e) {
+            revertConsumer.accept(requestProductUrl);
+            logger.error("Sending dataProviderRequest error.", e);
+            throw new IllegalStateException(e);
+        }
+    }
+\end{lstlisting}
+
+
+Zde je nutné podotknou důvod, proč není vrácena opět \textit{MQConnectionException} po odchytnutí a zpracování. 
+Důvodem je zvolený způsob iterace nad objekty a samotného volání odesílací metody.
+Metoda je volaná pomocí rozhraní umožňující prvky funkcionálního programování v jazyce Java. Neumožňuje však volat
+metodu vyhazující výjimku rozšiřující třídu \textit{Exception}.
+Tento nedostatek architektury lze pak vyřešit pomocí \textit{IllegalStateException}, která potomkem třídy \textit{Exception} není.
+\par
+
+\begin{lstlisting}[language=Java, caption={Příklad volání metody odesílající požadavky}]
+        dpRequestWrapper.getAnalyserErrors().forEach(x -> send(
+                x,
+                dpRequestPersistService::persistRequestAnalyserError,
+                dpRequestPersistService::revertRequestAnalyserError
+                )
+        );
+\end{lstlisting}
+
 
 \section{Spojení chyb analyzátoru}
+
 
 \section{Monitorování}
 Na virtuální server jsem nasadil službu DataDog \cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
 a vytížení serveru. Data jsou odesílány přímo do služby DataDog. Webové rozhraní poté umožňuje sledovat posbírané údaje.
-
+\par
 Základní funkcionalita poskytuje pouze informace o využití prostředků. Službu je však možné rozšířit o velký počet doplňků. Pomocí těch je pak možné sledovat
-například stav buildu v Jenkins nebo obsah a využití RabbitMQ front.
+například výsledek sestavení v Jenkins nebo obsah a využití RabbitMQ front.
 
 
 \section{Získání adres obchodů a příslušných detailů produktů}
@@ -1133,7 +1227,7 @@ pro tento proces, bylo vytvořeno již v rámci týmového projektu a lze tedy p
 
 
 \section{Párování produktu}
-Byl navržen proce, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
+Byl navržen proces, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
 Pokud se spárování nepodaří, jsou provedeny heuristiky hledající pravděpodobné shody. Z množiny těchto možností je pak 
 vytvořena chyba, kterou musí zpracovat administrátor.
 \par
