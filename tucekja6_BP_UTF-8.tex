@@ -712,7 +712,7 @@ Toto použití je však v rozporu ideou použití výjimek, které mají signali
 Pro uchování přídavných informací bylo nutné vytvářet výjimky vlastní, tak aby byl k údajům možný pozdější přístup.
 \par
 V kritických částek dále chyběly některé důležité testy, jelikož třídy snažící se dělat více věcí najednou by bylo velmi
-složité otestovat. Chybějící testy se vykytovaly například u následujících částí: databázová vrstva, vytváření požadavků pro DataProvider,
+složité otestovat. Chybějící testy se vykytovaly například u následujících částí: databázová vrstva, fasády, vytváření požadavků pro DataProvider,
 hlavní servisní třída DataProvideru nebo validace dat analyzátorem. Z tohoto důvodu jakákoliv oprava nebo implementace nových požadavků 
 mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. Tím by mohla být jakákoliv změna velmi časově náročná a s velmi nejistým konečným výsledkem.
 
@@ -1107,7 +1107,7 @@ V rámci hledání samotných adres byly implementovány servisní třídy, kter
 návrhu. Následně jsou vráceny, ale rozdělené dle způsobu nalezení. Nalezení adres nově počítá i s frekvencí, 
 která je nastavena u aktivní kampaně.
 \par
-Nalezené adresy všechny typů je poté nutné dále vyfiltrovat o nežádoucí stavy. K tomuto účelu jsem navrhl rozhraní kontrol, rozhodující 
+Nalezené adresy všechny typů jsou poté vyfiltrovány o nežádoucí stavy. K tomuto účelu jsem navrhl rozhraní kontrol, rozhodující 
 o tom, zda je požadované adresu použít. Návrh se pak podobá spuštění kontrol analyzátoru.
 
 \section{Oprava komunikace Manager - ProductProvider}
@@ -1132,8 +1132,7 @@ Celý proces v Managerovi je rozdělen do tří částí a to nalezení adres, v
         senderService.sendDPRequests(dpRequestWrapper);
     }
 \end{lstlisting}
-Vzhledem ke změně celému procesu neuvádím původní kód, jelikož jeho architektura je značně odlišná. Vytváření bylo v předchozím
-řešení ve stejné třídě, která zajišťovala i odesílání. Nový návrh vytváření požadavků tento proces deleguje do nové 
+Vzhledem v zásadní změně architektury neuvádím původní kód, jelikož celkový způsob vytváření požadavků je značně odlišný a není proto možné jednoduché porovnání. Vytváření bylo v předchozím řešení ve stejné třídě, která zajišťovala i odesílání. Nový návrh vytváření požadavků tento proces deleguje do nové 
 třídy \textit{DPRequestBuilderServiceImpl}. Návratový typ této třídy pak slučuje množinu požadavků obsahující adresy bez produktů a 
 ty v aktivní kampani, jelikož po vytvoření požadavků, již není potřeba odlišné chování k takovým požadavkům. Vzhledem k potřebě 
 pracovat entitou obsahující adresu detailu i při odesílání požadavků, obsahuje \textit{DPRequestProductUrlWrapper}
@@ -1185,7 +1184,7 @@ metodu vyhazující výjimku rozšiřující třídu \textit{Exception}.
 Tento nedostatek architektury lze pak vyřešit pomocí \textit{IllegalStateException}, která potomkem třídy \textit{Exception} není.
 \par
 
-\begin{lstlisting}[language=Java, caption={Příklad volání metody odesílající požadavky}]
+\begin{lstlisting}[language=Java, caption={Volání metody, která odesílá požadavky}]
         dpRequestWrapper.getAnalyserErrors().forEach(x -> send(
                 x,
                 dpRequestPersistService::persistRequestAnalyserError,
@@ -1194,7 +1193,31 @@ Tento nedostatek architektury lze pak vyřešit pomocí \textit{IllegalStateExce
         );
 \end{lstlisting}
 
-
+\subsection{Komunikační objekt a využití stažené stránky}
+Po úspěšném odeslání je třeba staženou stránku použít pokud existuje. Nejprve bych pak chtěl popsat změnu komunikační třídy \textit{DataProviderRequest}.
+Tato komunikační třída představuje jeden požadavek odeslaný pomocí front a skládá se z jednotlivých základních atributů a fragmentů.
+Fragmentem je zde myšleno složitější struktura, například komunikační třída obsahující informace o produktu. Některé tyto atributy
+či fragmenty však nemusejí být nastaveny, konkrétně stažená stránka, produkt nebo šablona. U těchto atributů a fragmentů jsem proto provedl změnu u \textit{get}, aby vracely kontejner \textit{Optional}. Tím bylo jasně indikovaná možnost, že hodnoty nemusí být obsaženy.
+\par
+V rámci DataProvider pak pouze stačilo, vytvořit při přístupu k jednomu z těchto atributů nebo fragmentu, dvě možné větvení aplikace.
+Například pokud byla stránka obsažena v požadavku, byla vytvořena validní odpověď o stažení obsahující tuto stránku, což je demonstrováno na 
+následující ukázce:
+\begin{lstlisting}[language=Java, caption={Veřejná metoda třídy \textit{DPDownloaderServiceImpl} zajišťující stažení detailu produktu}]
+    /**
+     * Downloads requested page and returns {@link DownloaderResponse} object.
+     *
+     * @param dataProviderRequest the request containing url to be downloaded
+     * @return DownloaderResponse encapsulating downloaded data or error
+     */
+    @Override
+    public DownloaderResponse download(DataProviderRequest dataProviderRequest) {
+        return dataProviderRequest.getDownloadedPage()
+                        .map(x -> new DownloaderResponse(Jsoup.parse(x)))
+                        .orElseGet(
+                                () -> doDownload(dataProviderRequest)
+                        );
+    }
+\end{lstlisting}
 \section{Spojení chyb analyzátoru}
 
 
@@ -1233,6 +1256,9 @@ vytvořena chyba, kterou musí zpracovat administrátor.
 \par
 Pro tuto možnost a zpracování bylo poté nutné vytvořit webové rozhraní, které administrátorovi umožňuje jednoduché přiřazení 
 adresy k produktu nebo všechny možnosti odmítnout.
+
+
+\section{Detekce neexistující stránky a nenalezeného produktu}
 
 \chapter{Zhodnocení provedených vylepšení}
 
