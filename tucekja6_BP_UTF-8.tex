@@ -587,7 +587,7 @@ jednoduše kontrolovat, zda jsou správně napsané všechny testy.
 
 \chapter{Zhodnocení týmového projektu}
 Pro nutnost návaznosti na kapitolu o vylepšeních je nejprve nutné uvést v jakém kontextu jsou vylepšení navrhovány. K tomu je třeba
-popsat výsledný stav týmového projektu a jeho funkcionalitu. 
+popsat výsledný stav projektu a jeho funkcionalitu. 
 
 \section{Pojmy}
 
@@ -607,11 +607,11 @@ Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze
 chyb vzniklých v interní části.
 Uživatelská část umožňovala správu a vytvoření kampaně či kampaní. Implementace kampaní pak splňovala návrh z analytické částí,
 která byla zmíněna výše.
-Na žádost jiného týmu jsme také vytvořili REST rozhraní, poskytující získané ceny pro danný produkt.
+Na žádost jiného týmu jsme také vytvořili REST rozhraní, poskytující získané ceny pro daný produktu.
 \par
 Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. 
-Manager dokázal vybrat produkty, které jsou v aktivní kampani a je třeba je aktualizovat.
-Na základě výsledků poté vybral potřebná data a odeslal požadavek pomocí front pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a informacích o produktu. 
+Manager dokázal zjistit vybrat produkty, které jsou v aktivní kampani a je třeba je aktualizovat.
+Na základě výsledků poté vybral potřeba data odeslal požadavek pomocí pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a informacích o produktu. 
 \par
 Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
 V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný a byla odeslána chyba
@@ -638,7 +638,7 @@ následujícím pořadí, z kterého následně vybral první 10:
 \item Adresy, které mají vyřešenou chybu
 \end{itemize}
 
-Z této množiny byly poté odebrány odeslané a s nevyřešenou chybu. Opakované spuštění v předefinovaném intervalu poté 
+Z této množiny byly poté odebrány odeslané a ty které mají nevyřešenou chybu. Opakované spuštění v předefinovaném intervalu poté 
 zajistilo, že požadavky byly vytvořeny pro všechny požadované adresy.
 
 \subsection{Neefektivní chování modulu Manager a ProductProvider}
@@ -695,7 +695,7 @@ Zde bych rád zmínil například dlouhé a nepřehledné metody v
 nepřesahovala 60 řádků bylo velmi obtížné zjistit, co mají vykonávat. Problém byly také velké třídy
 jako například \uv{DataProviderServiceImpl} zajišťující celý proces v modulu DataProvider, který byl již zmíněn a popsán výše.
 \par
-Je nutné podotknout, že spoustu špatných konstrukcí bylo eliminováno již v průběhu vývoje týmového projektu.
+Je nutné podotknou, že spoustu špatných konstrukcí byly eliminovány již v průběhu vývoje týmového projektu.
 První důvod byla automatická analýza kódu detekující mnoho konstrukcí, které by se neměly v kódu vyskytovat. Automatická analýza
 však nebyla schopná najít všechny problémy. Druhý důvod byla moje kontrola při schvalování vytvořeného kódu pro 
 zadaný úkol. Z důvodu časové tísně, ale nebyl vždy čas na to vrátit kód k přepsaní a opravení všech chyb. To způsobilo, že
@@ -716,8 +716,8 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-old-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-old-2}
-	\caption[Pokrytí testy vytvořeného řešení]{Vizualizace pokrytí testy vytvořeného řešení pomocí nástroje Cobertura v
-	Jenkins s instalovaným příslušným doplňkem}\label{fig:dp-dia}
+	\caption[Pokrytí testy vytvořeného řešení]{Pokrytí testy vytvořeného řešení. Získáno pomocí nástroje Cobertura. Vizualizace
+	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:dp-dia}
 \end{figure}
 
 
@@ -806,7 +806,7 @@ Nežádoucí stavy jsou momentálně tyto:
 Stavy je tedy potřeba implementovat ideálně takovým způsobem, kdy bude velmi jednoduché 
 kdykoliv kontrolu přidat nebo odebrat.
 
-\section{Spojení chyb analyzátoru}
+\section{Spojení chyb analyzátoru} \label{analyser-join}
 V případě detekce možné chyby při analyzování získaných požadavků jsou vytvářeny chyby, které jsou určeny pro vyřešení administrátorem.
 Zde je nutné požadováno chyby spojit do jedné, tak aby administrátor mohl vyřešit všechny možné chyby analyzátoru najednou.
 Po úpravě samotného DataProvideru, tak aby nechal proběhnout všechny kontroly a neskončil při první chybě, je výsledek uložen do databáze
@@ -842,7 +842,8 @@ přesně shody některého z identifikátoru, což představuje název, modelov�
 Proces není možné zcela zautomatizovat, jelikož velká část internetových obchodů neposkytuje na svých stránkách validní informace.\cite{hunka}
 Buď obchod používá název, který není oficiální od distributora nebo jsou odlišné od uložených identifikátorů jako 
 modelové číslo nebo EAN kód. Odlišnosti těchto dvou identifikátorů může způsobit například jiná barva nebo přidaná velikost za nebo před modelové
-číslo. Jako řešení se jeví hledat podřetězec v nalezených hodnotách, což řeší i problém pokud je ze stránky vyparsován text okolo hodnoty, který s ní nesouvísí. Obchod také může poskytovat pouze název, což lze demonstrovat na obchodu \textit{glamot.cz}, například
+číslo. Jako řešení se jeví hledat podřetězec modelového čísla a EAN kódu, což řeší i problém pokud je ze stránky vyparsován text okolo
+identifikátoru. Obchod také může poskytovat pouze název, což lze demonstrovat na obchodu \textit{glamot.cz}, například
 pro produkt 
 \href{https://www.glamot.cz/p/19128/difuzer-k-vysouseci-babyliss-pro-difuser-murano}{BaByliss PRO Difuser Murano \textit{[cit. 24.4.2017]}}.
 \par
@@ -869,6 +870,8 @@ nastavit mechanismus maximálního stáří dat při použití nebo ověření z
 \chapter{Realizace vylepšení}
 Kapitola realizace vylepšení se věnuje implementovaným vylepšení. Popisuje jak byly navržené změny provedeny.
 V průběhu realizace byly objeveny nové nedostatky, z nichž některé byly také zpracovány, i když se s nimi původně nepočítalo.
+Změny jsou v repozitáři webového rozhraní a interní části označeny. Původní verze týmového projektu byla označena jako
+tag \textit{v0.53}, realizované vylepšení jsou poté označeny verzí \textit{v0.6}
 
 \section{Refaktorování stávajícího řešení}
 První krok realizace bylo refaktorování stávajícího řešení. Zde bylo provedeno především přesunutí tříd do jednotného balíčku, 
@@ -886,6 +889,12 @@ Servisní třídou jsou takové, které nespadají do ani jedné z těchto skupi
 \item Konfigurační soubory automatické správy závislostí
 \item Pomocné třídy
 \end{itemize}
+
+Třídy jsem poté pojmenoval pomocí nové konvence, kdy důležité servisní třídy obsahují prefix jakého modulu se týkají
+a postfix \textit{service}. Důvod byl větší přehlednost v projektu, kdy docházelo k podobným názvům napříč moduly.
+\par
+Změnu lze demonstrovat například na třídě zajišťující získávání dat ze stažené stránky. Třída \textit{cvut.fit.dataprovider.parser.ParserImpl} byla pak změněna na \textit{cvut.fit.dataprovider.service.parser.DPParserServiceImpl}. Následující řetězce uvádějí název včetně 
+nadřazených balíčků, kdy název samotné třídy je v prvním případě \textit{ParserImpl}.
 
 \subsection{Řízení aplikace}
 Řízení aplikace, především v DataProvideru byl program řízen pomocí výjimek, které představovaly problémy popsané v návrhu na vylepšení.
@@ -944,11 +953,147 @@ Metody \textit{get} jsou pak oproti standardnímu návrhu pozměněny tak, že n
 Optional je kontejner, který může nebo nemusí obsahovat prázdnou hodnotu \cite{optional}. Před přístup k hodnotě se proto musí nejdříve
 programátor objektu zeptat, zda obsahuje hodnotu. Mechanismus nutného ověření hodnoty, pak zamezuje nežádoucím výjimkám, především \textit{NullPointerException} \cite{nullPointerException}.
 \par
-Výjimky jsou tak použity pouze v případech, kdy nastal neočekávaný stav a je nutné přerušit následující akce. 
+Výjimky jsou tak použity pouze v případech, kdy nastal neočekávaný stav a je nutné přerušit následující akce.
 
+\subsection{Spouštění validací}
+Porovnání změn lze demonstrovat na analyzování získaných výsledků v modulu DataProvider. Hlavní změny v této části jsou tři.
+\par
+První je přesunutí hlavního rozhraní \textit{Analyser} a jeho implementace
+\textit{AnalyserImpl} z balíčku \textit{cvut.fit.dataprovider.analyser} 
+do  \\
+\textit{cvut.fit.dataprovider.service.analyser}. 
 
+\par
+Druhá změna obsahuje změna rozhraní, kdy bylo potřeba
+zmenšit počet parametrů a odstranit výjimku, která byla vyhozena v případě nalezení chyby. 
+\par
+Třetí změna je poté samotné pouštění 
+validací. V původním řešení byla třída závislá na všech příslušných validací, které spouštěla a navíc skončila při první chybě, což je jedna 
+z příčin chování, které jsem popsal v kapitole poukazující na možnosti spojit chyby analyzátoru \autoref{analyser-join}
+\par
+Vytvořil jsem nový návrh, který je pak použit i na ostatních místech interní části v závislosti na
+prováděných vylepšení. Servisní třídě jsem odebral jednotlivé závislosti na validacích a nahradil je množinou 
+obsahující validační rozhraní. Validační rozhraní je pak nastaveno v konfiguračním souboru automatické správy závislostí, kde je možné
+definovat jaké validace se mají použít.
+\par
+Validačnímu rozhraní byl změněn návratový typ na \textit{Optional} případné chyby
+nebo prázdnou hodnotu \textit{Optional}. Implementace těchto rozhraní pak zahrnovala kontrolu jednotlivých hodnot.
+Při úpravě validací, aby odpovídaly novému rozhraní jsem zjistil, že základní validace lze rozdělit na dvě skupiny, validace řetězce a čísla.
+\par
+V případě těchto skupin se vytvořený kód lišil pouze v jaká hodnota se má získat ze získaných dat a z dat již uložených.
+Poslední rozdíl byl poté pouze v chybové hlášce. Z toho důvodu jsem společnou logiku obou skupin implementoval
+pomocí abstraktní a generické třídy \textit{AbstractAnalysis}. Vlastnosti skupin pak obsahují třídy \textit{AbstractStringAnalysis} 
+a \textit{AbstractPriceAnalysis}. Výsledná základní validace kontrolující, zda získaná hodnota odpovídá nějaké historické hodnotě
+vypadá následovně:
 
+\begin{lstlisting}[language=Java]
+/**
+ * NameAnalysis is extension of {@link AbstractStringAnalysis} for analysing Name.
+ *
+ * @author Jakub Tucek
+ * @created 27.1.2017
+ */
+public class NameAnalysis extends AbstractStringAnalysis {
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    boolean skipAnalysis(DataProviderRequest request) {
+        Optional<ComAnalyserFlags> analyserFlags = request.getAnalyserFlags();
+        return analyserFlags.map(ComAnalyserFlags::isIgnoreDifferentName)
+                .orElse(false);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    Optional<String> getOptionalProperty(DPParserResponse parserResponse) {
+        return parserResponse.getName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    List<String> getComProductValues(ComProduct comProduct) {
+        return comProduct.getNames();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    AnalysisErrorMessage generateAnalysisErrorMessage(String comProductValue, String parsedValue) {
+        return new AnalysisErrorMessage()
+                .withErrorMessage(
+                        String.format("Parsed name value[%s] doesn't match known name value[%s]",
+                                parsedValue, comProductValue)
+                )
+                .withErrorType(AnalysisErrorType.DIFFERENT_NAME);
+    }
+}
+\end{lstlisting}
+\par
+Konečné spuštění validací bylo ve výsledku zkráceno na metodu obsahující jeden řádek kódu, ačkoliv tento řádek
+obsahuje více zřetězených volání.
+\par
+\begin{lstlisting}[language=Java, caption={Původní implementace hlavní metody ve třídě zajišťující spouštění validací analyzátoru}]
+    /**
+     * Analyses the new product info in comparison with the history
+     *
+     * @param newInfo        the new product info to be analysed
+     * @param newData
+     * @param oldInfo        the old product info
+     * @param productHistory the history of the product info   @throws AnalyserException when analysing fails, contains error type
+     * @param analyserFlags
+     */
+    @Override
+    public void analyse(ComProduct newInfo,
+                        ComProductHistory newData,
+                        ComProduct oldInfo,
+                        List<ComProductHistory> productHistory,
+                        ComAnalyserFlags analyserFlags) throws AnalyserException {
+        ValidatorData data = new ValidatorData(newInfo, newData, oldInfo, productHistory, analyserFlags);
+        try {
+            eanValidator.validate(data);
+            partNumberValidator.validate(data);
+            priceValidator.validate(data);
+            namesValidator.validate(data);
+        } catch (AnalyserException e) {
+            logger.info("Analysis failed for product id: {}", newInfo.getProductId(), e);
+            throw e;
+        }
+        if (!data.getWarnings().isEmpty()) {
+            //No handling neeeded at the moment
+        }
+    }
+\end{lstlisting}
+\par
+\begin{lstlisting}[language=Java, caption={Upravená implementace hlavní metody ve třídě zajišťující spouštění validací analyzátoru}]
+    /**
+     * Runs analysis for given {@link DataProviderRequest} and {@link DPParserResponse}.
+     * Error are returned as list of {@link AnalysisErrorMessage}.
+     * Injected set of {@link Analysis} is executed one by one, result unwrapped and kept if present.
+     * Set of analysis result error messages is returned.
+     *
+     * @param request        dp request
+     * @param parserResponse parsed data
+     * @return list of errors or empty (if result was valid)
+     */
+    @Override
+    public List<AnalysisErrorMessage> runAnalysis(DataProviderRequest request, DPParserResponse parserResponse) {
+        return analysisSet.stream()
+                .map(x -> x.analyse(request, parserResponse))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
+
+    }
+\end{lstlisting}
 \section{Oprava komunikace Manager - ProductProvider}
+
 
 
 \section{Plánování práce}
@@ -958,7 +1103,6 @@ kolekci těchto rozhraní, aniž by znala jejich implementaci použije, tak že 
 splňuje adresa všechny kontroly adresu použije a vytvoří pomocí ní požadavek.
 
 \section{Spojení chyb analyzátoru}
-
 
 \section{Monitorování}
 Na virtuální server jsem nasadil službu DataDog \cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
@@ -989,7 +1133,7 @@ pro tento proces, bylo vytvořeno již v rámci týmového projektu a lze tedy p
 
 
 \section{Párování produktu}
-Byl navržen proces, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
+Byl navržen proce, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
 Pokud se spárování nepodaří, jsou provedeny heuristiky hledající pravděpodobné shody. Z množiny těchto možností je pak 
 vytvořena chyba, kterou musí zpracovat administrátor.
 \par
@@ -999,17 +1143,17 @@ adresy k produktu nebo všechny možnosti odmítnout.
 \chapter{Zhodnocení provedených vylepšení}
 
 
+\section{Více identifikátorů}
+
+//TODO - popuze příprava
+
 \section{Pokrytí testy}
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-new-2}
-	\caption[Pokrytí testy po provedených vylepšení]{Vizualizace pokrytí testy nového řešení pomocí nástroje Cobertura v	Jenkins s instalovaným příslušným doplňkem}\label{fig:cober-new}
+	\caption[Pokrytí testy po provedených vylepšení]{Pokrytí testy po provedených vylepšení. Získáno pomocí nástroje Cobertura. Vizualizace
+	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-new}
 \end{figure}
-
-
-\begin{conclusion}
-	%sem napište závěr Vaší práce
-\end{conclusion}
 
 \bibliographystyle{csn690}
 
