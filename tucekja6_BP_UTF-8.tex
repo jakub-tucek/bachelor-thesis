@@ -663,9 +663,13 @@ možná chyba.
 \par
 V případě, že validační třída objevila nežádoucí data,
 vyhodila výjimku ve které byly uložené informace o chybě. Tento způsob řízení programu však způsoboval, že celá validace skončila při první chybě.
+Zároveň obsah výjimky pouze určoval typ validace bez přídavných informací.
 \par
 Informace byly následné odeslány a manager na jejich základě vytvořil chybu pro administrátora k vyřešení. Administrátor mohl 
-chybu označit jako chybnou. Na základě označení bylo poté vytvořeno nastavení, že daná chyba se má na celém obchodě ignorovat. V opačném případě se adresa přestala používat. Problém nastával pokud se na adrese objevilo více chyb. To znamenalo, že každý další požadavek vytvořil další
+poté označit, zda je to opravdu chyba nebo se má do budoucna ignorovat.
+\par
+V prvním případě se chyba přestala používat, v druhém byl vytvořen příznak označující, že se na daném obchodě vyskytují jiné identifikátory
+nebo skokové změny ceny a validační chyba byla zahozena. Problém nastával pokud se na adrese objevilo více chyb. To znamenalo, že každý další požadavek vytvořil další
 chybu analyzátoru a administrátor tak všechny vyřešit a při každém požadavku bylo nutné obsah adresy znova stáhnout.
 
 \subsection{Vytváření chyb šablon}
@@ -811,12 +815,15 @@ a příznaků o stavu odeslání.
 \par
 V případě refaktorování, pak stačí pouze ověřit zda se šablona vyskytuje v šabloně a v kladném případě opětovně nestahovat stránku.
 
-\section{Spojení chyb analyzátoru} \label{analyser-join}
-V případě detekce možné chyby při analyzování získaných požadavků jsou vytvářeny chyby, které jsou určeny pro vyřešení administrátorem.
+\section{Spojení chyb analyzátoru a vylepšení rozhraní} \label{analyser-join}
+Analyzátor provádí kontrolu získaných dat. V případě podezření o nevalidních datech je vytvořena chyba, určena k vyřešení
+administrátorem. Validace kontrolují ekvivalenci identifikátorů vůči již uloženým a cenám získaných v minulém hledání na daném obchodu.
+\par
+Administrátor má poté možnost chybu vyřešit a uložit příznak, aby se chyba do budoucna ignorovala. Toto rozhodnutí je však
+založené pouze na informaci obsahující jaká validace se nepovedla. Nemá tak možnost porovnat jaká data byla využita při validaci.
+\par
+V případě adresy, která obsahuje více chyb je nutné řešit každou samostatně, kdy je po každém vyřešení počkat na zpracování DataProviderem.
 Zde je nutné požadováno chyby spojit do jedné, tak aby administrátor mohl vyřešit všechny možné chyby analyzátoru najednou.
-Po úpravě samotného DataProvideru, tak aby nechal proběhnout všechny kontroly a neskončil při první chybě, je výsledek uložen do databáze
-Managerem. Úprava se týká i webového rozhraní, které tuto možnost neposkytuje.
-
 \section{Monitorování}
 Na virtuálním serveru probíhá sestavení aplikace, včetně všech jeho procesů. Dále zde běží vývojová a produkční verze interní i webové části.
 Momentální stav poskytuje pouze omezenou možnost, jak sledovat využití prostředků virtuálního serveru.
@@ -1177,7 +1184,7 @@ změny stavu v případě chyby.
 \end{lstlisting}
 
 
-Zde je nutné podotknou důvod, proč není vrácena opět \textit{MQConnectionException} po odchytnutí a zpracování. 
+Zde je nutné podotknou důvod, proč není po odchytnutí a zpracování výjimky vrácena opět \textit{MQConnectionException} . 
 Důvodem je zvolený způsob iterace nad objekty a samotného volání odesílací metody.
 Metoda je volaná pomocí rozhraní umožňující prvky funkcionálního programování v jazyce Java. Neumožňuje však volat
 metodu vyhazující výjimku rozšiřující třídu \textit{Exception}.
@@ -1218,15 +1225,33 @@ následující ukázce:
                         );
     }
 \end{lstlisting}
-\section{Spojení chyb analyzátoru}
-
+\section{Spojení chyb analyzátoru a vylepšení rozhraní}
+Oprava více četnosti chyb a samotného rozhraní je posloupnost několika oprav. První byla již zmíněna při odstranění přebytečných výjimek, což zajistilo spouštění
+všech validací. Další krok je změna komunikačního objektu, který nové musí uchovávat všechny chybné validace a přesnější informace
+o datech použitých při parsování.
+\par
+Původní řešení obsahovalo dvě třídy určené pro odpověď. Jedna představovala validní odpověď, \textit{DataProviderResponse}.
+Druhá chybu, \textit{DataProviderResponse}.
+\par
+Z důvodu velkého množství podobných atributů, obzvlášť po přidání vyparsovaných hodnotm, jsem změnil návrh těchto objektů.
+Z \textit{DataProviderResponseError} jsem odstranil společné atributy a jako jeho rodiče jsem zvolil přímo \textit{DataProviderResponse}.
+Chybná odpověď tak nové obsahovala i získané hodnoty. 
+\par
+Z hlediska Managera bylo potřeba tyto hodnoty nově uložit, jelikož předtím se ukládali pouze získané ceny. Vytvořil tedy jsem novou tabulku
+uchovávající informace o vyparsovaných hodnotách, které mohou být použity v případě zobrazení chyby administrátorovi.
+Dále bylo třeba uložit detailní informace o chybách, k čemuž jsem opět vytvořil novou tabulku, která je spojena vazbou 1:n s původní
+reprezentací chyby.
+\par
+Dále už pouze stačilo upravit webové rozhraní, aby odpovídalo změněné databázové struktuře. První změna se týkala samotného zobrazení
+informací o chybě. Využil jsem nově uložených dat. Administrátor má tak možnost vidět použité hodnoty při analyzování a všechny chyby.
+Poslední změna už pouze spočívala v zpracování vstupů od administrátora, kdy bylo potřeba uložit všechny možné příznaky pro 
+budoucí analyzování.
 
 \section{Monitorování}
 Na virtuální server jsem nasadil službu DataDog \cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
 a vytížení serveru. Data jsou odesílány přímo do služby DataDog. Webové rozhraní poté umožňuje sledovat posbírané údaje.
 \par
-Základní funkcionalita poskytuje pouze informace o využití prostředků. Službu je však možné rozšířit o velký počet doplňků. Pomocí těch je pak možné sledovat
-například výsledek sestavení v Jenkins nebo obsah a využití RabbitMQ front.
+Základní funkcionalita poskytuje pouze informace o využití prostředků a přístup k logům. Službu je však možné rozšířit o velký počet doplňků. Pomocí těch je pak možné sledovat například výsledek sestavení v Jenkins nebo obsah a využití RabbitMQ front.
 
 
 \section{Získání adres obchodů a příslušných detailů produktů}
