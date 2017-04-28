@@ -1306,6 +1306,8 @@ pouze se produkt pouze na obchodě nenachází (popř. stránka neexistuje).
 
 \section{Více šablon pro obchod}
 
+\section{Více stejných chyb}
+
 \section{Skladem}
 V rámci získávání dat u detailu produktu jsem přidal možnost získávat, zda je produkt skladem. 
 \par
@@ -1343,7 +1345,7 @@ více nárokům na požadovanou funkcionalitu, je složena z daleko přehledněj
 Lepší udržovatelnost byla výrazná především při přidávání vylepšení, kdy tyto změny často byly triviální záležitost a po jejich provedení
 bylo zachována původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí testů a dekompozice tříd. Oproti původní řešení narostl počet jednotkových testů ze \textbf{170} na \textbf{492}. Pokrytí pak demonstruje následující vizualizace.
 
-\section{Pokrytí testy}
+\section{Pokrytí testy}t c
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-new-2}
@@ -1354,8 +1356,10 @@ bylo zachována původní funkcionalita. Toto dávám za důsledek především 
 Oproti původnímu řešení, vzrostlo pokrytí zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy pokrytá celá.
 Zbylé neotestované třídy jsou pak především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
 
-
-
+\section{Rozhraní administrátora}
+Systém se stal z hlediska pro administrátora uživatelsky přívětivější. Při řešení chyb je rozhraní přehlednější a informace o chybách
+obsáhlejší, což umožňuje rozhodnutí založené na více faktech. Dále byla také podstatně zrychleno celkové zpracování po odpadnutí nutnosti řešit
+každý požadavek, ať už se jedná šablona pro stejný obchod či více chyb analyzátoru.
 
 \bibliographystyle{csn690}
 
