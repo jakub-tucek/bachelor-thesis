@@ -1245,7 +1245,14 @@ reprezentací chyby.
 Dále už pouze stačilo upravit webové rozhraní, aby odpovídalo změněné databázové struktuře. První změna se týkala samotného zobrazení
 informací o chybě. Využil jsem nově uložených dat. Administrátor má tak možnost vidět použité hodnoty při analyzování a všechny chyby.
 Poslední změna už pouze spočívala v zpracování vstupů od administrátora, kdy bylo potřeba uložit všechny možné příznaky pro 
-budoucí analyzování.
+budoucí analyzování. Přidal jsem pak také možnost přesměrovat administrátora do rozhraní, kde může změnit šablonu pro parsování
+stránky, jelikož je možné, že analýza je chybná z důvodu změněné struktury stránky.
+
+\begin{figure}[h]\centering
+ 	\includegraphics[width=0.9\textwidth]{resources/analyser-err}
+	\caption[Webové rozhraní pro vyřešení chyby analyzátoru po provedení vylepšení]{Ukázka webového rozhraní administrátora po provedených vylepšení. 
+	Chyba byla vytvořená uměle za účelem prezentace změn.}\label{fig:analyser-error}
+\end{figure}
 
 \section{Monitorování}
 Na virtuální server jsem nasadil službu DataDog \cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
@@ -1256,10 +1263,11 @@ Základní funkcionalita poskytuje pouze informace o využití prostředků a p�
 
 \section{Získání adres obchodů a příslušných detailů produktů}
 Vzhledem pouze k malé možnosti využitelnosti implementované části v modulu Finder, především z důvodu dlouhých metod, které zajišťují
-základní stavební kámen tohoto modulu jsem se rozhodl modul Finder rozdělit. Myšlenkou rozdělení bylo oddělení části, která vyhledává na internetovém obchodu a části, která samotné obchody, které by mohly produkt nabízet hledá. 
+základní stavební kámen tohoto modulu jsem se rozhodl modul Finder rozdělit na dvě části. Část vyhledávající 
+na internetových obchodech adresy detailů a na část, která samotné obchody vyhledává.
 \par
 Implementována byla pouze první část, jelikož hledání samotných obchodů lze nahradit manuálním přidání obchodů na kterých chceme vyhledávat, případně 
-využít některý se seznamů internetových obchodů v České republice a ty manuálně vložit.
+využít některý se seznamů internetových obchodů v České republice a ty manuálně vložit do databáze.
 \par
 Module Finder byl zcela odstraněn a nahrazen modulem novým, nazvaným ProductDetailProvider.
 Tento modul zajišťuje hledání detailů produktu, což je dosaženo na základě šablony pro daný e-shop, která obsahuje 
@@ -1269,9 +1277,9 @@ tyto atributy:
 \item oddělovač slov v url adrese
 \item selektory pro výběr url adres vedoucí na detaily produktu
 \end{itemize}
-Pro samotné vytvoření požadavku je nutné kritérium existence pouze částečné šablony, která obsahuje informace jak na obchodě vyhledávat.
-Tento požadavek poté vytvoří chybu pro administrátora, aby specifikoval jak na stránce vyhledávat detaily adres. Webové rozhraní
-pro tento proces, bylo vytvořeno již v rámci týmového projektu a lze tedy použít.
+Pro samotné vytvoření požadavku je nutná existence částečné šablony, která obsahuje informace jak na obchodě vyhledávat.
+Po pokusu nalezení adres se vytvoří chyba pro administrátora, aby specifikoval jak na stránce vyhledávat samotné detaily adres. Webové rozhraní
+pro tento proces, bylo vytvořeno již v rámci týmového projektu a bylo tedy využito.
 
 
 \section{Párování produktu}
@@ -1284,13 +1292,56 @@ adresy k produktu nebo všechny možnosti odmítnout.
 
 
 \section{Detekce neexistující stránky a nenalezeného produktu}
+V případě použití interního vyhledávání byl běžný stav, kdy pro hledanou hodnotu nebyl nalezený žádný produkt, což 
+systém zpracoval jako chybnou adresu, jelikož se nepodařilo získat žádnou adresu detailu. Podobný případ byl při nalezení adresy detailu, která
+ač je obchodem vrácena jako výsledek, tak reálně neexistuje. I pro tuto možnost byla vytvořena chyba šablony, akorát pro jiného typu, jelikož stránka neobsahovala žádné hodnoty.
+\par
+Jako řešení jsem nejprve zvolil řešení, kdy jsem se pokoušel stránku, kde není žádný výsledek porovnat se stránkou, která
+byla na obchodě vrácena pro náhodný a nesmyslný řetězec dlouhé délky. Myšlenka byla, že pokud produkt opravdu neexistuje bude
+pro nesmyslné hledání vrácena podobná stránka.
+\par
+Problém toho řešení se ukázala přílišná odlišnost HTML stažených stránek a specifičnost obchodů, kde tento algoritmus fungoval.
+Proto jsem zvolil řešení, kdy administrátor má při řešení chyby možnost zadat řetězec značící neexistenci produktu (popř. neexistující stránky detailu produktu). Tento řetězec je poté pro každý obchod specifický a před vytvořením příslušné chyby šablony je nejdříve zkontrolováno, zde
+pouze se produkt pouze na obchodě nenachází (popř. stránka neexistuje).
+
+\section{Více šablon pro obchod}
+
+\section{Skladem}
+V rámci získávání dat u detailu produktu jsem přidal možnost získávat, zda je produkt skladem. 
+\par
+Pro úpravu jsem upravil nejdříve rozhraní pro vytváření šablony a strukturu databáze, aby uchovávala atribut u šablony a výsledku parsování.
+Poté jsem pouze zajistil, aby byl tento atribut zahrnut v rámci komunikace modulu Manager a DataProvider, kde bylo potřeba zajistit
+správné uložení do komunikační třídy, samotné získání hodnoty a korektní uložení do databáze.
 
 \chapter{Zhodnocení provedených vylepšení}
+V této kapitole se budu nejprve věnovat konečné funkcionalitě systému. V návaznosti na výsledný stav poté popíšu jaké úpravy by byly 
+vhodné, aby tento stav řešily.
 
 
-\section{Více identifikátorů}
+\section{Funkcionalita}
 
-//TODO - popuze příprava
+Nejpodstatnější rozdíl při porovnání starého řešení a nového je samotná funkcionalita, která byla značně rozšířena. Především je možné
+reálné použití celého systému. Ačkoliv není schopný nalézt obchody samotné, poskytuje rozhraní pro jejich manuální přidání.
+\par
+Pokud je známo jaké obchody chceme sledovat, systém umožňuje reálný a kontinuální běh, který poskytuje výjimky. Nevýhodou a hlavní nedostatkem
+je zde však velký důraz na administrátora při prvotním nastavení. 
+\par
+I po provedení nutných úkonů jako samotné nastavení šablon parsování detailu, zbývá párování nalezených adres s produkty. Při testování
+bylo ověřeno, že velké množství obchodů neobsahuje správné nebo odlišené identifikátory produktů. Nejčastější je výskyt pouze jména, které
+neodpovídá tomu uloženému.
+\par
+Z toho důvodu je nutné párování
+provést ve velké množstvím případů manuálně. Systém se manuální párování snaží ulehčit rozhraním a návrhům, nicméně i při malém množstvím produktů
+hledaných na více obchodem je počet těchto chyb velmi rozsáhlých. 
+\par
+Problém párování by bylo možné pak vylepšit, pokud by systém uchovával více identifikátorů. Především více uložených jmen by pak zátěž na administrátora mohla klesnout.
+
+\section{Návrh a testy}
+Zásadní refactoring a změna návrhu komunikace tříd velmi pozměnila interní část. Interní část kromě toho, že vyhovuje
+více nárokům na požadovanou funkcionalitu, je složena z daleko přehlednějšího a lépe udržovatelného kódu. 
+\par
+Lepší udržovatelnost byla výrazná především při přidávání vylepšení, kdy tyto změny často byly triviální záležitost a po jejich provedení
+bylo zachována původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí testů a dekompozice tříd. Oproti původní řešení narostl počet jednotkových testů ze \textbf{170} na \textbf{492}. Pokrytí pak demonstruje následující vizualizace.
 
 \section{Pokrytí testy}
 \begin{figure}[h]\centering
@@ -1299,6 +1350,12 @@ adresy k produktu nebo všechny možnosti odmítnout.
 	\caption[Pokrytí testy po provedených vylepšení]{Pokrytí testy po provedených vylepšení. Získáno pomocí nástroje Cobertura. Vizualizace
 	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-new}
 \end{figure}
+
+Oproti původnímu řešení, vzrostlo pokrytí zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy pokrytá celá.
+Zbylé neotestované třídy jsou pak především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
+
+
+
 
 \bibliographystyle{csn690}
 
