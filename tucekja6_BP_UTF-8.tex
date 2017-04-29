@@ -94,13 +94,13 @@ otestovat a zhodnotit výsledný stav projektu.
 
 V této kapitole se budu nejprve zabývat samotnou problematikou získávání informací 
 z webů s důrazem na internetové obchody.
-Jelikož je tato problematika již řešena existujícími službami, existující služby zhodnotím.
+Jelikož je tato problematika již řešena existujícími službami, nejprve existující služby zhodnotím.
 
 \section{Problematika}
 Získávání informací z webů je efektivní možnost jak získat databázi informací, které se na internetu vyskytují.
 Tato činnost však stojí na problematice data získávat a uchovávat v potřebné struktuře, jelikož 
 jinak z dat nejsme schopni vyčíst potřebné informace.
-Vzhledem k specificitě dat, které jsou v kontextu činnosti zajímavá a dále kvůli unikátnosti webových stránek
+Vzhledem k specificitě dat, které jsou v kontextu činnosti zajímavá a kvůli unikátnosti webových stránek
 není možné jednoznačně určit jednotný a zcela automatizovaný postup, jak data získat v požadovaném formátu.
 
 \section{Výběr dat}
@@ -109,11 +109,14 @@ To je obvykle dosaženo roboty, kteří data stahují a lidské práce určujíc
 \par
 Získávání informací ze stažených stránek lze poté zjednodušit na problematiku určení elementů v HTML, které jsou pro 
 nás zajímavé.
-Lokaci elementu v HTML se kterým je potřeba pracovat lze poté jednoznačně určit například pomocí těchto dvou možností:
+Lokaci elementu v HTML se kterým je potřeba pracovat, lze poté jednoznačně určit například pomocí těchto dvou možností:
 \begin{enumerate}
 \item XPath
 \item CSS Selector
 \end{enumerate}
+
+Možnost jednoznačného určení elementů na stránce pak umožňuje vybrat pouze částí, které jsou v kontextu hledání zajímavé.
+Přesná struktura dat, která lze z vybraných dat vytvořit pak může sloužit k dalšímu zpracování.
 
 \section{XML Path Language}
 XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML\cite{XML}.
@@ -125,7 +128,7 @@ Díky této vlastnosti lze použít XPath pro definování cesty k prvku, který
 \par
 \section{CSS Selector}
 Jazyk CSS je používán pro vizuální popis prezentace webové stránky definované v HTML. K určení prvků se kterými
-pracuje používá selektory, které označují tento prvek v HTML Buď pomocí samotného prvku, přiřazené třídy nebo
+pracuje používá selektory, které označují tento prvek v HTML Buď pomocí samotného prvku, přiřazené třídy nebo nastaveného
 identifikátoru. Jako selektor může být použit jak samotný název prvku,
 tak vlastní definované třídy.\cite{CSS}
 \par
@@ -149,16 +152,15 @@ se skládají z následujících atributů:
 \item Dostupnost
 \end{enumerate}
 
-S těmito daty je poté možné dále pracovat, například při analýze konkurence schopnosti na trhu. \cite{hunka}
+S těmito daty je poté možné dále pracovat, například při analýze konkurence schopnosti na trhu nebo pokud potřebuje
+distributor sledovat za jaké ceny jsou prodávané jeho produkty. \cite{hunka}
 
 \subsection{Srovnávače cen}
 
 Data lze získat pomocí srovnávačů cen jako \textit{zbozi.cz}\cite{heureka} 
 nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb spočívá v určení pro koncové zákazníky, kterým umožňuje
-pro nalezení nejlepší ceny na trhu pro hledaný produkt. S tím souvisí to, že největší srovnávače cen neposkytují veřejně 
-svá data nebo rozhraní přes která by je bylo možné jednoduše získat.
-\par
-V rámci výzkumu pro bakalářskou práce jsem měl možnost nahlédnout do dat, které \textit{heuréka} poskytuje některým obchodům. \cite{hunka}
+nalezení nejlepší ceny na trhu pro hledaný produkt. S tím souvisí to, že největší srovnávače cen neposkytují veřejně 
+svá data nebo rozhraní přes která by je bylo možné jednoduše získat. V rámci výzkumu pro bakalářskou práci jsem měl možnost nahlédnout do dat, které \textit{heuréka} poskytuje některým obchodům. \cite{hunka}
 
 Data obsahují následující informace:
 \begin{itemize}
@@ -171,9 +173,9 @@ Data obsahují následující informace:
 \end{itemize}
 
 První zásadní nedostatek zprávy z jmenovaného srovnávače, se ukázal být logistický a to, že obchod musí být označen \uv{Ověřeno zákazníky},
-aby měl k datům přístup. Další nedostatek jsou data neobsahují konkrétní označení konkurenčních obchodů.\cite{heureka-report}
+aby měl k datům přístup. Další nedostatek jsou data neobsahující konkrétní označení konkurenčních obchodů.\cite{heureka-report}
 Vzhledem k povaze struktury a splatnosti generovaných dat je také nemožné ceny sledovat v časovém období.
-Ostatní srovnávače mají údajně výstup velmi podobný nebo jako bylo výše řečeno, data neposkytují. Díky tomu se ukázali
+Ostatní srovnávače mají údajně výstup velmi podobný, nebo, jak bylo výše řečeno, data neposkytují. Díky tomu se ukázaly
 srovnávače jako nedostatečný zdroj dat.\cite{hunka}
 
 
@@ -186,8 +188,8 @@ obchodem či na srovnávačích. Uživatel si zadá okruh či seznam produktů, 
 přímých napojením na e-shop. Následně je možné konkrétní data zobrazit v grafech označující vývoj cen, trendů či náhlých změn.
 Dále umožňují externí výstup do souboru v dostupných formátech.
 \par
-Největší rozdíl služeb je zda jsou data získávána přímo z obchodů nebo ze srovnávačích. Další odlišností je 
-možnost zda služba dokáže sledovat i zahraniční trh.
+Největší rozdíl služeb je zda jsou data získávána přímo z obchodů nebo ze srovnávačů. Další odlišností je 
+možnost, zda služba dokáže sledovat i zahraniční trh.
 \par
 Cena služeb se nejvíce odvíjí od počtu sledovaných produktů a četnosti aktualizací. Proto se měsíční platby mohou 
 pohybovat od stovek korun po desítek tisíc korun.
@@ -365,10 +367,9 @@ Web je datován roku 2015, avšak popis funkcí není dokončený. Obsahuje výp
 \newpage
 
 \subsection{Zahraniční nástroje}
-Tyto nástroje jsou obecněji zaměřené a obvykle požadují od uživatele techničtější zaměření, 
-jelikož je nutné přesně specifikovat kde, co a jak chce sledovat. Vzhledem k tomuto omezení
-nejsou přímo pro provozovatele e-shopů vhodné kvůli nedostatečným technickým kapacitám a 
-pro tuto práci důležité.
+Tyto nástroje jsou obecněji zaměřené a obvykle požadují od uživatele technické znalosti, 
+jelikož je nutné přesně specifikovat kde, co a jak je požadováno sledovat. Vzhledem k tomuto omezení, není možné
+použití přímo provozovateli e-shopů, jelikož těmito znalostmi z povahy práce obvykle nedisponují.
 \par
 Příklad zahraničních nástrojů:
 
@@ -400,8 +401,10 @@ Příklad zahraničních nástrojů:
 \newpage
 
 \chapter{Analýza týmového projektu}
-V kapitole analýza týmového se budu věnovat řešení vytvořeného v rámci školní výuky na ČVUT FIT v akademickém roce 2015/16.
-Nejprve popíšu cíl, který měl projekt za úkol řešit, jaké byly použité postupy při vývoji a mou roli v tomto projektu.
+V této kapitole se budu věnovat řešení vytvořeného v rámci školní výuky na ČVUT FIT v akademickém roce 2015/16.
+Nejprve popíši cíl, který měl projekt za úkol řešit a jaké byly použité postupy při vývoji. Budu se také věnovat
+základnímu návrhu aplikace, podle kterého byla následně implementována a hlavním použitým technologiím. V poslední části
+zmíním mou roli v týmovém projektu.
 
 \section{Cíl týmového projektu}
 
@@ -411,40 +414,58 @@ systému a v BI-SP2 implementován.
 Cíl který projekt řešil, byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz je především kladem na optimalizaci počtu nutných lidských úkonů administrátora u kterého se předpokládá minimální technické vzdělání.
 Jediná nutná problematika, co tak musí administrátor ovládat je parsování HTML stránek.
 \par
-Návrh popisuje rozdělení aplikace na část poskytující veškeré webový rozhraní a na část zpracovávající všechny interní procesy.
-Vzhledem k požadavkům na škálovatelnost aplikace, druhá část se skládá z více samostatných menších služeb - modulů komunikující
-spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu umožňující vytvářet více jeho instancí, je možné
-procesy zpracovávat paralelně. 
-Uživatelská a interní část spolu sdílejí data pomocí relační databáze\cite{DB}.
+
+\section{Požadovaná funkcionalita}
+Požadovaný stav projektu umožňuje uživateli vložit produkty do systému ve formátu \textit{cvs} či \textit{xlsx}, poté pomocí
+rozhraní definovat význam jednotlivých sloupců v tomto dokumentu a zvolit požadovanou frekvenci sledování dat.
+\par
+Systém na základě dat vyhledá ochody, které prodávají sledované produkty. Z nich poté v definovaných intervalech získává data. Z dat
+je poté vytvořen výstup pro uživatele obsahující získané informace, které
+se skládají především ze získaných cen. Výstup lze vizualizovat i na grafech ve webovém rozhraní nebo stáhnout ve formátu
+\textit{csv} či \textit{xlsx}.
+\par
+Proces samotného hledání byl navržen jako soubor více kroků, skládající se z procesů interní částí a interakcí administrátora, který zajišťuje
+řešení problémů, které systém nedokáže sám vyřešit.
+
+\section{Návrh}
+Řešení bylo rozděleno na část webového rozhraní a na část zpracovávající interní procesy, nazývanou v této práci 
+jako interní část.
+Vzhledem k požadavkům na škálovatelnost aplikace se druhá část skládá z více samostatných menších služeb - modulů komunikující
+spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu a je možné vytvářet více jeho instancí, procesy lze 
+zpracovávat paralelně a na více serverech, kde je jediné kritérium připojení na systém zajišťující komunikaci.
+\par
+Uživatelská a interní část pak spolu sdílejí data pomocí relační databáze\cite{DB}.
 
 \section{Webové rozhraní}
-Webové rozhraní lze rozdělit na dvě části. Uživatelskou část, obsahující množinu podstránek určených pouze pro konečné uživatele
+Webové rozhraní lze rozdělit na dvě části. Uživatelskou, obsahující množinu podstránek určených pouze pro konečné uživatele
 služby a část pro administrátory, sloužící k monitorování kampaní a řešení chyb. Webové rozhraní používá databázi, která pak 
 obsahuje všechny uložené a získané data.
 \par
 Uživatelská část umožňuje vytvořit kampaň. Kampaň je proces trvající určitý časový úsek, který sleduje vložené produkty na konkurenčních
 obchodech.
 V rámci těchto běžících kampaních má poté uživatel možnost uživatel vidět vizualizaci získaných dat, případně je umožněn export dat do formátu
-csv nebo xlsx. Získaná data obsahují, kde se sledované produkty nacházejí a za jakou cenu se prodávají.
+\textit{csv} či \textit{xlsx}. Získaná data obsahují, kde se sledované produkty nacházejí a za jakou cenu se prodávají.
 \par
-Druhá část je určena pouze pro administrátory a slouží k monitorování kampaní uživatelů a řešení chyb, které systém není schopný 
-automaticky vyřešit. Chyby jsou typicky problémy s parsováním webových stránek, párování produktu ke stránce nebo potvrzení zda jsou získaná data validní.
+Druhá část je určena pouze pro administrátory. Slouží k monitorování kampaní uživatelů a řešení problémů, které systém není schopný 
+automaticky vyřešit. Což je definování selektorů pro výběr dat z webových stránek, párování produktu ke stránce nebo potvrzení zda jsou získaná data validní.
 \section{Interní část}
 Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly je poté možné spustit jako služby ve více 
-instancích. Vzhledem k možnostem front, je pak možné práci distribuovat na více serverech, aniž by byla ohrožena bezpečnost
-databáze, jelikož k té je možný přístup pouze lokální. Moduly jsou detailně popsány v následujících podsekcích.
+instancích, kromě modulu Manager. Vzhledem k možnostem front, je pak možné práci distribuovat na více serverů, aniž by byla ohrožena bezpečnost
+databáze, jelikož k té je umožněný přístup pouze lokální. Moduly jsou detailněji popsány v následujících podsekcích.
 \subsection{Manager}
 Manager je hlavní modul, který má jako jediná interní část možnost připojení do databáze a jeho běžící instance může existovat pouze jednou.
-Manager má za úkol plánování práce pro ostatní části systému a zpracování vstupů a výstupů z front.
+Manager má za úkol plánování práce pro ostatní části systému a samotnou správu komunikace s ostatními moduly.
 \subsection{Finder}
-Finder je modul, který má za úkol získávat URL adresy internetových obchodů a na nich vyhledávat URL adresy vedoucí na požadované detaily produktů.
-Detailem produktu je myšlena webová stránka, kde jsou obsažený podrobné informace o prodávaném produktu. Obchody samotné jsou
-získávány pomocí vyhledávání na internetových srovnávačích. K vyhledání je použit název produktu. 
+Finder je modul, který má za úkol získávat URL adresy internetových obchodů, které prodávají požadované produkty.
+Na nalezeném obchodě poté vyhledávat adresy vedoucí na detail vyhledávaných produktů.
+\par
+Předpokládá se nemožnost přímo nalézt adresu vedoucí na detail produktu a proto je nutné ho pomocí interního vyhledávání obchodu takový
+detail nalézt pokud existuje. Detail produktu pak obsahuje podrobné informace o prodávaném produktu.
 \subsection{DataProvider}
 DataProvider je modul, který zpracovává adresy vedoucí na detaily produktu. Zde existují čtyři hlavní větve možností zpracování požadavků.
-Po stažení stránky, se z ní pokusí získat požadované
+Po stažení stránky se pokusí získat požadované
 hodnoty. V případě neúspěchu odešle příslušnou chybu, v opačném případě zanalyzuje korektnost získaných cen vůči historickým datům pokud
-existují. Výsledek je poté odeslán k zpracování  \uv{Managerem}.
+existují. Výsledek je poté odeslán k zpracování a uložení do databáze Managerem.
 
 \begin{figure}\centering
  	\includegraphics[width=0.8\textwidth]{resources/DataProvider-activity}
@@ -1304,9 +1325,25 @@ Problém toho řešení se ukázala přílišná odlišnost HTML stažených str
 Proto jsem zvolil řešení, kdy administrátor má při řešení chyby možnost zadat řetězec značící neexistenci produktu (popř. neexistující stránky detailu produktu). Tento řetězec je poté pro každý obchod specifický a před vytvořením příslušné chyby šablony je nejdříve zkontrolováno, zde
 pouze se produkt pouze na obchodě nenachází (popř. stránka neexistuje).
 
-\section{Více šablon pro obchod}
+\section{Více šablon detailů produktu}
+Původní návrh počítal s možností, kdy každý stránka pro detail produktu obsahuje stejnou strukturu napříč celým obchodem.
+Tento předpoklad se však ukázal jako chybný, kdy například v případě slevy je element obsahující cenu odlišný.
+\par
+Jiná struktura pak způsobila chybu šablony. Z toho důvodu jsem implementoval podporu alternativních šablon, které jsou
+použity v případě, že hlavní šablona selže. Uložení této šablony jsem zapracoval do rozhraní administrátora, kdy je třeba
+vyřešit chyby šablony detailu.
 
 \section{Více stejných chyb}
+Systém se i po změnách potýkal se stavem, kdy se v administrátorském rozhraní objevilo více chyb šablon nebo analyzátoru.
+Tento stav nastával v případě, kdy neexistovala šablona pro detail nebo vyhledávání na obchodě, což v případě více požadavků
+týkajícího se stejného obchodu, způsobilo vytvoření pro každý požadavek chybu.
+\par
+Chyby lze však predikovat a v případě neexistující šablony odeslat pouze jeden takový požadavek. Ačkoliv jsem pro tento 
+stav upravil plánování práce a zároveň přidal kontrolu, která kontroluje zda není takový požadavek již ve frontě, tak
+i přesto se stávalo, že administrátor byl zahlcen chybami. Zahlcení  v tomto způsobovala šablona, která přestala fungovat.
+\par
+Nejprve jsem upravil webové rozhraní, aby chyby týkající se stejné stránky zobrazovala v seznamu chyb pouze jednou. Po zpracování
+jsem poté přidal algoritmus, který nastaví všechny chyby stejného typu jako vyřešené, čímž odpadne nutnost administrátora všechny vyřešit.
 
 \section{Skladem}
 V rámci získávání dat u detailu produktu jsem přidal možnost získávat, zda je produkt skladem. 
@@ -1314,6 +1351,17 @@ V rámci získávání dat u detailu produktu jsem přidal možnost získávat, 
 Pro úpravu jsem upravil nejdříve rozhraní pro vytváření šablony a strukturu databáze, aby uchovávala atribut u šablony a výsledku parsování.
 Poté jsem pouze zajistil, aby byl tento atribut zahrnut v rámci komunikace modulu Manager a DataProvider, kde bylo potřeba zajistit
 správné uložení do komunikační třídy, samotné získání hodnoty a korektní uložení do databáze.
+
+\section{Ostatní}
+Při realizaci vylepšeních jsem také provedl několik menších změn a oprav, které jsem objevil při vývoji. Jedna ze základních a triviálních
+změn byla například oprava \textit{jar} souboru sestavené aplikace, která byla zbytečně veliká. Velikost byla způsobena externími knihovnami,
+které byly obsaženy v \textit{jar} vícekrát a to pro každý modul. Oprava pak spočívala pouze v přidání jednoho řádku
+do \textit{build.gradle}, který specifikuje strukturu projektu a nastavení sestavení pro gradle.
+\begin{lstlisting}[language=Java, caption={Nastavení sestavení \textit{jar} souboru, aby neduplikoval knihovny na kterých
+					jsou moduly závislé.}]
+        jar.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+\end{lstlisting}
+
 
 \chapter{Zhodnocení provedených vylepšení}
 V této kapitole se budu nejprve věnovat konečné funkcionalitě systému. V návaznosti na výsledný stav poté popíšu jaké úpravy by byly 
@@ -1345,7 +1393,6 @@ více nárokům na požadovanou funkcionalitu, je složena z daleko přehledněj
 Lepší udržovatelnost byla výrazná především při přidávání vylepšení, kdy tyto změny často byly triviální záležitost a po jejich provedení
 bylo zachována původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí testů a dekompozice tříd. Oproti původní řešení narostl počet jednotkových testů ze \textbf{170} na \textbf{492}. Pokrytí pak demonstruje následující vizualizace.
 
-\section{Pokrytí testy}t c
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-new-2}
@@ -1355,13 +1402,24 @@ bylo zachována původní funkcionalita. Toto dávám za důsledek především 
 
 Oproti původnímu řešení, vzrostlo pokrytí zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy pokrytá celá.
 Zbylé neotestované třídy jsou pak především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
+\par
+I po provedení těchto změn zůstalo omezení nemožnosti vytvoření více instancí jednotlivých modulů, nově ProductDetailProvider a DataProvider.
+Tato změna je však vzhledem k návrhu poměrně triviální, kdy pouze stačí přidat instanční rozhraní jednotlivých modulů, jelikož 
+momentálně jsou spouštěny přímo modulem Manager. Následující komunikace pak probíhá pouze přes fronty, tudíž není oddělení nezpůsobí
+další komplikace, kromě větší zátěže na nastavení infrastruktury nasazení aplikace na serveru.
 
 \section{Rozhraní administrátora}
 Systém se stal z hlediska pro administrátora uživatelsky přívětivější. Při řešení chyb je rozhraní přehlednější a informace o chybách
 obsáhlejší, což umožňuje rozhodnutí založené na více faktech. Dále byla také podstatně zrychleno celkové zpracování po odpadnutí nutnosti řešit
 každý požadavek, ať už se jedná šablona pro stejný obchod či více chyb analyzátoru.
 
+\chapter{Závěr}
+
+
+
 \bibliographystyle{csn690}
+
+
 
 \bibliography{mybibliografy}
 
