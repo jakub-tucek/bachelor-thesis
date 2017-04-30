@@ -80,7 +80,7 @@
 \authorFN{Tuček} %příjmení autora
 \authorWithDegrees{} %jméno autora včetně současných akademických titulů
 \supervisor{Ing. Jiří Hunka}
-\acknowledgements{Chtěl bych poděkovat za trpělivost vedoucímu, Ing. Jiřímu Hunkovi.}
+\acknowledgements{Rád bych poděkoval za trpělivost vedoucímu, Ing. Jiřímu Hunkovi.}
 \abstractCS{V~několika větách shrňte obsah a přínos této práce v~češtině. Po přečtení abstraktu
 by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Vaši práci číst.}
 \abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.}
@@ -118,9 +118,9 @@ Jelikož je tato problematika již řešena existujícími službami, nejprve ex
 
 \section{Problematika}
 Získávání informací z webů je efektivní možnost jak získat databázi informací, které se na internetu vyskytují.
-Tato činnost však stojí na problematice data získávat a uchovávat v potřebné struktuře, jelikož 
+Tato činnost však stojí na problematice data získávat a uchovávat v potřebné struktuře, protože 
 jinak z dat nejsme schopni vyčíst potřebné informace.
-Vzhledem k specificitě dat, které jsou v kontextu činnosti zajímavá a kvůli unikátnosti webových stránek
+Vzhledem k specificitě dat, která jsou v kontextu činnosti zajímavá a kvůli unikátnosti webových stránek
 není možné jednoznačně určit jednotný a zcela automatizovaný postup, jak data získat v požadovaném formátu.
 
 \section{Výběr dat}
@@ -135,33 +135,33 @@ Lokaci elementu v HTML se kterým je potřeba pracovat, lze poté jednoznačně 
 \item CSS Selector
 \end{enumerate}
 
-Možnost jednoznačného určení elementů na stránce pak umožňuje vybrat pouze částí, které jsou v kontextu hledání zajímavé.
+Možnost jednoznačného určení elementů na stránce umožňuje vybrat pouze částí, které jsou v kontextu hledání zajímavé.
 Přesná struktura dat, která lze z vybraných dat vytvořit pak může sloužit k dalšímu zpracování.
 
 \section{XML Path Language}
-XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk, který slouží k výběru elementu v dokumentu ve formátu XML\cite{XML}.
+XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk sloužící k výběru elementu v dokumentu ve formátu XML\cite{XML}.
 \par
-XML chápeme jako jazyk popisující strukturu dat, které jsou strojově i lidsky čitelné.
-HTML lze chápat jako strukturu podobnou XML, ačkoliv se přímo o XML dokument nejedná \cite{HTML}. 
-HTML popisuje obsah dat pro prezentaci ve webovém prohlížeči pomocí předem definované struktury, které prohlížeče rozumí.
+XML chápeme jako jazyk popisující strukturu strojově i lidsky čitelných dat.
+HTML lze chápat jako formát podobný XML, ačkoliv se přímo o XML nejedná \cite{HTML}. 
+Popisuje způsob zobrazení dat ve formátu, které prohlížeče rozumí.
 Díky této vlastnosti lze použít XPath pro definování cesty k prvku, který uchovává potřebnou informaci na webové stránce.
 \par
 \section{CSS Selector}
-Jazyk CSS je používán pro vizuální popis prezentace webové stránky definované v HTML. K určení prvků se kterými
-pracuje používá selektory, které označují tento prvek v HTML Buď pomocí samotného prvku, přiřazené třídy nebo nastaveného
-identifikátoru. Jako selektor může být použit jak samotný název prvku,
-tak vlastní definované třídy.\cite{CSS}
+Jazyk CSS je používán pro vizuální popis prezentace webové stránky v HTML. K určení prvků se kterými
+pracuje používá selektory, které označují tento prvek v HTML, buď pomocí samotného názvu toho elementu, přiřazené třídy nebo nastaveného
+identifikátoru. Jako selektor může být použit samotný název prvku nebo vlastní definovaná třída.\cite{CSS}
 \par
 Pomocí řetězení těchto selektorů je poté možné jednoznačně získat element v HTML dokumentu.
 
 \newpage
 
 \section{Současný stav řešení potřeb internetových obchodů}
-I v kontextu malého trhu jako Česká republika se lze bavit o velké konkurenci na poli 
+I v kontextu malého trhu jako je Česká republika, se lze bavit o velké konkurenci na poli 
 maloobchodů prodávající své zboží na internetu.
-Internetové obchody potřebují monitorovat konkurenci a trh. Vzhledem k jejich zaměření je tedy nejvíce zajímají 
-obchody prodávající stejné zboží. Potřebné informace o prodávaných produktů konkurencí 
-se skládají z následujících atributů:
+Internetové obchody potřebují monitorovat nejen konkrétní konkurenci, ale i trh. Vzhledem k jejich zaměření je nejvíce zajímají 
+obchody prodávající stejné zboží. 
+\par
+Potřebné informace o prodávaných produktech konkurencí se skládají z následujících atributů:
 
 \begin{enumerate}
 \item Název
@@ -172,14 +172,14 @@ se skládají z následujících atributů:
 \item Dostupnost
 \end{enumerate}
 
-S těmito daty je poté možné dále pracovat, například při analýze konkurence schopnosti na trhu nebo pokud potřebuje
-distributor sledovat za jaké ceny jsou prodávané jeho produkty. \cite{hunka}
+S těmito daty je možné dále pracovat, například při analýze konkurence schopnosti na trhu nebo za jaké ceny jsou produkty prodávané
+jednotlivými prodejci, což je informace zajímavá především pro distributory zboží. \cite{hunka}
 
 \subsection{Srovnávače cen}
 
-Data lze získat pomocí srovnávačů cen jako \textit{zbozi.cz}\cite{heureka} 
-nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb spočívá v určení pro koncové zákazníky, kterým umožňuje
-nalezení nejlepší ceny na trhu pro hledaný produkt. S tím souvisí to, že největší srovnávače cen neposkytují veřejně 
+Data lze získat pomocí srovnávačů cen jako jsou \textit{zbozi.cz}\cite{heureka} 
+nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb spočívá v orientaci na koncové zákazníky, kterým umožňuje
+nalezení nejlepší ceny na trhu pro hledaný produkt. Bohužel tím narážím na zkutečnost, že největší srovnávače cen neposkytují veřejně 
 svá data nebo rozhraní přes která by je bylo možné jednoduše získat. V rámci výzkumu pro bakalářskou práci jsem měl možnost nahlédnout do dat, které \textit{heuréka} poskytuje některým obchodům. \cite{hunka}
 
 Data obsahují následující informace:
@@ -1479,13 +1479,14 @@ Zbylé neotestované třídy jsou pak především inicializační třídy front
 I po provedení těchto změn zůstalo omezení nemožnosti vytvoření více instancí jednotlivých modulů, nově ProductDetailProvider a DataProvider.
 Tato změna je však vzhledem k návrhu poměrně triviální, kdy pouze stačí přidat instanční rozhraní jednotlivých modulů, jelikož 
 momentálně jsou spouštěny přímo modulem Manager. Následující komunikace pak probíhá pouze přes fronty, tudíž není oddělení nezpůsobí
-další komplikace, kromě větší zátěže na nastavení infrastruktury nasazení aplikace na serveru.
+další komplikace, kromě větší zátěže na nastavení infrastruktury nasazení aplikace na server.
 
 \section{Rozhraní administrátora}
 Systém se stal z hlediska pro administrátora uživatelsky přívětivější. Při řešení chyb je rozhraní přehlednější a informace o chybách
 obsáhlejší, což umožňuje rozhodnutí založené na více faktech. Dále byla také podstatně zrychleno celkové zpracování po odpadnutí nutnosti řešit
 každý požadavek, ať už se jedná šablona pro stejný obchod či více chyb analyzátoru.
-
+\par
+Nevýhodou jsou však nedostatky týkající se vytváření šablon, které byly zmíněny v sekci výše.
 \chapter{Závěr}
 
 
