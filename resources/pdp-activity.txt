@@ -1,0 +1,19 @@
+@startuml
+|Manager|
+start
+while (\n Existují produkty k vyhledání? \n)
+  :Vytvoření požadavku;
+  |ProductDetailProvider|
+   :Stažení stránky;
+   if(Validní šablona) then (ano)
+     :Získání detailů 
+      adres;
+   else (ne)
+     :Vytvoření chyby;
+   endif
+   |Manager|
+   :Uložení odpovědi;
+endwhile
+
+stop
+@enduml

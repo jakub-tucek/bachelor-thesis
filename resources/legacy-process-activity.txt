@@ -1,0 +1,21 @@
+@startuml
+|Uživatel|
+start
+:Vytvoření kampaně;
+:Vložení a namapování 
+produktů;
+:Nastavení požadované 
+frekvence výstupu;
+|Vývojář|
+:Manuální vložení adres detailů
+do databáze;
+|Manager|
+:Nalezení požadovaných adres;
+:Vytvoření a odeslání požadavků;
+|DetailProvider|
+:Získání nových dat;
+:Odeslání odpovědi;
+|Manager|
+:Zpracování odpovědi;
+end
+@enduml
