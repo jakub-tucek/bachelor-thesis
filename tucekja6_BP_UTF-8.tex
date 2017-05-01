@@ -95,15 +95,17 @@ by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Va
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt umožňující získávání informací z webů s primárním zaměřením na potřeby obchodů. Projekt řešil problém automatizace získávání dat z webů, jelikož stávající služby neposkytují veřejné rozhraní
-nebo mají velkou chybovost dat.
+V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt umožňující získávání informací z webů s primárním zaměřením na potřeby obchodů.
 \par
-Práce pojednává o požadavcích internetových obchodů, které jsou především tvořeny nutností držet krok s trhem a sledovat vývoj cen
-prodávaných produktů u konkurence.
+Práce uvádí čtenáře do problematiky získávání informací z webů s požadavky internetových obchodů, konkrétně sledováním
+vývoje cen prodávaných produktů. Je popsán současný stav řešení potřeb internetových obchodů, včetně existujících služeb.
 \par
-Cílem této práce je popsat požadavky internetových obchodů, stávající stav získávání informací z webů a možná řešení problematiky. Dále na základě těchto poznatků zhodnotit vytvořené řešení a včetně korektnosti zvolených postupů navrhnout vylepšení. Ty implementovat, řádně vylepšení
+Cílem této práce je navrhnout možná vylepšení vytvořeného řešení a nejdůležitější implementovat. Změny v implementaci zdokumentovat, 
 otestovat a zhodnotit výsledný stav projektu.
-
+\par
+Nejprve je však nutné uvést do kontextu týmový projekt, a to nejdříve pomocí samotné analýzy, tedy toho co se snaží projekt řešit.
+Poté pomocí popisu postupů při vývoji, nastavení projektového řízení a implementace.
+Teprve po zhodnocení výsledného projektu je pak možné navrhnout a implementovat vylepšení.
 
 \newpage
 
@@ -1445,39 +1447,79 @@ do \textit{build.gradle}, který specifikuje strukturu projektu a nastavení ses
 
 
 \chapter{Zhodnocení provedených vylepšení}
-V této kapitole se budu nejprve věnovat konečné funkcionalitě systému. V návaznosti na výsledný stav poté popíšu jaké nedostatky jsem v rámci testování objevil.
+V této kapitole se budu nejprve věnovat konečné funkcionalitě systému. V návaznosti na výsledný stav poté popíšu 
+jaké nedostatky jsem v rámci testování objevil. Zhodnocení jsem prováděl vůči výslednému návrhu a funkcionalitě. Funkcionalitu jsem 
+testoval na vzorku produktů popsané v tabulce \ref{product-test} a 20 internetových obchodů.
+Pozorování z testování se pak věnuji v následujících kapitolách.
+
+\begin{table}[h]
+\centering
+\caption{Tabulka testovaných produktů}
+\label{product-test}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{značka} & \textbf{model}   & \textbf{název}                                                                                                  \\ Scholl          & F215311016 (43)  & \begin{tabular}[c]{@{}l@{}}AIR BAG - přírodní\\ zdravotní pantofle\end{tabular}                                 \\ \midrule
+Scholl          & F200781065 (43)  & \begin{tabular}[c]{@{}l@{}}CLOG SUPERCOMFORT\\ bílá\end{tabular}                                                \\ \midrule
+Scholl          & 4002448095262    & \begin{tabular}[c]{@{}l@{}}Velvet Smooth wet \& dry \\ - elektrický pilník na chodidla do vody\end{tabular}     \\ \midrule
+Beurer          & BEU-FB30         & FB 30 nožní masáž                                                                                               \\ \midrule
+Sanitas         & SAN-SEM43        & \begin{tabular}[c]{@{}l@{}}SEM 43 svalový a nervový \\ elektrostimulátor\end{tabular}                           \\ \midrule
+Beurer          & BEU-464.15       & \begin{tabular}[c]{@{}l@{}}GL 44 / GL 50 / GL 50 EVO\\ testovací proužky 464.15 (2x25ks)\end{tabular}           \\ \midrule
+Beurer          & BEU-IPL10000+    & \begin{tabular}[c]{@{}l@{}}IPL 10000+ Depilace SalonPro \\ System - depilace s dlouhodobým účinkem\end{tabular} \\ \midrule
+Salter          & SA1008GSBKXR     & SALTER 1008 GSBKXR                                                                                              \\ \midrule
+Homedics        & MIR-8150         & MIR M-8150 - kosmetické zrcadlo                                                                                 \\ \midrule
+Philips         & Phil-71768/08/16 & Softpal Battery Olaf White                                                                                      \\ \bottomrule
+\end{tabular}
+\end{table}
 
 
 \section{Funkcionalita}
-
 Nejpodstatnější rozdíl při porovnání starého řešení a nového je samotná funkcionalita, která byla značně rozšířena. Především je možné
-využít celý proces hledání informací, kdy stačí administrátorem zadat přes webové rozhraní obchody na kterých chceme hledat
-a vyřešit případné chyby.
+využít celý proces hledání informací, jelikož stačí administrátorem zadat přes webové rozhraní obchody na kterých chceme hledat.
+Oproti původního řešení tedy není nutné definovat adresy detailů přímo vložením do databáze. 
+Podpora více šablon pak rozšiřuje použití na více obchodech.
+
+\section{Kampaň}
+Vytvoření kampaně zůstalo stejné jako v původním řešení. Rozdíl je nejvíce markantní v rozhraní pro administrátora, kdy je
+možné vyřešit všechny možné chyby, což zajišťuje validní běh kampaně. Výsledek je pak očekávaný výstup, data ze sledovaných
+produktů. Uživatel má pak možnost si výstup zobrazit ve webovém rozhraní nebo stáhnout export jako v původním řešení.
 \par
-Po vytvoření kampaně je tak možné sledovat kontinuální běh, který poskytuje požadované výsledky. Jako nevýhoda a hlavní nedostatek
-se však ukázal velký důraz na administrátora při řešením prvotních situací, především párování produktů.
+Jako nevýhoda a hlavní nedostatek se však ukázal velký důraz na administrátora při řešením prvotních situací, především párování produktů.
 \par
-Při testování bylo ověřeno, že velké množství obchodů neobsahuje správné nebo odlišené identifikátory produktů. Nejčastější je výskyt pouze jména, které často neodpovídá tomu uloženému.
+
+\section{Párování}
+Při testování bylo zjištěno, že velké množství obchodů neobsahuje správné nebo přímo odlišné identifikátory produktů. Nejčastější je výskyt pouze jména, které často neodpovídá tomu uloženému.
 \par
-Z toho důvodu je nutné párování
-provést ve velké množstvím případů manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím produktů
-hledaných na více obchodem je počet těchto chyb velmi rozsáhlých. 
+Z toho důvodu je nutné párování provést ve velkém množstvím případů manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím 
+produktů je počet těchto chyb velmi rozsáhlý. 
+\par
+Proces párování by bylo možné pak vylepšit, pokud by systém uchovával více identifikátorů. Především více uložených jmen by pak zátěž na administrátora mohla s časem klesat, protože použitých jmen napříč obchody by mělo být omezené množství. 
+Podpora pro tuto možnost však nebyla implementována, ačkoliv v některých částech byla interní část na tuto možnost již připravena.
 
 \section{Webové rozhraní}
-Problém párování by bylo možné pak vylepšit, pokud by systém uchovával více identifikátorů. Především více uložených jmen by pak zátěž na administrátora mohla klesnout. Podpora pro tuto možnost však nebyl implementována, ačkoliv v některých částech byla interní část na tuto možnost
-již připravena.
+Nalezl jsem nedostatky ve webovém rozhraní, kdy funkčnost rozhraní sloužící k opravám šablony detailu, nebylo na některých obchodech funkční.
+Zde však stačilo zadat cestu k elementům manuálně. 
 \par
-Při testování jsem nalezl nedostatky ve webovém rozhraní, kdy funkčnost rozhraní při opravy chyb šablon nebyl na některých obchodech funkční.
-V případě použití rozhraní šablony pro vyhledávání na obchodě, tedy definování jak nalézt případně adresy vedoucí na detaily produktů se
-ukázalo, že je šablona obvykle nefunkční. Proto bylo nutné zadávat cestu k elementům manuálně.
+Problém pak obsahovala i část pro šablonu sloužící k nalezení adres detailů. Pokud bylo použito rozhraní, tak šablona nebyla ve většině
+případů funkční, proto bylo nutné zadávat cestu k elementu manuálně.
+
 \par
+\begin{figure}[h]\centering
+ 	\includegraphics[width=1.0\textwidth]{resources/template-detail-err}
+	\caption[Administrátorské rozhraní pro opravu detailu šablony]{Administrátorské rozhraní pro opravu detailu šablony.}\label{fig:temp-det-err}
+\end{figure}
+
+
 
 \section{Návrh a testy}
-Zásadní refaktoring a změna návrhu komunikace tříd velmi pozměnila interní část. Interní část kromě toho, že vyhovuje
-více nárokům na požadovanou funkcionalitu, je složena z daleko přehlednějšího a lépe udržovatelného kódu. 
-\par
-Lepší udržovatelnost byla výrazná především při přidávání vylepšení, kdy tyto změny často byly triviální záležitost a po jejich provedení
-bylo zachována původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí testů a dekompozice tříd. Oproti původní řešení narostl počet jednotkových testů ze \textbf{170} na \textbf{492}. Pokrytí pak demonstruje následující vizualizace.
+
+Zásadní refaktoring a změna návrhu komunikace tříd velmi pozměnila interní část. 
+Interní část kromě toho, že vyhovuje značně rozšiřuje funkcionalitu oproti té z výsledku týmového řešení,
+je složena z přehlednějšího a lépe udržovatelného kódu.
+Lepší udržovatelnost byla výrazná především při přidávání vylepšení, kdy
+tyto změny byly často triviální záležitost a po jejich provedení bylo zachována
+původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí
+testu a rozdělení. Oproti původnímu řešení narostl počet jednotkových
+testu ze 170 na 492. Pokrytí demonstruje následující vizualizace.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
@@ -1486,21 +1528,22 @@ bylo zachována původní funkcionalita. Toto dávám za důsledek především 
 	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-new}
 \end{figure}
 
-Oproti původnímu řešení, vzrostlo pokrytí zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy pokrytá celá.
+Pokrytí vzrostlo zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy pokrytá celá.
 Zbylé neotestované třídy jsou pak především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
 \par
-I po provedení těchto změn zůstalo omezení nemožnosti vytvoření více instancí jednotlivých modulů, nově ProductDetailProvider a DataProvider.
-Tato změna je však vzhledem k návrhu poměrně triviální, kdy pouze stačí přidat instanční rozhraní jednotlivých modulů, jelikož 
-momentálně jsou spouštěny přímo modulem Manager. Následující komunikace pak probíhá pouze přes fronty, tudíž není oddělení nezpůsobí
-další komplikace, kromě větší zátěže na nastavení infrastruktury nasazení aplikace na server.
+I po provedení těchto změn zůstala nemožnost vytvoření více instancí jednotlivých modulů, tedy ProductDetailProvider a DataProvider.
+Tato změna je však požadována, až při nárokům na zpracování velkého množství dat. Pro změnu stačí přidat instanční rozhraní jednotlivých modulů, jelikož momentálně jsou spouštěny přímo modulem Manager. Oddělení neovlivní samotnou komunikaci jednotlivých části, nicméně 
+vzroste zátěž na nastavení infrastruktury nasazení aplikace na server.
 
 \section{Rozhraní administrátora}
 Systém se stal z hlediska pro administrátora uživatelsky přívětivější. Při řešení chyb je rozhraní přehlednější a informace o chybách
-obsáhlejší, což umožňuje rozhodnutí založené na více faktech. Dále byla také podstatně zrychleno celkové zpracování po odpadnutí nutnosti řešit
-každý požadavek, ať už se jedná šablona pro stejný obchod či více chyb analyzátoru.
-\par
+obsáhlejší, což zlepšuje lepší rozhodování. Dále byla také podstatně zrychleno celkové zpracování, jelikož odpadlo nutnost řešit
+každý požadavek, ať už se jedná víc chyb šablon u stejného obchodu či více chyb analyzátoru.
+\par 
 Nevýhodou jsou však nedostatky týkající se vytváření šablon, které byly zmíněny v sekci výše.
 \chapter{Závěr}
+
+
 
 
 
