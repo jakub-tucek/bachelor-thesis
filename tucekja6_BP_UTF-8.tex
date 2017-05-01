@@ -135,7 +135,8 @@ Lokaci elementu v HTML se kterým je potřeba pracovat, lze poté jednoznačně 
 \item CSS Selector
 \end{enumerate}
 
-Možnost jednoznačného určení elementů na stránce umožňuje vybrat pouze částí, které jsou v kontextu hledání zajímavé.
+Možnost jednoznačného určení elementů na stránce umožňuje vybrat části, které jsou v kontextu
+hledání zajímavé.
 Přesná struktura dat, která lze z vybraných dat vytvořit pak může sloužit k dalšímu zpracování.
 
 \section{XML Path Language}
@@ -451,7 +452,7 @@ Vzhledem k požadavkům na škálovatelnost aplikace se interní část skládá
 spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu a je možné vytvářet více jeho instancí, procesy lze 
 zpracovávat paralelně a na více serverech, kde je jediné kritérium připojení na systém zajišťující komunikaci.
 \par
-Uživatelská a interní část pak spolu sdílejí data pomocí relační databáze\cite{DB}.
+Uživatelská a interní část spolu sdílejí data pomocí relační databáze\cite{DB}.
 
 \section{Webové rozhraní}
 Webové rozhraní lze rozdělit na dvě části: pro uživatele a pro administrátory. 
@@ -966,7 +967,7 @@ První krok realizace bylo refaktorování stávajícího řešení. Zde bylo pr
 rozdělení tříd na více malých, zkrácení dlouhých metod, zmenšení počtu parametrů metod a nahrazení výjimek za návratové typy.
 
 \subsection{Servisní třídy}
-Pro větší přehlednost byly všechny servisní třídy do nadřazeném balíčku \uv{service}. 
+Pro větší přehlednost byly všechny servisní třídy do nadřazeném balíčku \textit{service}. 
 Servisní třídou jsou takové, které nespadají do ani jedné z těchto skupin:
 
 \begin{itemize}
@@ -1224,7 +1225,7 @@ Celý proces v Managerovi je rozdělen do tří částí a to nalezení adres, v
 Vzhledem v zásadní změně architektury neuvádím původní kód, jelikož celkový způsob vytváření požadavků je značně odlišný a není proto možné jednoduché porovnání. Vytváření bylo v předchozím řešení ve stejné třídě, která zajišťovala i odesílání, což způsobovalo problém při ukládání příznaků do databáze.
 \par
 Nový návrh vytváření požadavků tento proces deleguje do nové 
-třídy \textit{DPRequestBuilderServiceImpl}, která zajišťuje uložení všech potřebných atributů do nového požadavku. Návratový typ této třídy pak slučuje množiny požadavků obsahující adresy bez produktů a 
+třídy  \\ \textit{DPRequestBuilderServiceImpl}, která zajišťuje uložení všech potřebných atributů do nového požadavku. Návratový typ této třídy pak slučuje množiny požadavků obsahující adresy bez produktů a 
 ty v aktivní kampani, jelikož po vytvoření požadavků, již není potřeba odlišné chování k těmto požadavkům. Ostatní množiny jsou pak 
 zachovány. Vzhledem k potřebě pracovat s adresou detailu i při odesílání požadavků, obsahuje \textit{DPRequestProductUrlWrapper}
 množiny obsahující dvojice požadavek a adresa detailu. Důvod je odpadnutí nutnosti hledání chyby podle identifikátoru, což je potřeba
@@ -1403,8 +1404,8 @@ se pouze produkt pouze na obchodě nenachází (popř. stránka neexistuje) a to
 se nejedná o chybu šablony.
 
 \section{Více šablon detailů produktu}
-Původní návrh počítal s možností, kdy stránka detailu produktu má stejnou strukturu napříč celým obchodem.
-Tento předpoklad se však ukázal jako chybný, kdy například v případě slevy je element obsahující cenu odlišný.
+Původní návrh počítal s možností, kdy stránka detailu produktu je ve stejné struktuře napříč celým obchodem.
+Tento předpoklad se ukázal jako chybný, kdy například v případě slevy je element obsahující cenu odlišný.
 \par
 Jiná struktura pak způsobila chybu šablony. Z toho důvodu jsem implementoval podporu alternativních šablon, které jsou
 použity v případě, že hlavní šablona selže. Uložení této šablony jsem zapracoval do rozhraní administrátora, kdy je třeba
