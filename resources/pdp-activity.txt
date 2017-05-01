@@ -1,7 +1,7 @@
 @startuml
 |Manager|
 start
-while (\n Existují produkty k vyhledání? \n)
+while (\n Existují produkty k vyhledání? \n) is (ano)
   :Vytvoření požadavku;
   |ProductDetailProvider|
    :Stažení stránky;
@@ -13,7 +13,7 @@ while (\n Existují produkty k vyhledání? \n)
    endif
    |Manager|
    :Uložení odpovědi;
-endwhile
+endwhile (ne)
 
 stop
 @enduml

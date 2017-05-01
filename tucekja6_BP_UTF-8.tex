@@ -192,10 +192,10 @@ Data obsahují následující informace:
 \item Deset nejvyšších a nejnižších cen
 \end{itemize}
 
-První zásadní nedostatek zprávy z jmenovaného srovnávače, se ukázal být logistický a to, že obchod musí být označen \uv{Ověřeno zákazníky},
-aby měl k datům přístup. Další nedostatek jsou data neobsahující konkrétní označení konkurenčních obchodů.\cite{heureka-report}
+První zásadní nedostatek zprávy z jmenovaného srovnávače se ukázal být logistický a to, že obchod musí být označen \uv{Ověřeno zákazníky},
+aby měl provozovatel obchodu k datům přístup. Další nedostatek jsou data neobsahující konkrétní označení konkurenčních obchodů.\cite{heureka-report}
 Vzhledem k povaze struktury a splatnosti generovaných dat je také nemožné ceny sledovat v časovém období.
-Ostatní srovnávače mají údajně výstup velmi podobný, nebo, jak bylo výše řečeno, data neposkytují. Díky tomu se ukázaly
+Ostatní srovnávače mají výstup velmi podobný nebo konkrétní data vůbec neposkytují. Díky tomu se ukázaly
 srovnávače jako nedostatečný zdroj dat.\cite{hunka}
 
 
@@ -204,12 +204,12 @@ srovnávače jako nedostatečný zdroj dat.\cite{hunka}
 Problematiku sledování trhu s důrazem na firemní klientelu, řeší aktuálně několik existujících služeb.
 \par
 Služby mají v zásadě velmi podobnou povahu poskytovaných možností. Rámcově se jedná o porovnávání cen včetně historie na různých internetových
-obchodem či na srovnávačích. Uživatel si zadá okruh či seznam produktů, buďto formou manuální či vstupem ze souboru, případně 
+obchodech či na srovnávačích. Uživatel si zadá okruh či seznam produktů, buďto formou manuální či vstupem ze souboru nebo 
 přímých napojením na e-shop. Následně je možné konkrétní data zobrazit v grafech označující vývoj cen, trendů či náhlých změn.
 Dále umožňují externí výstup do souboru v dostupných formátech.
 \par
-Největší rozdíl služeb je zda jsou data získávána přímo z obchodů nebo ze srovnávačů. Další odlišností je 
-možnost, zda služba dokáže sledovat i zahraniční trh.
+Největší rozdíl služeb je, zda jsou data získávána přímo z obchodů nebo ze srovnávačů. Další odlišností je 
+možnost, jestli služba dokáže sledovat i zahraniční trh.
 \par
 Cena služeb se nejvíce odvíjí od počtu sledovaných produktů a četnosti aktualizací. Proto se měsíční platby mohou 
 pohybovat od stovek korun po desítek tisíc korun.
@@ -388,7 +388,7 @@ Web je datován roku 2015, avšak popis funkcí není dokončený. Obsahuje výp
 
 \subsection{Zahraniční nástroje}
 Tyto nástroje jsou obecněji zaměřené a obvykle požadují od uživatele technické znalosti, 
-jelikož je nutné přesně specifikovat kde, co a jak je požadováno sledovat. Vzhledem k tomuto omezení, není možné
+jelikož je nutné přesně specifikovat kde, co a jak je požadováno sledovat. Vzhledem k tomuto omezení není možné
 použití přímo provozovateli e-shopů, jelikož těmito znalostmi z povahy práce obvykle nedisponují.
 \par
 Příklad zahraničních nástrojů:
@@ -422,7 +422,7 @@ Příklad zahraničních nástrojů:
 
 \chapter{Analýza týmového projektu}
 V této kapitole se budu věnovat řešení vytvořeného v rámci školní výuky na ČVUT FIT v akademickém roce 2015/16.
-Popíšu cíl, který měl projekt za úkol řešit a výsledná funkcionalita řešení. Dále také popíši základní strukturu
+Popíšu cíl, který měl projekt za úkol řešit a výsledná funkcionalita řešení. Dále také vysvětlím základní strukturu
 navrženého řešení.
 
 \section{Cíl týmového projektu}
@@ -430,69 +430,72 @@ navrženého řešení.
 V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt, v souladu s osnovami těchto předmětů byl nejdříve v BI-SP1 vytvořen návrh
 systému a v BI-SP2 implementován.
 \par
-Cíl který projekt řešil, byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz je především kladem na optimalizaci počtu nutných lidských úkonů administrátora u kterého se předpokládá minimální technické vzdělání.
-Jediná nutná problematika, co tak musí administrátor ovládat je parsování HTML stránek.
+Cílem tohoto projektu byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz byl především kladem na optimalizaci počtu nutných lidských úkonů administrátora u kterého se předpokládá minimální technické vzdělání.
+Jediná nutná znalost co musí administrátor ovládat, je parsování HTML stránek.
 \par
 
 \section{Požadovaná funkcionalita}
 Požadovaný stav projektu umožňuje uživateli vložit produkty do systému ve formátu \textit{cvs} či \textit{xlsx}, poté pomocí
 rozhraní definovat význam jednotlivých sloupců v tomto dokumentu a zvolit požadovanou frekvenci sledování dat.
 \par
-Systém na základě dat vyhledá ochody, které prodávají sledované produkty. Z nich poté v definovaných intervalech získává data. Z dat
-je poté vytvořen výstup pro uživatele obsahující získané informace, které
-se skládají především ze získaných cen. Výstup lze vizualizovat i na grafech ve webovém rozhraní nebo stáhnout ve formátu
+Systém na základě dat vyhledá ochody, které prodávají sledované produkty. Z nich v definovaných intervalech získává získávána data, ze kterých je vytvořen výstup pro uživatele obsahující především informace o cenách. Výstup lze vizualizovat i na grafech ve webovém rozhraní nebo stáhnout ve formátu
 \textit{csv} či \textit{xlsx}.
 \par
-Proces samotného hledání byl navržen jako soubor více kroků, skládající se z procesů interní částí a interakcí administrátora, který zajišťuje
+Proces samotného hledání byl navržen jako soubor více kroků, skládající se z procesů interních částí a interakcí administrátora, který zajišťuje
 řešení problémů, které systém nedokáže sám vyřešit.
 
 \section{Návrh}
-Řešení bylo rozděleno na část webového rozhraní a na část zpracovávající interní procesy, nazývanou v této práci 
-jako interní část.
-Vzhledem k požadavkům na škálovatelnost aplikace se druhá část skládá z více samostatných menších služeb - modulů komunikující
+Řešení bylo rozděleno na \textbf{část webového rozhraní} a na část zpracovávající interní procesy, nazývanou v této práci 
+jako \textbf{interní část}.
+Vzhledem k požadavkům na škálovatelnost aplikace se interní část skládá z více samostatných menších služeb - modulů komunikující
 spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu a je možné vytvářet více jeho instancí, procesy lze 
 zpracovávat paralelně a na více serverech, kde je jediné kritérium připojení na systém zajišťující komunikaci.
 \par
 Uživatelská a interní část pak spolu sdílejí data pomocí relační databáze\cite{DB}.
 
 \section{Webové rozhraní}
-Webové rozhraní lze rozdělit na dvě části. Uživatelskou, obsahující množinu podstránek určených pouze pro konečné uživatele
+Webové rozhraní lze rozdělit na dvě části: pro uživatele a pro administrátory. 
+
+\subsection{Uživatelská část}
+Uživatelská část obsahuje množinu podstránek určených pouze pro konečné uživatele
 služby a část pro administrátory, sloužící k monitorování kampaní a řešení chyb. Webové rozhraní používá databázi, která pak 
 obsahuje všechny uložené a získané data.
 \par
 Uživatelská část umožňuje vytvořit kampaň. Kampaň je proces trvající určitý časový úsek, který sleduje vložené produkty na konkurenčních
 obchodech.
-V rámci těchto běžících kampaních má poté uživatel možnost uživatel vidět vizualizaci získaných dat, případně je umožněn export dat do formátu
-\textit{csv} či \textit{xlsx}. Získaná data obsahují, kde se sledované produkty nacházejí a za jakou cenu se prodávají.
-\par
-Druhá část je určena pouze pro administrátory. Slouží k monitorování kampaní uživatelů a řešení problémů, které systém není schopný 
-automaticky vyřešit. Což je definování selektorů pro výběr dat z webových stránek, párování produktu ke stránce nebo potvrzení zda jsou získaná data validní.
+V rámci těchto běžících kampaních má poté uživatel možnost vidět vizualizaci získaných dat, případně je umožněn export dat do formátu
+\textit{csv} či \textit{xlsx}. Ze získaných dat lze zjistit, na kterých webových stránkách je produkt prodáván.
+
+\subsection{Část pro administrátory}
+Pro přístup do části pro administrátory je nutné, aby měl uživatel speciální práva. Běžný uživatel, tak k této části nemá přístup. Slouží k monitorování kampaní uživatelů a řešení problémů, které systém není schopný 
+automaticky vyřešit. Tím je myšleno definování selektorů pro výběr dat z webových stránek, párování produktu ke stránce 
+nebo potvrzení zda jsou získaná data validní.
+
 \section{Interní část}
-Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly je poté možné spustit jako služby ve více 
-instancích, kromě modulu Manager. Vzhledem k možnostem front, je pak možné práci distribuovat na více serverů, aniž by byla ohrožena bezpečnost
-databáze, jelikož k té je umožněný přístup pouze lokální. Moduly jsou detailněji popsány v následujících podsekcích.
+Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly je možné spustit jako služby ve více 
+instancích, kromě modulu Manager. Vzhledem k možnostem front, lze také práci distribuovat na více serverů, aniž by byla ohrožena 
+bezpečnost databáze, protože k ní je možný přístup pouze lokální. Moduly jsou detailněji popsány v následujících podsekcích.
 \subsection{Manager}
-Manager je hlavní modul, který má jako jediná interní část možnost připojení do databáze a jeho běžící instance může existovat pouze jednou.
+Manager je hlavní modul, který má jako jediný interní část možnost připojení do databáze a jeho běžící instance může existovat pouze jednou.
 Manager má za úkol plánování práce pro ostatní části systému a samotnou správu komunikace s ostatními moduly.
 \subsection{Finder}
-Finder je modul, který má za úkol získávat URL adresy internetových obchodů, které prodávají požadované produkty.
-Na nalezeném obchodě poté vyhledávat adresy vedoucí na detail vyhledávaných produktů.
-\par
-Předpokládá se nemožnost přímo nalézt adresu vedoucí na detail produktu a proto je nutné ho pomocí interního vyhledávání obchodu takový
-detail nalézt pokud existuje. Detail produktu pak obsahuje podrobné informace o prodávaném produktu.
+Modul Finder získává URL adresy internetových obchodů, které prodávají požadované produkty.
+Na nalezeném obchodě poté vyhledává adresy vedoucí na detail vyhledávaných produktů. K tomu je použito interní vyhledávání, které
+obchod poskytuje svým zákazníkům. Získaný detail produktu pak obsahuje podrobné informace o prodávaném produktu.
+
 \subsection{DataProvider}
 DataProvider je modul, který zpracovává adresy vedoucí na detaily produktu. Zde existují čtyři hlavní větve možností zpracování požadavků.
 Po stažení stránky se pokusí získat požadované
 hodnoty. V případě neúspěchu odešle příslušnou chybu, v opačném případě zanalyzuje korektnost získaných cen vůči historickým datům pokud
-existují. Výsledek je poté odeslán k zpracování Managerem.
+existují. Výsledek je poté odeslán ke zpracování Managerem.
 
 
 \chapter{Vývoj a implementace týmového projektu}
-V této kapitole se věnuji průběhu vývoje týmového projektu a vytvořenému řešení. Zmíním tedy zvolené postupy při vývoji a 
+V této kapitole se věnuji průběhu vývoje týmového projektu a vytvořenému řešení. Popíši tedy zvolené postupy při vývoji a 
 jaké technologie byly zvoleny.
 \par
 Poslední část rozebírá mou roli v tomto
-projektu, jelikož mé téma bakalářské práce jsem měl předběžně vybrané, již na začátku předmětu BI-SP2.
+projektu, protože mé téma bakalářské práce jsem měl předběžně vybrané, již na začátku předmětu BI-SP2.
 
 
 \section{Pojmy}
@@ -501,14 +504,14 @@ projektu, jelikož mé téma bakalářské práce jsem měl předběžně vybran
 Git \cite{GIT} je verzovací systém umožňující vytváření a sdílení jednotlivých verzí zvoleného projektu.
 Umožňuje jednoduchý přehled nad rozpracovanými částmi každého vývojáře. Úložiště systému se nazývá repozitář, který obsahuje veškerý kód.
 \par
-repozitář existuje v lokálních verzi a zároveň serverové, tedy sdílené. Sdílený repozitář pak zajišťuje distribuci aktuální verze do lokálních 
-repozitářů. Pro lepší správu pak existují nadstavby nad serverovou částí repozitáře, které umožňují jednoduchou
+repozitář existuje v lokálních verzi a zároveň serverové, tedy sdílené. Sdílený repozitář zajišťuje distribuci aktuální verze do lokálních 
+repozitářů. Pro lepší správu existují nadstavby nad serverovou částí repozitáře, které umožňují jednoduchou
 správu nad kódem a spouštění dalších služeb. Zde například spuštění sestavení aplikace nebo notifikace
 při nové změně.
 \par
-Základní jednotkou tvoří verze, které jsou postupně vytvářeny vývojáři po vytvoření každé malé funkcionality.
-Verze jsou poté uchovávány v jednotlivých větví programu. Vedlejší větve slouží pro samotný vývoj. 
-Hlavní větve poté tento kód spojují a reprezentují aktuální vývojovou a produkční verzi. Git také zajišťuje základní nástroje pro slučování kódu v případě spojování nebo slučovaní vedlejších větví do větví hlavních.
+Základní jednotku tvoří verze, které jsou postupně vytvářeny vývojáři s jejich každou novou změnou.
+Verze jsou uchovávány v jednotlivých větvích programu. Vedlejší větve slouží pro samotný vývoj. 
+Hlavní větve tento kód spojují a reprezentují aktuální vývojovou a produkční verzi. Git také zajišťuje základní nástroje pro slučování kódu v případě spojování nebo slučovaní vedlejších větví do větví hlavních.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=0.7\textwidth]{resources/branches}
@@ -519,9 +522,9 @@ Hlavní větve poté tento kód spojují a reprezentují aktuální vývojovou a
 \subsection{Jednotkové a integrační testy}
 Jednotkovými testy se rozumí sada kladných a záporných testů ověřující funkcionalitu jediné třídy. Jednotkové testy
 jsou nezávislé na ostatních třídách a testech. \cite{testing} 
-Integrační testy pak pokrývají komunikaci více tříd nebo komunikaci s operačním systémem, hardwarem či rozhraním různých systémů. \cite{testing}
+Integrační testy pokrývají komunikaci více tříd nebo komunikaci s operačním systémem, hardwarem či rozhraním různých systémů. \cite{testing}
 \par
-Důvody pro psaní testů jsou například lehčí nalezení chyby nebo lepší udržovatelnost projektu. V případě neexistujících testů nelze ověřit původní
+Důvody pro psaní testů jsou například jednodušší nalezení chyby nebo lepší udržovatelnost projektu. V případě neexistujících testů nelze ověřit původní
 funkcionalitu při modifikaci aplikace, což může způsobit nutnost chyby nalézt a opravit.\cite{testing}
 
 \subsection{Statická analýza kódu}
@@ -535,16 +538,14 @@ příslušné verze do produkce.\cite{CI}
 
 \subsection{Sdílení dat pomocí front}
 Sdílení dat pomocí front funguje na principu odesílání zpráv, které reprezentují objekty. Zprávy jsou po zařazení do fronty odebírány
-konzumenty, které je poté zpracovávají.
+konzumenty, které je zpracovávají.
 Příklad takového systému pak může být například RabbitMQ. \cite{rabbitMQ}
 
 \section{Vývoj}
 Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. V každé iteraci bylo poté definováno jaké musí obsahovat funkcionality,
-které budou na její konci prezentovány vyučujícímu. Funkcionality byly rozděleny do jednotlivých úkoly a ty distribuovány do sprintů.
-Úkoly byly poté přiřazovány členům týmu. Stav úkolů byl uchováván na systému Redmine\cite{Redmine}, který umožňuje sledovat stav úkolů.
-Úkoly lze pak přiřadit k jednotlivým sprintům a iteracím, což umožňuje sledovat 
-
-
+které budou na její konci prezentovány vyučujícímu. Funkcionality byly rozděleny do jednotlivých úkolů a ty distribuovány do sprintů.
+Úkoly byly přiděleny jednotlivým členům týmu. Stav úkolů byl uchováván na systému Redmine\cite{Redmine}, který umožňuje sledovat jejich stav.
+Úkoly lze pak přiřadit k jednotlivým sprintům a iteracím, což umožňuje splnění časového plánu.
 \par
 Jako verzovací systém byl zvolen systém Git, se vzdáleným repozitářem uložený na službě Gitlab \cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a spouštění služeb na základě definovaných aktivit v repozitáři. Repozitář se skládal ze 4 částí (větví):
 \begin{itemize}
@@ -553,7 +554,7 @@ Jako verzovací systém byl zvolen systém Git, se vzdáleným repozitářem ulo
 \item Feature - vedlejší větev vytvořená pro konkrétní úkol přidávající novou funkcionalitu
 \item Fix - vedlejší větev určená pro úkoly opravující chybu
 \end{itemize}
-Jelikož přístup k přidání verze do Master a Develop měl pouze vedoucí projektu, musel být pro každou Feature a Fix větev
+Protože přístup k modifikacím ve větvích Master a Develop měl pouze vedoucí projektu, musel být pro každou Feature a Fix větev
 vytvořen požadavek o zařazení. Po kontrole vedoucím byl požadavek zařazen nebo vrácen k opravě.
 \par
 Na konci každé iterace byla poslední verze označená pomocí \textit{tagu} a poté prezentována vedoucímu.
@@ -561,7 +562,7 @@ Označení bylo zvoleno na základě pořadí iterace. 1. iterace je označena v
 \par
 Pro vývoj se využil princip průběžné integrace. Každá verze byla zkompilována, otestována a zanalyzována na vzdáleném serveru.
 Tyto činnosti zajišťovaly systémy Jenkins\cite{jenkins} a Gitlab. Po změně v repozitáři, byl spuštěn úkol v Jenkins. Ten aplikaci sestavil, spustil testy a statickou analýzu kódu 
-zajištěnou systémem SonarQube\cite{sonar}. Výsledky poté publikoval ve svém webovém rozhraní a zároveň v rozhraní Gitlab.  
+zajištěnou systémem SonarQube\cite{sonar}. Výsledky publikoval ve svém webovém rozhraní a zároveň v rozhraní Gitlab.  
 \section{Implementace}
 
 
@@ -686,7 +687,7 @@ Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, ž
 
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/legacy-process-activity}
-	\caption[Diagram vytvoření kampaně a nalezení nových dat v původním řešení]
+	\caption[Diagram zobrazující vytvoření kampaně a nalezení nových dat v původním řešení]
 	{Diagram vytvoření kampaně a nalezení nových dat v původním řešení.}\label{fig:legacyprocess-activity}
 \end{figure}
 
