@@ -584,7 +584,7 @@ například práci s repository třídami nebo zpracování formuláře. Reposit
 \end{figure}
 \par
 Snadnou správu závislostí nad externími knihovnami zajišťuje balíčkovací systém Composer\cite{composer}. 
-Na základě souboru definující potřebné knihovny a jejich verze, jsou staženy z centrálního repozitáře. To zajišťuje jednotné verze knihoven
+Na základě souboru definující potřebné a jejich verze, jsou staženy z centrálního repozitáře. To zajišťuje jednotné verze knihoven
 a eliminace nutnosti knihovny manuálně stahovat či přímo přidávat do repozitáře.
 \subsection{Interní část}
 Interní část je implementována v jazyce Java verze 8. Kompilaci, spouštění testů a správu závislostí zajišťuje Gradle\cite{gradle}.
@@ -1437,14 +1437,28 @@ Poté jsem pouze zajistil, aby byl tento atribut zahrnut v rámci komunikace mod
 správné uložení do komunikační třídy, samotné získání hodnoty a korektní uložení do databáze.
 
 \section{Ostatní}
-Při realizaci vylepšeních jsem také provedl několik menších změn a oprav, které jsem objevil při vývoji. Jedna ze základních a triviálních
-změn byla například oprava \textit{jar} souboru sestavené aplikace, která byla zbytečně veliká. Velikost byla způsobena externími knihovnami,
-které byly obsaženy v \textit{jar} vícekrát a to pro každý modul. Oprava pak spočívala pouze v přidání jednoho řádku
-do \textit{build.gradle}, který specifikuje strukturu projektu a nastavení sestavení pro Gradle.
-\begin{lstlisting}[language=Java, caption={Nastavení sestavení \textit{jar} souboru, aby neduplikoval knihovny na kterých
-					jsou moduly závislé.}]
-        jar.duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+Při realizaci jsem provedl několik menších změn a oprav. Jedna z nich bylo například nastavení 
+připojení do databáze. Původní stav obsahoval konfigurace připojení v samostatných \textit{xml} souborech, což znamenalo, že každá nová databázová
+třída musela být přidána do všech těchto souborů.
+\par
+Tento způsob jsem přepsal, aby nastavení databázových tříd bylo v jednom souboru. Samotné připojení definují
+\textit{properties} soubory, které mají následovnou strukturu:
+
+\begin{lstlisting}[language=Java, caption={Nastavení připojení do databáze.}]
+hibernate.hikari.dataSource.url
+		=jdbc:mysql://localhost:3306/infoweb-db?characterEncoding=UTF-8
+hibernate.hikari.dataSource.user=root
+hibernate.hikari.dataSource.password=
+hibernate.hikari.dataSourceClassName
+	=com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+database.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+hibernate.hbm2ddl.auto=create-drop
+hibernate.hbm2ddl.import_files=sql/importScript.sql
+hibernate.hbm2ddl.import_files_sql_extractor
+	=org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
 \end{lstlisting}
+
+Změna ulehčuje změny v databázových třídách a zpřehledňuje nastavení.
 
 
 \chapter{Zhodnocení provedených vylepšení}
@@ -1711,7 +1725,7 @@ zákazníku a provozovatele. Věřím však, že vzhledem ke stávajícímu stav
 		.1 build\DTcomment{adresář se sestavenými verzemi systému}.
 		.2 backend\DTcomment{adresář obsahující sestavenou interní část}.
 		.2 backend-old\DTcomment{adresář obsahující ses. interní část původního řešení}.
-		.1 docs\DTcomment{dokumentace systému}.
+		.1 docs\DTcomment{dokumentace systémuom}.
 		.2 backend\DTcomment{dokumentace interní částí}.
 		.2 frontend\DTcomment{dokumentace webového rozhraní}.
 		.1 src\DTcomment{zdrojové kódy implementace}.
