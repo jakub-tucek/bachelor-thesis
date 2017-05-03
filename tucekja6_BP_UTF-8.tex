@@ -896,6 +896,7 @@ získávat a uložit do databáze. Následně může webové rozhraní tyto info
 \par
 V případě adresy, která obsahuje více chyb, je nutné řešit každou samostatně. Po každém vyřešení se musí počkat na zpracování interní částí.
 Pro zrychlení je tak nutné požadováno chyby spojit do jedné, tak aby administrátor mohl vyřešit všechny možné chyby analyzátoru najednou.
+
 \section{Monitorování}
 Na virtuálním serveru probíhá sestavení aplikace, včetně všech dodatečných procesů. Zároveň zde běží vývojová a produkční verze interní i webové části.
 Momentální stav poskytuje pouze omezenou možnost, jak sledovat využití prostředků virtuálního serveru.
@@ -1177,6 +1178,13 @@ obsahuje více zřetězených volání.
         }
     }
 \end{lstlisting}
+
+\begin{figure}\centering
+ 	\includegraphics[width=1.0\textwidth]{resources/analyser-classes}
+	\caption[Diagram tříd analyzátoru]{Diagram tříd analyzátoru. Obsahuje pouze některé validace z důvodu přehlednosti.}\label{fig:analyser-classes}
+\end{figure}
+
+
 Jak již bylo zmíněno, podobná architektura spouštění validací se vyskytuje na více místech interní části, například validace po provedení
 parsování nebo kontrol, zda má být požadavek či adresa použita při plánování práce.
 
@@ -1349,10 +1357,9 @@ Základní funkcionalita poskytuje pouze informace o využití prostředků a p�
 \section{Získání adres obchodů a příslušných detailů produktů}
 Vzhledem pouze k malé možnosti využitelnosti implementované části v modulu Finder, především z důvodu dlouhých metod, které zajišťují
 základní stavební kámen tohoto modulu jsem se rozhodl modul Finder rozdělit na dvě části. Část vyhledávající 
-na internetových obchodech adresy detailů a na část, která samotné obchody vyhledává.
+na internetových obchodech adresy detailů popisující diagram aktivit \ref{fig:pdp-diagram} a na část, která samotné obchody vyhledává.
 \par
-Implementována byla pouze první část, jelikož hledání samotných obchodů lze nahradit manuálním přidání obchodů na kterých chceme vyhledávat, případně 
-využít některý se seznamů internetových obchodů v České republice a ty manuálně vložit do databáze.
+Implementována byla pouze první část, jelikož hledání samotných obchodů lze nahradit manuálním přidání obchodů na kterých chceme vyhledávat, případně využít některý se seznamů internetových obchodů v České republice a ty manuálně vložit do databáze.
 \par
 Module Finder byl zcela odstraněn a nahrazen modulem novým, nazvaným ProductDetailProvider.
 Tento modul zajišťuje hledání detailů produktu, což je dosaženo na základě šablony pro daný e-shop, která obsahuje 
@@ -1366,7 +1373,7 @@ Pro samotné vytvoření požadavku je nutná existence částečné šablony, k
 Po pokusu nalezení adres se vytvoří chyba pro administrátora, aby specifikoval jak na stránce vyhledávat samotné detaily adres. Webové rozhraní
 pro tento proces, bylo vytvořeno již v rámci týmového projektu a bylo tedy využito.
 
-\begin{figure}[h]\centering
+\begin{figure}\centering
  	\includegraphics[width=1.0\textwidth]{resources/pdp-activity}
 	\caption[Aktivity diagram nalezení adres detailů produktů]{
 	Aktivity diagram nalezení adres detailů produktů}\label{fig:pdp-diagram}
