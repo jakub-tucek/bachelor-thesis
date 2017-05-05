@@ -97,15 +97,16 @@ by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Va
 \begin{introduction}
 V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt umožňující získávání informací z webů s primárním zaměřením na potřeby obchodů.
 \par
-Práce uvádí čtenáře do problematiky získávání informací z webů s požadavky internetových obchodů, konkrétně sledováním
-vývoje cen prodávaných produktů. Je popsán současný stav řešení potřeb internetových obchodů, včetně existujících služeb.
+Práce uvádí čtenáře do problematiky získávání informací z webů s důrazem na požadavky internetových obchodů, konkrétně sledováním
+vývoje cen prodávaných produktů. Je popsán současný stav řešení potřeb internetových obchodů a to včetně existujících služeb.
 \par
-Cílem této práce je navrhnout možná vylepšení vytvořeného řešení a nejdůležitější implementovat. Změny v implementaci zdokumentovat, 
-otestovat a zhodnotit výsledný stav projektu.
+Týmový projekt je zanalyzován na základě popisu domény, kterou má projekt za úkol řešit a základního návrhu systému
+z hlediska interní a webové části. Dále jsou uvedeny postupy použité při vývoji, samotná implementace a finální zhodnocení vytvořeného řešení.
 \par
-Nejprve je však nutné uvést do kontextu týmový projekt, a to nejdříve pomocí samotné analýzy, tedy toho co se snaží projekt řešit.
-Poté pomocí popisu postupů při vývoji, nastavení projektového řízení a implementace.
-Teprve po zhodnocení výsledného projektu je pak možné navrhnout a implementovat vylepšení.
+Cílem práce je navrhnout vylepšení, nejdůležitější implementovat a výsledné řešení opět zhodnotit. Důraz je kladen především na 
+budoucí rozšiřitelnost a opravu či doplnění stávající funkcionality pro nezbytné použití řešení. Zhodnocení je provedeno na základě
+testování nad reálnými daty a výsledných návrhem systému.
+\par
 
 \newpage
 
@@ -459,7 +460,7 @@ Uživatelská a interní část spolu sdílejí data pomocí relační databáze
 \section{Webové rozhraní}
 Webové rozhraní lze rozdělit na dvě části: pro uživatele a pro administrátory. 
 
-\subsection{Uživatelská část}
+\subsection{Uživatelská část}\label{ch:analysis-front-end}
 Uživatelská část obsahuje množinu podstránek určených pouze pro konečné uživatele
 služby a část pro administrátory, sloužící k monitorování kampaní a řešení chyb. Webové rozhraní používá databázi, která pak 
 obsahuje všechny uložené a získané data.
@@ -574,9 +575,10 @@ Webové rozhraní je implementováno v jazyce PHP verze 7. Základem aplikace je
 obsahuje nástroje pro automatickou správu závislostí, komunikaci s databází, vytváření bezpečných formulářů, zabezpečení
 aplikace, šablonovací systém a rozhraní pro tvorbu jednotkových testů. 
 \par
-Natte je navrženo s myšlenkou použití MVC architektury, která odděluje
-prezenční a logickou vrstvu. Zkratka MVC značí Model-View-Controller. V případě webového projektu v Nette je pak view šablona definující vzhled webové stránky, controller třídy obsluhují šablony. Modelovou vrstvu poté zajišťují servisní třídy, vykonávající logické části aplikace jako 
-například práci s repository třídami nebo zpracování formuláře. Repository se pak starají o přímou komunikace s databází.
+Nette je navrženo s myšlenkou použití MVC architektury, která odděluje
+prezenční a logickou vrstvu. Zkratka MVC značí Model-View-Controller. V případě webového projektu v Nette představuje \textit{view} šablona.
+Šablona definuje vzhled webové stránky. \textit{Controller} jsou třídy obsluhující šablony. \textit{Modelovou} vrstvu poté zajišťují servisní třídy, vykonávající logické části aplikace jako 
+například práci s \textit{repository} třídami nebo zpracování formuláře. Repository se starají o přímou komunikaci s databází.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=0.7\textwidth]{resources/mvc}
@@ -585,7 +587,7 @@ například práci s repository třídami nebo zpracování formuláře. Reposit
 \par
 Snadnou správu závislostí nad externími knihovnami zajišťuje balíčkovací systém Composer\cite{composer}. 
 Na základě souboru definující potřebné a jejich verze, jsou staženy z centrálního repozitáře. To zajišťuje jednotné verze knihoven
-a eliminace nutnosti knihovny manuálně stahovat či přímo přidávat do repozitáře.
+a eliminaci nutnosti knihovny manuálně stahovat či přímo přidávat do repozitáře.
 \subsection{Interní část}
 Interní část je implementována v jazyce Java verze 8. Kompilaci, spouštění testů a správu závislostí zajišťuje Gradle\cite{gradle}.
 Gradle je nástroj sloužící k automatickému sestavení aplikace. Dále umožňuje správu závislostí knihoven, kde je standardně nastavený jako zdroj
@@ -598,9 +600,9 @@ Díky tomu lze jednoduše zjistit jaké větve aplikace nejsou otestované.
 Aplikace je rozdělena do nezávislých modulů běžící jako služby. Jednotlivé moduly spolu komunikují
 pomocí posílání zpráv definovaných front. Komunikaci zajišťuje systém RabbitMQ Server implementovaný v jazyce Erlang. Zprávy jsou serializovatelné objekty, jejichž definice je sdílena napříč všemi moduly.
 \par
-Serializace představuje proces, kdy je objekt serializovaný do posloupnosti bitů, které jsou poslány jako zpráva. 
-Vzhledem k sdílené podobě objektu na obou stranách, zprávu lze jednoznačně deserializovat zpět do původní Java objektu se kterým
-je poté možné dále pracovat.\cite{serialization}
+\textit{Serializace} představuje proces, kdy je objekt serializovaný do posloupnosti bitů, které jsou poslány jako zpráva. 
+Vzhledem k sdílené podobě objektu na obou stranách, zprávu lze jednoznačně deserializovat zpět do původního Java objektu se kterým
+je poté možné možné dále pracovat.\cite{serialization}
 \par
 Projekt využívá mnoho volně dostupných knihoven, nejpodstatnější jsou však následující:
 \begin{itemize}
@@ -615,7 +617,7 @@ V druhé části týmového projektu, samotné implementaci, jsem byl vedoucí t
 věnoval jsem se projektu nad rámec předmětu.
 \par
 Na začátku projektu jsem vytvořil celý ekosystém, tvořený z přidružených služeb použitých při vývoji.
-Zde se jedná především o projení následujících služeb s Gitlabem:
+Zde se jedná především o propojení následujících služeb s Gitlabem:
 
 \begin{itemize}
 \item Redmine - možnost prokliku na úkol na základě čísla ve zprávě verzované jednotky (commit message)
@@ -624,23 +626,23 @@ Zde se jedná především o projení následujících služeb s Gitlabem:
 \item SonarQube - zobrazování interaktivního výsledku statické analýzy přímo v rozhraní Gitlab
 \end{itemize}
 
-Samotný SonarQube bylo nejprve potřeba nastavit, aby se spouštěl při sestavení aplikace a výsledek se poté zobrazil v rozhraní
-Gitlabu. V rámci sestavení aplikace jsem ještě nastavil spouštění nástroje Cobertura.
-Doplňky v Jenkins poté umožňovaly zobrazení přehledných výsledků, jak je kód pokryt testy. Přesné pokrytí testy mi poté umožňovali 
-jednoduše kontrolovat, zda jsou správně napsané všechny testy.
+Samotný SonarQube bylo nejprve potřeba nastavit, aby se spouštěl při sestavení aplikace a výsledek se zobrazil v rozhraní
+Gitlabu. V rámci sestavení aplikace jsem nastavil spouštění nástroje Cobertura.
+Doplňky v Jenkins umožňovaly zobrazení přehledných výsledků, jak je kód pokryt testy \ref{fig:cober-old}. Přesné pokrytí testů mi poté umožňovalo 
+jednoduše kontrolovat, zda jsou všechny požadované části kódu otestované.
 
 
 \chapter{Zhodnocení týmového projektu}
 Pro návaznost na kapitolu o provedených vylepšeních je nejprve nutné uvést v jakém kontextu jsou navrhovány. K tomu je třeba
-popsat výsledný stav projektu a jeho funkcionalitu, čemuž se budu věnovat v této kapitole. Popíši jaký byl výsledný stav
-řešení a nedostatky, které obsahovalo.
+popsat výsledný stav projektu a jeho funkcionalitu, čemuž se budu věnovat v této kapitole. Vysvětlím jaký byl výsledný stav
+řešení a zjištěné nedostatky.
 
 \section{Pojmy}
 
 \subsection{JSON}
-JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o formát, který je čitelný jak pro lidské oko tak pro stroj\cite{JSON},
+JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o formát, který je čitelný nejenom pro lidské oko, ale i pro stroj\cite{JSON},
 Zpracování toho formátu je implementováno pro většinu programovacích jazyků\cite{JSON-impl}. Skládá se z párů označující
-klíč a hodnotu. Kde hodnota může být řetězec, číslo nebo pole. Pole pak může uchovávat opět řetězec nebo číslo. \cite{JSON}
+klíč a hodnotu. Hodnota může být řetězec, číslo nebo pole. Pole pak může uchovávat opět řetězec nebo číslo. \cite{JSON}
 
 \begin{lstlisting}[language=JavaScript, caption={Ukázka formátu JSON}]
 {
@@ -663,30 +665,25 @@ klíč a hodnotu. Kde hodnota může být řetězec, číslo nebo pole. Pole pak
 
 
 \subsection{Web API}
-Rozhraní, které na definovaný HTTP dotaz vrací data. Ty jsou standardně vracena ve formátech JSON nebo XML.
+Rozhraní, které na definovaný HTTP dotaz vrátí požadované data. Data jsou standardně vracena ve formátech JSON nebo XML.
 
 \section{Stav}
-Ačkoliv stav projektu odpovídal nárokům na úspěšné odevzdání nebyla dosažena implementace všech procesů, aby byla umožněno reálné
-použití systému.
+Ačkoliv stav projektu odpovídal požadavkům na úspěšné odevzdání, nebyla dosažena implementace všech procesů. Tím bohužel nemohlo být dáno reálné použití systému.
 \par
 Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze základní funkcionality pro uživatele a pro administrátory.
 Část pro administrátory obsahovala správu uživatelů, možnost parsování stránek, evidenci známých obchodů a produktů či sledování
 chyb vzniklých v interní části.
-Uživatelská část umožňovala správu a vytvoření kampaně či kampaní. Implementace kampaní pak splňovala návrh z analytické částí,
-která byla zmíněna výše.
+Uživatelská část umožňovala správu a vytvoření kampaně či kampaní a splňovala návrh z analytické částí \ref{ch:analysis-front-end}.
 Na žádost jiného týmu jsme také vytvořili Web API rozhraní, poskytující získané ceny pro daný produktu ve formátu JSON.
 \par
-Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí detaily produktů. 
+Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí na detaily produktů. 
 Manager dokázal vybrat adresy detailů, které je potřeba aktualizovat.
 \par
-Na základě adres, vytvořil požadavky obsahující potřebná data. Požadavky odeslal pomocí front pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a informacích o produktu, který se na adrese nachází.
+Na základě adres vytvořil požadavky obsahující potřebná data. Požadavky odeslal pomocí front pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a poskytl informace o produktu, který se na adrese nachází.
 \par
 Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
-V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný a byla odeslána chyba
-zpět do Manageru. Manager následně výsledek korektně uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
-nebo nalezení ceny.
-\par
-Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, že může pokračovat v práci hledání cen na daném.
+V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný, tato chyba byla odeslána zpět do Manageru, kde se  výsledek uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
+nebo nalezení ceny. Vyřešení chyby Manager detekoval a adresu využil k vytvoření nového požadavku.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/legacy-process-activity}
@@ -695,11 +692,11 @@ Byla také obsažena detekce opravených chyb, díky kterému Manager poznal, ž
 \end{figure}
 
 \section{Nedostatky}
-Vytvořené řešení obsahovalo spoustu nedostatků, které je třeba v rámci této práce detekovat a ty nejdůležitější se pokusit opravit.
-Z důvodu kontextu a odlišnosti od původního návrhu nejprve popíšu systém plánování práce, který je důvodem nežádoucího chování.
+Vytvořené řešení obsahovalo spoustu nedostatků, které bylo třeba v rámci této práce detekovat a ty nejdůležitější se pokusit opravit.
+Z důvodu kontextu a odlišnosti od původního návrhu nejprve popíšu systém plánování práce, který bylo důvodem nežádoucího chování.
 
 \subsection{Vytváření požadavků pro ProductProvider}
-Některé nedostatky jsou úzce spjaty s tím, jak aplikace plánovala práci. Plánováním práce je myšlen proces
+Některé nedostatky byly úzce spjaty s tím, jak aplikace plánovala práci. Plánováním práce je myšlen proces
 nalezení adres detailů produktů, kde je požadováno získat nové data. Z nich jsou vytvořeny požadavky pro ProductProvider k zpracování.
 \par
 Jak bylo řečeno, prvotním kritériem hledání jsou adresy detailů. Ty se mohou vyskytovat v různých stavech. Systém je vybral v 
@@ -1515,29 +1512,29 @@ aktuální stav hledá na všech obchodech v systému.
 \section{Párování}
 Při testování bylo zjištěno, že velké množství obchodů neobsahuje správné nebo přímo odlišné identifikátory produktů. Nejčastější je výskyt pouze jména, které často neodpovídá tomu uloženému.
 \par
-Z toho důvodu je nutné párování provést ve velkém množstvím případů manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím 
+Párování je nutné na obchodech, které poskytují pouze název, provést ve většině množstvím případů manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím 
 produktů je počet těchto chyb velmi rozsáhlý. 
 \par
-Proces párování by bylo možné pak vylepšit, pokud by systém uchovával více identifikátorů. Především více uložených jmen by pak zátěž na administrátora mohla s časem klesat, protože použitých jmen napříč obchody by mělo být omezené množství. 
-Podpora pro tuto možnost však nebyla implementována, ačkoliv v některých částech byla interní část na tuto možnost již připravena.
+Proces párování by bylo možné vylepšit, pokud by systém uchovával více identifikátorů. Více uložených jmen by pak zátěž na administrátora mohla s časem klesat, protože použitých jmen napříč obchody by mělo být omezené množství. 
+Podpora pro tuto možnost však zcela nebyla zcela implementována, ačkoliv v některých částech byla interní část na tuto možnost již připravena.
 
-\section{Webové rozhraní}
-Nalezl jsem nedostatky ve webovém rozhraní, kdy funkčnost rozhraní sloužící k opravám šablony detailu, nebylo na některých obchodech funkční.
-Zde však stačilo zadat cestu k elementům manuálně. 
+\section{Webové rozhraní}\label{ch:web-interface}
+Nalezl jsem nedostatky ve webovém rozhraní, kdy jeho funkčnost sloužící k opravám šablony detailu, nebylo na některých obchodech funkční.
+Stačilo zadat cestu k elementům manuálně. 
 \par
-Problém pak obsahovala i část pro šablonu sloužící k nalezení adres detailů. Pokud bylo použito rozhraní, tak šablona nebyla ve většině
-případů funkční, proto bylo nutné zadávat cestu k elementu manuálně.
+Problém obsahovala i část pro šablonu sloužící k nalezení adres detailů. Pokud bylo použito rozhraní, šablona nebyla ve většině
+případů funkční, je proto nutné zadávat cestu k elementu manuálně.
 
 \section{Návrh a testy}
-
 Zásadní refaktoring a změna návrhu komunikace tříd velmi pozměnila interní část. 
-Interní část kromě toho, že vyhovuje značně rozšiřuje funkcionalitu oproti té z výsledku týmového řešení,
-je složena z přehlednějšího a lépe udržovatelného kódu.
-Lepší udržovatelnost byla výrazná především při přidávání vylepšení, kdy
+Interní část vyhovuje nárokům na formu v původních částech kódu, ale i v případě nové funkcionality. Je složena z přehlednějšího, udržitelnějšího a
+lépe rozšiřitelného kódu.
+\par
+Lepší rozšiřitelnost byla výrazná především při přidávání vylepšení, kdy
 tyto změny byly často triviální záležitost a po jejich provedení bylo zachována
 původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí
-testu a rozdělení. Oproti původnímu řešení narostl počet jednotkových
-testu ze 170 na 492. Pokrytí demonstruje následující vizualizace.
+testy a rozdělení tříd do menších celků. Oproti původnímu řešení narostl počet jednotkových
+testů ze 170 na 492. Pokrytí demonstruje následující vizualizace.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
@@ -1546,8 +1543,8 @@ testu ze 170 na 492. Pokrytí demonstruje následující vizualizace.
 	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-new}
 \end{figure}
 
-Pokrytí vzrostlo zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy pokrytá celá.
-Zbylé neotestované třídy jsou pak především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
+Pokrytí vzrostlo zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy, pokrytá celá.
+Zbylé neotestované třídy jsou především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
 \par
 I po provedení těchto změn zůstala nemožnost vytvoření více instancí jednotlivých modulů, tedy ProductDetailProvider a DataProvider.
 Tato změna je však požadována, až při nárokům na zpracování velkého množství dat. Pro změnu stačí přidat instanční rozhraní jednotlivých modulů, jelikož momentálně jsou spouštěny přímo modulem Manager. Oddělení neovlivní samotnou komunikaci jednotlivých části, nicméně 
@@ -1555,10 +1552,10 @@ vzroste zátěž na nastavení infrastruktury nasazení aplikace na server.
 
 \section{Rozhraní administrátora}
 Systém se stal z hlediska pro administrátora uživatelsky přívětivější. Při řešení chyb je rozhraní přehlednější a informace o chybách
-obsáhlejší, což zlepšuje lepší rozhodování. Dále byla také podstatně zrychleno celkové zpracování, jelikož odpadlo nutnost řešit
-každý požadavek, ať už se jedná víc chyb šablon u stejného obchodu či více chyb analyzátoru.
+obsáhlejší, tím se docílí lepší rozhodování. Dále bylo podstatně zrychleno celkové zpracování. Odpadla nutnost řešit
+každý požadavek, ať už se jedná o víc chyb šablon u stejného obchodu či chyb analyzátoru.
 \par 
-Nevýhodou jsou však nedostatky týkající se vytváření šablon, které byly zmíněny v sekci výše.
+Nevýhodou jsou nedostatky týkající se vytváření šablon, které byly zmíněny v kapitole \ref{ch:web-interface}.
 
 \section{Nemožnost vyhledávání na některých obchodech}
 V rámci testování jsem objevil nemožnost vyhledávat na některých obchodech. Jednalo se o dva
@@ -1566,33 +1563,26 @@ menší obchody: \textit{k24} a \textit{elektrocr}. Příčina byla odlišná im
 obsah adresy, která je v příslušném formátu.
 
 \chapter{Závěr}
-Vytvořené řešení týmového projektu nevyhovovalo požadavkům na funkcionalitu a možnosti budoucího rozvoje.
-Funkcionalita nebyla splněna především z důvodu nezapojení části, která má za úkol hledat samotné obchody a adresy detailů produktů ze kterých
-se mají čerpat samotná data. Nebyl také vyřešen proces párování produktu k adrese. Návrh některých tříd se ukázal jako nevhodný pro budoucí rozšiřování.
+Vytvořené řešení týmového projektu nevyhovovalo požadavkům na funkcionalitu a možnostem budoucího rozvoje.
+Funkcionalita nebyla splněna především z důvodu nezapojení části, která má za úkol hledat samotné obchody a adresy detailů produktů, které obsahují
+hledaná data. Nebyl také vyřešen proces párování produktu k adrese. Návrh některých tříd se ukázal jako nevhodný pro budoucí rozšiřování.
 \par
-V návaznosti na tyto nedostatky jsem navrhl rozsáhlé refaktorování a změnu architektury problémových tříd.
-Před přidáním nové funkcionality bylo nutné opravit stávající procesy, které jsou neefektivní nebo 
-ztěžují práci administrátora.
+V návaznosti na tyto nedostatky bylo navrženo rozsáhlé refaktorování, změna architektury problémových tříd a opravení stávajících
+procesů. Bylo potřeba opravit procesy, které nebyly funkční, ztěžovaly práci administrátora nebo byly neefektivní. U funkcionality, kterou měla zajišťovat nezapojená část bylo rozhodnuto o jejím rozdělení, kdy
+podpora hledání samotných obchodů byla nahrazena manuálním vložením přes webové rozhraní.
 \par
-Nezapojený modul jsem rozdělil a navrhl zanechání pouze části hledající adresy detailů na obchodě.
-Podporu hledání samotných obchodů je nahrazeno manuálním vložením přes webové rozhraní administrátorem.
+Refaktorování a změna návrhu tříd potvrdila, že se jedná do budoucna o výhodný krok zajišťující lepší udržovatelnost a rozšiřitelnost kódu. To se ukázalo už při následných změnách, které bylo možné provést v rámci vytvořeného návrhu.
+Oprava stávajících procesů pak byla nejvíce viditelná v lepší uživatelské přivětivosti pro administrátora umožňují
+případné problémy řešit rychleji a spolehlivěji.
 \par
-Refaktorování a změna návrhu tříd potvrdila, že se jedná o výhodný krok. Následné změny a úpravy bylo možné 
-jednoduše přidat do nové architektury. Opravení stávajících procesů vylepšilo celkovou uživatelskou přívětivost pro
-administrátora.
+Po implementování podpory hledání adres na obchodu a celého procesu párování produktů s adresami byly
+objevené nové nedostatky.
 \par
-Po implementování nově navrženého modulu a procesu párování jsem během testování objevil nové chyby, které
-neumožňovaly kontinuální běh systému nebo značně zhoršovaly administrátorské rozhraní. Jednalo se především o zahlcení administrátora chybami 
-a více možných struktur stránky detailu produktu na stejném obchodě. Chyby jsem v rámci implementace úspěšně opravil.
+Kritické problémy byly opravené v rámci implementace, ale ukázalo se, že i po provedení změn není možné systém použít pro provoz, kde
+je požadavek na univerzalitu systému. Systém je po správném nastavení schopný dlouhodobě a automaticky sbírat určitý vzorek dat. Byly však objeveny obchody, kde to není možné. Důvod je především odlišná implementace vyhledávání produktů, kterou vytvořený systém aktuálně nepodporuje.
 \par
-Byly také objeveny nové nedostatky, které se odstranit nepodařilo. Zde se jedná například o velkou zátěž na administrátora při
-párování produktů nebo nemožnost vyhledávat produkty na 2 specifických obchodech z 20 testovaných.
-\par
-Systém je po správném nastavení schopný dlouhodobě a automaticky sbírat určitý vzorek dat. Není však v aktuálním stavu vhodný
-pro široké použití z důvodů nemožnosti vyhledávat samotné obchody a nefunkčnost na některých obchodech. 
-Věřím však, že oprava hlavních nedostatků pro takové použití není velmi náročná a je tedy možné docílit takového stavu, který bude mít reálnou využitelnost.
-
-
+Ačkoliv nedostatky neumožňují požadované využití, věřím v možnost opravy nedostatků a přidání případných nových funkcionalit, které
+umožní systému reálné nasazení.
 
 \bibliographystyle{csn690}
 
