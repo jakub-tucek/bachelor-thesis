@@ -1287,7 +1287,7 @@ v rozhraní využít.
 \end{lstlisting}
 
 \subsection{Komunikační objekt a využití stažené stránky}
-Nejdříve se popíše změna komunikační třídy \textit{DataProviderRequest}, která byla mírně upravena.
+Nejdříve je popsána změna komunikační třídy \textit{DataProviderRequest}, která byla mírně upravena.
 Tato komunikační třída představuje jeden požadavek odeslaný pomocí front a skládá se z jednotlivých základních atributů a fragmentů.
 Fragmentem je zde myšlena složitější struktura, například komunikační třída obsahující informace o produktu.
 \par
@@ -1296,8 +1296,9 @@ Původní návrh počítal s příznakem označující typ požadavku pro DataPr
 Některé další atributy či fragmenty jako produkt nebo šablona nemusejí být nastaveny. U všech těchto atributů a fragmentů jsem proto provedl změnu u \textit{get} metod, aby vracely kontejner \textit{Optional}. Tím byla jasně indikovaná možnost, že hodnoty nemusí být obsaženy.
 \par
 V rámci DataProvideru stačilo vytvořit při přístupu k jednomu z těchto atributů nebo fragmentu dvě možné větvení aplikace.
-Například pokud byla stránka obsažena v požadavku, byla vytvořena validní odpověď o stažení obsahující tuto stránku, což demonstruji na 
-následující ukázce:
+Například pokud byla stránka obsažena v požadavku, byla vytvořena validní odpověď o stažení obsahující tuto stránku, což je demonstrováno 
+na ukázce.
+
 \begin{lstlisting}[language=Java, caption={Veřejná metoda třídy \textit{DPDownloaderServiceImpl} zajišťující stažení stránky obsahující detail produktu}]
     /**
      * Downloads requested page and returns {@link DownloaderResponse} object.
@@ -1314,6 +1315,9 @@ následující ukázce:
                         );
     }
 \end{lstlisting}
+
+
+\newpage 
 \section{Spojení chyb analyzátoru a vylepšení rozhraní}
 Oprava více četnosti chyb a samotného rozhraní je posloupnost několika oprav. 
 Bylo již zmíněno odstranění přebytečných výjimek, což zajistilo spouštění všech validací. 
@@ -1334,17 +1338,16 @@ reprezentací chyby.
 \par
 Dalším krokem bylo upravení webové rozhraní, aby odpovídalo změněné databázové struktuře. První změna se týkala samotného zobrazení
 informacích o chybě. Zde jsem využil nově uložených dat. Administrátor má tak možnost vidět použité hodnoty při analyzování a všechny
-vyskytnuté chyby.
+vyskytnuté chyby. Změna je pak viditelná na ukázkách webového rozhraní: \ref{fig:analyser-error} a \ref{fig:temp-det-err}.
+\par
 Poslední změna už pouze spočívala v zpracování vstupů od administrátora, kdy bylo potřeba uložit všechny možné příznaky pro 
 budoucí analyzování. Přidal jsem také možnost přesměrovat administrátora do rozhraní, kde může změnit šablonu pro parsování
 stránky, neboť je možné, že analýza je chybná z důvodu změny ve struktuře stránky.
+\par
 
-\newpage
-
-\begin{figure}[H]\centering
- 	\includegraphics[width=0.9\textwidth]{resources/analyser-err}
-	\caption[Webové rozhraní pro vyřešení chyby analyzátoru po provedení vylepšení]{Ukázka webového rozhraní administrátora po provedených vylepšení. 
-	}\label{fig:analyser-error}
+\begin{figure}\centering
+ 	\includegraphics[width=1.0\textwidth]{resources/analyser-err}
+	\caption[Webové rozhraní pro vyřešení chyby analyzátoru po provedení vylepšení]{Ukázka webového rozhraní pro vyřešení chyby analyzátoru po provedených vylepšení.}\label{fig:analyser-error}
 \end{figure}
 
 \section{Monitorování}
@@ -1389,7 +1392,7 @@ podřetězce v opačném směru.
 Pokud jsou oba způsoby (pro všechny identifikátory) neúspěšné, jsou provedeny heuristiky hledající pravděpodobné shody. K detekci shody jsou použity algoritmy počítající společná slova a nejdelší společný podřetězec. Z množiny těchto možností je vytvořena chyba, kterou musí zpracovat administrátor.
 \par 
 Do webového části bylo nutné vytvořit rozhraní, které administrátorovi umožňuje jednoduché přiřazení 
-adresy k produktu nebo všechny nabízmožnosti odmítnout.
+adresy k produktu nebo všechny nabízené možnosti odmítnout.
 
 
 \section{Detekce neexistující stránky a nenalezeného produktu}
@@ -1403,9 +1406,15 @@ Nejprve jsem se snažil v případě detekce jiné struktury porovnávat se str�
 Problémem tohoto řešení se ukázala přílišná odlišnost HTML stažených stránek a specifičnost obchodů. Algoritmus fungoval
 pouze na malé části obchodů a proto bylo toto řešení zavřeno.
 \par
-Nakonec jsem zvolil možnost administrátora při řešení chyby zadat řetězec značící neexistenci produktu (popř. neexistující stránky detailu produktu). Tento řetězec je pro každý obchod specifický a před vytvořením příslušné chyby šablony je nejdříve zkontrolováno, zda
+Nakonec jsem zvolil možnost administrátora při řešení chyby zadat řetězec značící neexistenci produktu (popř. neexistující stránky detailu produktu), viz. obrázek \ref{fig:temp-det-err}. Tento řetězec je pro každý obchod specifický a před vytvořením příslušné chyby šablony je nejdříve zkontrolováno, zda
 se pouze produkt pouze na obchodě nenachází (popř. stránka neexistuje) a to vyhledání řetězce na stránce. Pokud na stránce řetězec je, pak
-se nejedná o chybu šablony
+se nejedná o chybu šablony.
+
+\begin{figure}\centering
+ 	\includegraphics[width=1.0\textwidth]{resources/template-detail-err}
+	\caption[Administrátorské rozhraní pro opravu detailu šablony]{Administrátorské rozhraní pro opravu detailu šablony.
+	Původnímu řešení neobsahovalo informací v použité url adrese, vyparsované hodnoty a formulář pro chybný řetězec.}\label{fig:temp-det-err}
+\end{figure}
 
 \section{Více šablon detailů produktu}
 Původní návrh počítal s možností, kdy stránka detailu produktu je ve stejné struktuře napříč celým obchodem.
@@ -1502,6 +1511,7 @@ Jako nevýhoda a hlavní nedostatek se však ukázal velký důraz na administr�
 Při možném reálném použití systému je pak potřeba zajistit, aby v rámci kampaně byla možnost výběru jaké obchody jsou požadovány sledovat, jelikož
 aktuální stav hledá na všech obchodech v systému.
 
+
 \section{Párování}
 Při testování bylo zjištěno, že velké množství obchodů neobsahuje správné nebo přímo odlišné identifikátory produktů. Nejčastější je výskyt pouze jména, které často neodpovídá tomu uloženému.
 \par
@@ -1517,14 +1527,6 @@ Zde však stačilo zadat cestu k elementům manuálně.
 \par
 Problém pak obsahovala i část pro šablonu sloužící k nalezení adres detailů. Pokud bylo použito rozhraní, tak šablona nebyla ve většině
 případů funkční, proto bylo nutné zadávat cestu k elementu manuálně.
-
-\par
-\begin{figure}[h]\centering
- 	\includegraphics[width=1.0\textwidth]{resources/template-detail-err}
-	\caption[Administrátorské rozhraní pro opravu detailu šablony]{Administrátorské rozhraní pro opravu detailu šablony.}\label{fig:temp-det-err}
-\end{figure}
-
-
 
 \section{Návrh a testy}
 
