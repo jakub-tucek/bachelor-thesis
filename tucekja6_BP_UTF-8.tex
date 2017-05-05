@@ -80,13 +80,20 @@
 \authorFN{Tuček} %příjmení autora
 \authorWithDegrees{} %jméno autora včetně současných akademických titulů
 \supervisor{Ing. Jiří Hunka}
-\acknowledgements{Rád bych poděkoval za trpělivost vedoucímu, Ing. Jiřímu Hunkovi.}
-\abstractCS{V~několika větách shrňte obsah a přínos této práce v~češtině. Po přečtení abstraktu
-by se čtenář měl mít čtenář dost informací pro rozhodnutí, zda chce Vaši práci číst.}
+\acknowledgements{Rád bych poděkoval za trpělivost vedoucímu, Ing. Jiřímu Hunkovi, rodině za podporu a svému týmu
+z předmětů BI-SP1 a BI-SP2 za obětavou práci na společném projektu.}
+
+\abstractCS{
+Tato práce rozebírá obecnou potřebu internetových obchodů, analyzuje realizaci týmového projektu z předmětů BI-SP1 a BI-SP2 včetně zvolených postupů a řešení s ohledem na požadavky internetových obchodů. Na základě zhodnocení týmového projektu jsou navrženy možná vylepšení, která
+doplňují funkcionalitu a upravují možnosti rozšiřitelnosti výsledného systému.
+Výsledek práce je implementace nejdůležitějších vylepšení a jejich zhodnocení na základě důkladného otestování a analýzy výsledného řešení.
+}
+
+
 \abstractEN{Sem doplňte ekvivalent abstraktu Vaší práce v~angličtině.}
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
-\keywordsCS{Nahraďte seznamem klíčových slov v češtině oddělených čárkou.}
+\keywordsCS{informace z webu, internetové obchody, Git, Jenkins, průběžná integrace, modulární architektura}
 \keywordsEN{Nahraďte seznamem klíčových slov v angličtině oddělených čárkou.}
 
 \begin{document}
@@ -1559,7 +1566,7 @@ Nevýhodou jsou nedostatky týkající se vytváření šablon, které byly zmí
 
 \section{Nemožnost vyhledávání na některých obchodech}
 V rámci testování jsem objevil nemožnost vyhledávat na některých obchodech. Jednalo se o dva
-menší obchody: \textit{k24} a \textit{elektrocr}. Příčina byla odlišná implementace hledání, kdy nestačilo pouze stáhnout
+menší obchody: \textit{k24.cz} a \textit{elektrocr.cz}. Příčina byla odlišná implementace hledání, kdy nestačilo pouze stáhnout
 obsah adresy, která je v příslušném formátu.
 
 \chapter{Závěr}
