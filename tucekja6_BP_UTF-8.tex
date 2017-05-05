@@ -1349,29 +1349,31 @@ stránky, neboť je možné, že analýza je chybná z důvodu změny ve struktu
 
 \section{Monitorování}
 Na virtuální server jsem nasadil službu DataDog \cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
-a vytížení serveru. Data jsou odesílány přímo do služby DataDog. Webové rozhraní poté umožňuje sledovat posbírané údaje.
+a vytížení serveru. Data jsou odesílány přímo do služby DataDog. Webové rozhraní umožňuje sledovat posbírané údaje.
 \par
-Základní funkcionalita poskytuje pouze informace o využití prostředků a přístup k logům. Službu je však možné rozšířit o velký počet doplňků. Pomocí těch je pak možné sledovat například výsledek sestavení v Jenkins nebo obsah a využití RabbitMQ front.
+Základní funkcionalita poskytuje pouze informace o využití prostředků a přístup k logům. Službu je však možné rozšířit o velký počet doplňků. Pomocí těch je možné sledovat například výsledek sestavení v Jenkins, ale i obsah a využití RabbitMQ front.
 
 
 \section{Získání adres obchodů a příslušných detailů produktů}
-Vzhledem pouze k malé možnosti využitelnosti implementované části v modulu Finder, především z důvodu dlouhých metod, které zajišťují
-základní stavební kámen tohoto modulu jsem se rozhodl modul Finder rozdělit na dvě části. Část vyhledávající 
-na internetových obchodech adresy detailů popisující diagram aktivit \ref{fig:pdp-diagram} a na část, která samotné obchody vyhledává.
+Vzhledem k malé možnosti využitelnosti implementované části v modulu Finder především z důvodu dlouhých metod, které zajišťují
+základní stavební kámen tohoto modulu, jsem se rozhodl modul Finder rozdělit na dvě části.
 \par
-Implementována byla pouze první část, jelikož hledání samotných obchodů lze nahradit manuálním přidání obchodů na kterých chceme vyhledávat, případně využít některý se seznamů internetových obchodů v České republice a ty manuálně vložit do databáze.
+Část vyhledávající na internetových obchodech adresy detailů popisující diagram aktivit \ref{fig:pdp-diagram} a na část, která samotné obchody vyhledává.
 \par
-Module Finder byl zcela odstraněn a nahrazen modulem novým, nazvaným ProductDetailProvider.
-Tento modul zajišťuje hledání detailů produktu, což je dosaženo na základě šablony pro daný e-shop, která obsahuje 
+Implementována byla pouze první část, jelikož hledání samotných obchodů lze nahradit manuálním přidání obchodů, na kterých chceme vyhledávat, případně využít některý z veřejných seznamů internetových obchodů v České republice a ty manuálně vložit do databáze.
+Jako seznam by bylo možné využít například webovou stránku \href{http://www.i-shopy.cz/}{i-shopy.cz \textit{[cit. 5.5.2017]}}, která indexuje 3091 internetových obchodů.
+\par
+Modul Finder byl zcela odstraněn a nahrazen modulem novým, nazvaným ProductDetailProvider.
+Tento modul zajišťuje hledání detailů produktu, tím je dosaženo na základě šablony pro daný e-shop, která obsahuje 
 tyto atributy:
 \begin{itemize}
 \item formát url vyhledávající produkt na obchodu
 \item oddělovač slov v url adrese
 \item selektory pro výběr url adres vedoucí na detaily produktu
 \end{itemize}
-Pro samotné vytvoření požadavku je nutná existence částečné šablony, která obsahuje informace jak na obchodě vyhledávat.
-Po pokusu nalezení adres se vytvoří chyba pro administrátora, aby specifikoval jak na stránce vyhledávat samotné detaily adres. Webové rozhraní
-pro tento proces, bylo vytvořeno již v rámci týmového projektu a bylo tedy využito.
+Pro vytvoření požadavku je důležitá existence částečné šablony, která obsahuje informace jak na obchodě vyhledávat.
+Po pokusu nalezení adres se vytvoří chyba pro administrátora, aby specifikoval, jak na stránce vyhledávat samotné detaily adres. Webové rozhraní
+bylo pro tento proces vytvořeno v rámci týmového projektu.
 
 \begin{figure}\centering
  	\includegraphics[width=1.0\textwidth]{resources/pdp-activity}
@@ -1381,65 +1383,62 @@ pro tento proces, bylo vytvořeno již v rámci týmového projektu a bylo tedy 
 
 \section{Párování produktu}
 Byl navržen proces, který se nejprve pokusí produkt spárovat automaticky, pokud nalezne přímou shodu názvu, EANu nebo modelového čísla.
-Shodou je pak myšleno, kdy získaná hodnota je podřetězec toho již uloženého nebo naopak.
+Pro shodu probíhá hledání podřetězce nalezeného identifikátoru v tom již uloženém. Pokud se hledání nepodaří je vyzkoušeno hledání
+podřetězce v opačném směru.
 \par
-Pokud se spárování nepodaří, jsou provedeny heuristiky hledající pravděpodobné shody. K detekci pravděpodobnosti shody jsou pak použity
-algoritmy počítající společná slova a nejdelší společný podřetězec. Z množiny těchto možností je pak vytvořena chyba, kterou musí zpracovat administrátor.
+Pokud jsou oba způsoby (pro všechny identifikátory) neúspěšné, jsou provedeny heuristiky hledající pravděpodobné shody. K detekci shody jsou použity algoritmy počítající společná slova a nejdelší společný podřetězec. Z množiny těchto možností je vytvořena chyba, kterou musí zpracovat administrátor.
 \par 
-Pro tuto možnost a zpracování bylo poté nutné vytvořit webové rozhraní, které administrátorovi umožňuje jednoduché přiřazení 
-adresy k produktu nebo všechny možnosti odmítnout.
+Do webového části bylo nutné vytvořit rozhraní, které administrátorovi umožňuje jednoduché přiřazení 
+adresy k produktu nebo všechny nabízmožnosti odmítnout.
 
 
 \section{Detekce neexistující stránky a nenalezeného produktu}
-V případě použití interního vyhledávání byl běžný stav, kdy pro hledanou hodnotu nebyl nalezen žádný produkt, což 
-systém zpracoval jako chybu šablony, jelikož struktura stránky šabloně neodpovídala. Podobný případ byl při nalezení adresy detailu, která
-ač je obchodem vrácena jako výsledek při hledání, tak neexistuje. I pro tuto možnost byla vytvořena chyba šablony, akorát jiného typu.
+V případě použití interního vyhledávání se stávalo, že pro hledanou hodnotu nebyl nalezen žádný produkt, což bylo zpracování
+jako chyba šablony, protože struktura stránky definované šabloně neodpovídala. Podobný případ byl při nalezení adresy detailu, která
+ač je obchodem vrácena jako výsledek při hledání, neexistuje. I pro tuto možnost byla vytvořena chyba šablony ve formátu jiného typu.
 \par
-V případě vyhledávání na obchodě jsem nejprve zvolil řešení, kdy jsem se pokoušel stránku, kde není žádný výsledek porovnat se stránkou, která
-byla na obchodě vrácena pro náhodný a nesmyslný řetězec dlouhé délky. Myšlenka byla, že pokud produkt opravdu neexistuje bude
-pro nesmyslné hledání vrácena podobná stránka.
+Nejprve jsem se snažil v případě detekce jiné struktury porovnávat se stránkou, která byla obchodem vrácena při hledání náhodného
+řetězce dlouhé délky. Myšlenka byla, že pokud produkt opravdu na obchodu není bude stránka navrácená při hledání s náhodným řetězcem podobná struktura.
 \par
-Problém toho řešení se ukázala přílišná odlišnost HTML stažených stránek a specifičnost obchodů. Algoritmus tak fungoval
-pouze na malé části obchodů.
+Problémem tohoto řešení se ukázala přílišná odlišnost HTML stažených stránek a specifičnost obchodů. Algoritmus fungoval
+pouze na malé části obchodů a proto bylo toto řešení zavřeno.
 \par
-Proto jsem zvolil řešení, kdy administrátor má při řešení chyby možnost zadat řetězec značící neexistenci produktu (popř. neexistující stránky detailu produktu). Tento řetězec je poté pro každý obchod specifický a před vytvořením příslušné chyby šablony je nejdříve zkontrolováno, zda
-se pouze produkt pouze na obchodě nenachází (popř. stránka neexistuje) a to tak že je vyhledán řetězec na stránce. Pokud na stránce je, pak
-se nejedná o chybu šablony.
+Nakonec jsem zvolil možnost administrátora při řešení chyby zadat řetězec značící neexistenci produktu (popř. neexistující stránky detailu produktu). Tento řetězec je pro každý obchod specifický a před vytvořením příslušné chyby šablony je nejdříve zkontrolováno, zda
+se pouze produkt pouze na obchodě nenachází (popř. stránka neexistuje) a to vyhledání řetězce na stránce. Pokud na stránce řetězec je, pak
+se nejedná o chybu šablony
 
 \section{Více šablon detailů produktu}
 Původní návrh počítal s možností, kdy stránka detailu produktu je ve stejné struktuře napříč celým obchodem.
-Tento předpoklad se ukázal jako chybný, kdy například v případě slevy je element obsahující cenu odlišný.
+Tento předpoklad se ukázal jako chybný, například v případě slevy je element obsahující cenu odlišný.
 \par
-Jiná struktura pak způsobila chybu šablony. Z toho důvodu jsem implementoval podporu alternativních šablon, které jsou
+Jiná struktura pak způsobila chybu šablony. Abych problém odstranil implementoval jsem podporu alternativních šablon, které jsou
 použity v případě, že hlavní šablona selže. Uložení této šablony jsem zapracoval do rozhraní administrátora, kdy je třeba
-vyřešit chybu šablony detailu. Administrátor má možnost buď původní hlavní šablonu opravit nebo uložit jako alternativní.
+vyřešit chybu šablony detailu. Administrátor má možnost původní hlavní šablonu opravit nebo uložit jako alternativní.
 
 \section{Více stejných chyb}
 Systém se i po změnách potýkal se stavem, kdy se v administrátorském rozhraní objevilo více chyb šablon nebo analyzátoru.
-V původní řešení tento stav nastával v případě, kdy neexistovala šablona pro detail nebo vyhledávání na obchodě, což v případě více požadavků
-týkajícího se stejného obchodu, způsobilo vytvoření pro každý požadavek chybu.
+V původním řešení tento stav nastával tehdy, když neexistovala šablona pro detail nebo vyhledávání na obchodě. 
+V případě více požadavků týkajícího se stejného obchodu, vytvoření způsobilo pro každý požadavek chybu.
 \par
-Chyby lze však predikovat a v případě neexistující šablony odeslat pouze jeden takový požadavek. Ačkoliv jsem pro tento 
+Chyby lze predikovat a v případě neexistující šablony odeslat pouze jediný požadavek pro ProductProvider.. Ačkoliv jsem pro tento 
 stav upravil plánování práce a zároveň přidal kontrolu, která kontroluje zda není takový požadavek již ve frontě, tak
-i přes to se stávalo, že administrátor byl zahlcen chybami. Zahlcení v tomto způsobovala šablona, která přestala fungovat.
+i přesto se stávalo, že administrátor byl zahlcen chybami. Zahlcení v tomto způsobovala šablona, která přestala fungovat.
 \par
-Jelikož tento stav nelze predikovat, zvolil jsem možnost, kdy je pouze upraveno webové rozhraní a následné uložení opravené chyby.
-Uložení pak způsobí vyřešení i ostatních chyb, které mají stejnou příčinu.
-\par
-Nejprve jsem upravil webové rozhraní, aby chyby se stejnou příčinou nebyly v seznamu vícekrát ale pouze jednou. Po zpracování
-jsem poté přidal algoritmus, který nastaví všechny chyby stejného typu jako vyřešené, čímž odpadá nutnost administrátora všechny vyřešit.
+Tento stav není možné predikovat. Zvolil jsem možnost, kdy je pouze upraveno webové rozhraní a následné uložení opravené chyby.
+Úprava webového rozhraní spočívala v zobrazení chyb týkajícího se stejného obchodu v seznamu pouze jednou.
+Změna uložení pak způsobí vyřešení i ostatních chyb na obchodu, čímž odpadá nutnost administrátora všechny vyřešit.
 
 \section{Skladem}
-V rámci získávání dat u detailu produktu jsem přidal možnost získávat, zda je produkt skladem. 
+V rámci získávání dat u detailu produktu jsem přidal možnost uložit i zda je produkt skladem.
 \par
 Pro úpravu jsem upravil nejdříve rozhraní pro vytváření šablony a strukturu databáze, aby uchovávala atribut u šablony a výsledku parsování.
-Poté jsem pouze zajistil, aby byl tento atribut zahrnut v rámci komunikace modulu Manager a DataProvider, kde bylo potřeba zajistit
-správné uložení do komunikační třídy, samotné získání hodnoty a korektní uložení do databáze.
+Zajistil jsem, aby byl tento atribut zahrnut v rámci komunikace modulu Manager a DataProvider, kde bylo potřeba upravit
+správné uložení nových atributů do komunikačních tříd, získání hodnoty při parsování a následné uložení do databáze.
 
 \section{Ostatní}
 Při realizaci jsem provedl několik menších změn a oprav. Jedna z nich bylo například nastavení 
-připojení do databáze. Původní stav obsahoval konfigurace připojení v samostatných \textit{xml} souborech, což znamenalo, že každá nová databázová
-třída musela být přidána do všech těchto souborů.
+připojení do databáze. Původní stav obsahoval konfiguraci  připojení v samostatných \textit{xml} souborech, což znamenalo, že každá nová databázová
+třída musela být přidána do všech těchto souborů. 
 \par
 Tento způsob jsem přepsal, aby nastavení databázových tříd bylo v jednom souboru. Samotné připojení definují
 \textit{properties} soubory, které mají následovnou strukturu:
@@ -1458,14 +1457,14 @@ hibernate.hbm2ddl.import_files_sql_extractor
 	=org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
 \end{lstlisting}
 
-Změna ulehčuje změny v databázových třídách a zpřehledňuje nastavení.
+Úprava pak ulehčuje změny v databázových třídách a umožňuje jednoduchou konfiguraci pro více vývojových prostředí jako například testovací, vývojové
+a produkční.
 
 
 \chapter{Zhodnocení provedených vylepšení}
-V této kapitole se budu nejprve věnovat konečné funkcionalitě systému. V návaznosti na výsledný stav poté popíšu 
-jaké nedostatky jsem v rámci testování objevil. Zhodnocení jsem prováděl vůči výslednému návrhu a funkcionalitě. Funkcionalitu jsem 
+Zde bych se rád věnoval konečné funkcionalitě systému. V návaznosti na výsledný stav popíšu nedostatky objevené v rámci testování, které jsem uskutečnil. Celkové zhodnocení jsem provedl vůči výslednému návrhu a funkcionalitě. Funkcionalitu jsem 
 testoval na vzorku produktů popsané v tabulce \ref{product-test} a 20 internetových obchodů.
-Pozorování z testování se pak věnuji v následujících kapitolách.
+Pozorování z testování se bude věnovat věnovat v následujících kapitolách.
 
 \begin{table}[h]
 \centering
@@ -1488,10 +1487,10 @@ Philips         & Phil-71768/08/16 & Softpal Battery Olaf White                 
 
 
 \section{Funkcionalita}
-Nejpodstatnější rozdíl při porovnání starého řešení a nového je samotná funkcionalita, která byla značně rozšířena. Především je možné
-využít celý proces hledání informací, jelikož stačí administrátorem zadat přes webové rozhraní obchody na kterých chceme hledat.
-Oproti původního řešení tedy není nutné definovat adresy detailů přímo vložením do databáze. 
-Podpora více šablon pak rozšiřuje použití na více obchodech.
+Nejpodstatnější rozdíl při porovnání starého řešení a nového, je samotná funkcionalita, která byla značně rozšířena. Především je možné
+využít celý proces hledání informací. Administrátorem stačí zadat přes webové rozhraní obchody na kterých chceme hledat.
+Oproti původnímu řešení není nutné definovat adresy detailů přímo vložením do databáze. 
+Podpora více šablon rozšiřuje použití na více obchodech.
 
 \section{Kampaň}
 Vytvoření kampaně zůstalo stejné jako v původním řešení. Rozdíl je nejvíce markantní v rozhraní pro administrátora, kdy je
