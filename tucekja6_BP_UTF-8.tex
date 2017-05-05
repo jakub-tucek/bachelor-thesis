@@ -1560,32 +1560,38 @@ každý požadavek, ať už se jedná víc chyb šablon u stejného obchodu či 
 \par 
 Nevýhodou jsou však nedostatky týkající se vytváření šablon, které byly zmíněny v sekci výše.
 
+\section{Nemožnost vyhledávání na některých obchodech}
+V rámci testování jsem objevil nemožnost vyhledávat na některých obchodech. Jednalo se o dva
+menší obchody: \textit{k24} a \textit{elektrocr}. Příčina byla odlišná implementace hledání, kdy nestačilo pouze stáhnout
+obsah adresy, která je v příslušném formátu.
+
 \chapter{Závěr}
 Vytvořené řešení týmového projektu nevyhovovalo požadavkům na funkcionalitu a možnosti budoucího rozvoje.
 Funkcionalita nebyla splněna především z důvodu nezapojení části, která má za úkol hledat samotné obchody a adresy detailů produktů ze kterých
 se mají čerpat samotná data. Nebyl také vyřešen proces párování produktu k adrese. Návrh některých tříd se ukázal jako nevhodný pro budoucí rozšiřování.
 \par
-V návaznosti na tyto nedostatky jsem nejprve navrhl rozsáhlé refaktorování a změnu architektury problémových tříd.
-Po refaktorovíní bylo před přidáním nové funkcionality nutné opravit stávající procesy, které jsou neefektivní nebo 
+V návaznosti na tyto nedostatky jsem navrhl rozsáhlé refaktorování a změnu architektury problémových tříd.
+Před přidáním nové funkcionality bylo nutné opravit stávající procesy, které jsou neefektivní nebo 
 ztěžují práci administrátora.
 \par
 Nezapojený modul jsem rozdělil a navrhl zanechání pouze části hledající adresy detailů na obchodě.
-jelikož podporu hledání samotných obchodů je prozatím možné nahradit manuálním vložením. Hledají obchodů poté nahradit 
-manuálním vložením přes webové rozhraní administrátorem.
+Podporu hledání samotných obchodů je nahrazeno manuálním vložením přes webové rozhraní administrátorem.
 \par
-Refaktorování a změna návrhu tříd se ukázala jako výhodný krok, jelikož následné změny a úpravy bylo možné 
-jednoduše přidat do nové architektury. Opravení stávajících procesů zlepšilo celkovou uživatelskou přívětivost pro
+Refaktorování a změna návrhu tříd potvrdila, že se jedná o výhodný krok. Následné změny a úpravy bylo možné 
+jednoduše přidat do nové architektury. Opravení stávajících procesů vylepšilo celkovou uživatelskou přívětivost pro
 administrátora.
 \par
-Po implementování nově navrženého modulu a procesu párování jsem během testování objevil zásadní nedostatky, které
-neumožňovaly stabilní běh systému. Jednalo se o problémy jako více možností struktury stránky obsahující detail produktu nebo zahlcení administrátora chybami ve webovém rozhraní. 
+Po implementování nově navrženého modulu a procesu párování jsem během testování objevil nové chyby, které
+neumožňovaly kontinuální běh systému nebo značně zhoršovaly administrátorské rozhraní. Jednalo se především o zahlcení administrátora chybami 
+a více možných struktur stránky detailu produktu na stejném obchodě. Chyby jsem v rámci implementace úspěšně opravil.
 \par
-Komplikace týkající se konkrétní implementace internetového obchodu jsem neopravoval. Byly také objeveny nové nedostatky 
-jako například velká zátěž na administrátora při párování produktu a adresy detailu na obchodě.
+Byly také objeveny nové nedostatky, které se odstranit nepodařilo. Zde se jedná například o velkou zátěž na administrátora při
+párování produktů nebo nemožnost vyhledávat produkty na 2 specifických obchodech z 20 testovaných.
 \par
-Ačkoliv systém je schopný nastavit a nechat ho sbírat určitý vzorek dat, tak pro dlouhodobé a široké použití systém v aktuální fázi nedoporučuji.
-Pro reálné použití by bylo nutné opravit zmíněné nedostatky a systém doplnit o funkcionalitu, aby splňoval hlavní nároky
-zákazníku a provozovatele. Věřím však, že vzhledem ke stávajícímu stavu projektu je toto v budoucnu možné docílit.
+Systém je po správném nastavení schopný dlouhodobě a automaticky sbírat určitý vzorek dat. Není však v aktuálním stavu vhodný
+pro široké použití z důvodů nemožnosti vyhledávat samotné obchody a nefunkčnost na některých obchodech. 
+Věřím však, že oprava hlavních nedostatků pro takové použití není velmi náročná a je tedy možné docílit takového stavu, který bude mít reálnou využitelnost.
+
 
 
 \bibliographystyle{csn690}
