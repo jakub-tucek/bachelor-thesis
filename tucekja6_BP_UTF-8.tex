@@ -10,7 +10,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{float}
-
+\usepackage{multirow}
 % \usepackage[unicode]{hyperref}
 \usepackage{listings}
 \usepackage{color}
@@ -764,42 +764,61 @@ Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nej
 Rozšiřitelnost je hodnocena na základě návrhu, pokrytí testy a počtu chyb statické analýzy kódu. Návrh byl podrobně zmíněn v kapitole 
 \ref{ch:architecture-tests}. 
 
-\begin{center}
+Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2}je možné prohlásit, že pro základní použití systému je potřeba opravit kritické chyby a doplnění požadované funkcionality. Pro pohodlné použití je však zapracovat i na zbylých požadavcích, jinak je možné, že systém bude systém z hlediska administrátorského rozhraní velmi nepřívětivý. Neefektivní chování se může negativně odrazit při velké zátěži. Škálovatelnost má v tomto případě prioritu nejmenší.
+
+\begin{table}[h]\centering\label{table:analysis-old1}
+	\caption[První část tabulky přehledu nedostatků vytvořeného týmového řešení]{První část tabulky přehledu nedostatků vytvořeného týmového řešení}
     \begin{tabular}{ | l | l | p{7cm} |}
     \hline
     Typ & Počet & Popis \\ \hline
-    Kritické chyby & 2 & 
-		V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována \\ \hline
-	& &	V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována \\ \hline
+    Kritické chyby & 2 &
+    	\begin{itemize}
+  			\item V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována.
+  		\end{itemize}\\ \hline
 	\hline
-    Úplnost funkcionality& 3 & 
-		Systém nevyhledává internetové obchody \\ \hline
-	& &	Systém nevyhledává adresy detailů produktů \\ \hline
-	& &	Systém neplánuje práci v požadovaných intervalech \\ \hline
-	& &	Neexistence procesu párování \\ \hline
+    Úplnost funkcionality & 4 & 
+    	\begin{itemize}
+  			\item Systém nevyhledává internetové obchody.
+  			\item Systém nevyhledává adresy detailů produktů.
+  			\item Systém neplánuje práci v požadovaných intervalech.
+  			\item Neexistence procesu párování.
+  		\end{itemize} \\ \hline
 	\hline
-	    Rozšiřitelnost &  & 
-		Návrh tříd byl vyhodnocen jako nevhodný pro rozšiřování \\ \hline
-	& &	Pokrytí testy dle nástroje cobertura - 60\% \\ \hline
-	& &	Kritické chyby statické analýzy kódu - 3 \\ \hline
-	& &	Minoritní chyby statické analýzy kódu - 1 \\ \hline
-	\hline
-	    Neefektivní chování & 4 & 
-		Stránka je nově stažena v každém požadavku (i v případě chyby) \\ \hline
-	& &	V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována \\ \hline
-	& &	Každá chyba analyzátoru znamená samostatný požadavek a chybu \\ \hline
-	& &	Vytvoření více požadavků pokud neexistuje šablona na obchodě \\ \hline
-	\hline
-	    Uživatelská přívětivost & 2 & 
-		Nutnost řešit chyby analyzátoru po jedná \\ \hline
-	& &	Řešené chyby neobsahují bližší informace (informace o chybě, vyparsované hodnoty, použitá adresa detailu) \\ \hline
-	\hline
-	    Škálovatelnost & 1 & 
-		Nemožnost vytvořit více instancí modulů \\ \hline
+	Rozšiřitelnost &  & 
+		\begin{itemize}
+  			\item Návrh tříd byl vyhodnocen jako nevhodný pro rozšiřování.
+  			\item Pokrytí testy dle nástroje cobertura. - 60\%.
+  			\item 3 kritické chyby statické analýzy kódu.
+  			\item 1 minoritní chyba statické analýzy kódu.
+  		\end{itemize} \\ \hline
     \end{tabular}
-\end{center}
+\end{table}
+\begin{table}[h]\centering\label{table:analysis-old2}
+	\caption[Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení]{Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení}
+    \begin{tabular}{ | l | l | p{7cm} |}  
+    \hline
+    Typ & Počet & Popis \\ \hline
+	Neefektivní chování & 4 & 
+		\begin{itemize}
+  			\item Stránka je nově stažena v každém požadavku (i v případě chyby).
+  			\item V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována.
+  			\item Každá chyba analyzátoru znamená samostatný požadavek a chybu.
+  			\item Vytvoření více požadavků pokud neexistuje šablona na obchodě.
+  		\end{itemize} \\ \hline	
+	\hline
+	Uživatelská přívětivost & 2 & 
+		\begin{itemize}
+  			\item Nutnost řešit chyby analyzátoru po jedné.
+  			\item Řešené chyby neobsahují bližší informace (informace o chybě, vyparsované hodnoty, použitá adresa detailu).
+  		\end{itemize} \\ \hline	
+	\hline
+	Škálovatelnost & 1 & 
+		\begin{itemize}
+  			\item Nemožnost vytvořit více instancí modulů.
+  		\end{itemize} \\ \hline
+    \end{tabular}
+\end{table}
 
-\subsection{Závěr}
 
 \chapter{Návrhy na vylepšení}
 V této kapitole se věnuji návrhům na možná vylepšení. Samotné implementaci se poté věnuji v následující kapitole. 
