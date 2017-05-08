@@ -87,22 +87,20 @@ z předmětů BI-SP1 a BI-SP2 za obětavou práci na společném projektu.}
 Tato práce rozebírá problematiku získávání informací z webů s důrazem na potřeby internetových obchodů jako například vývoj ceny produktu
 u konkurence.
 Jelikož této práci předcházel týmový projekt z předmětů BI-SP1 a BI-SP2 je popsaná i daná týmová realizace včetně zvolených postupů. 
-Po zhodnocení  týmového řešení jsou navrženy možné změny, které
+Po zhodnocení týmového řešení jsou navrženy možné změny, které
 doplňují funkcionalitu, umožňují lepší rozšiřitelnost a opravují nežádoucí chování systému.
 Výsledkem práce je refaktoring týmového řešení spolu s rozšířením o nejdůležitější vylepšení. Vzniklý systém je na základě důkladného otestování znova zhodnocen. Finálně jsou navržena další vylepšení pro budoucnost projektu.
 }
-
-
 \abstractEN{
-This thesis describes general needs of online shops and realisation of team project created in courses BI-SP1 and BI-SP2 while also focusing on 
-on chosen work methods.
-After analysis of created system possible changes are designed. Those changes are extending existing functionality, improving expandability and fixing unwanted behaviour of created system.
-Goal of this theses is implementation of most important changes and analysis based on thorough testing of modified system.
+This thesis describes difficulties of data mining from web with emphasis on the needs of online shops. Such needs is for example trends of product prices sold by competitors. Because issue was already addresed in team project implemented in courses BI-SP1 BI-SP2, thesis describes created system including chosen work methods.
+After analysis of created team project, possible changes are designed. These changes are extending existing functionality, improving expandability and fixing unwanted behaviour of created system.
+Goal of thesis is refactoring team project along with implementation of most important changes. Created system is evaluated based on thorough 
+testing. Finally, additional improvements are designed for possible future.
 }
 \placeForDeclarationOfAuthenticity{V~Praze}
 \declarationOfAuthenticityOption{4} %volba Prohlášení (číslo 1-6)
 \keywordsCS{informace z webu, internetové obchody, cena produktu, Git, Jenkins, průběžná integrace, modulární architektura}
-\keywordsEN{data mining, web page parsing, online shopping, Git, Jenkins, Continuous Integration, Modular Architecture}
+\keywordsEN{data mining, online shopping, product price, Git, Jenkins, Continuous Integration, Modular Architecture}
 
 \begin{document}
 
@@ -110,17 +108,17 @@ Goal of this theses is implementation of most important changes and analysis bas
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-Práce uvádí čtenáře do problematiky získávání informací z webů s důrazem na požadavky internetových obchodů, konkrétně sledováním
+Práce uvádí čtenáře do problematiky získávání informací z webů s důrazem na požadavky internetových obchodů popřípadě distributorům zboží, 
+konkrétně sledováním
 vývoje cen prodávaných produktů. Je popsán současný stav řešení potřeb internetových obchodů a to včetně existujících služeb.
 \par
-V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl realizován týmový projekt umožňující získávání informací z webů s primárním zaměřením na potřeby obchodů.
-\par
-Týmový projekt je zanalyzován na základě popisu domény, kterou má projekt za úkol řešit a základního návrhu systému
+V předmětech BI-SP1 a BI-SP2 v prostředí FIT ČVUT byl již výše popsaný projekt realizován.
+Týmový projekt je proto zanalyzován na základě popisu domény, kterou má projekt za úkol řešit a základního návrhu systému
 z hlediska interní a webové části. Dále jsou uvedeny postupy použité při vývoji, samotná implementace a finální zhodnocení vytvořeného řešení.
 \par
-Cílem práce je navrhnout vylepšení, nejdůležitější implementovat a výsledné řešení opět zhodnotit. Důraz je kladen především na 
+Cílem práce je provést analýzu týmového projektu, navrhnout vylepšení, nejdůležitější implementovat a výsledné řešení opět zhodnotit. Důraz je kladen především na 
 budoucí rozšiřitelnost a opravu či doplnění stávající funkcionality pro nezbytné použití systému. Zhodnocení je provedeno na základě
-testování nad reálnými daty a výsledných návrhem systému.
+testování nad reálnými daty a odráží také snadnost rozšiřitelnosti, která byla ověřena v průběhu pozdější části implementace.
 \par
 
 \newpage
@@ -130,9 +128,9 @@ testování nad reálnými daty a výsledných návrhem systému.
 
 \chapter{Popis problematiky získávání informací z webů}
 
-V této kapitole se budu nejprve zabývat samotnou problematikou získávání informací 
+V této kapitole se budu zabývat samotnou problematikou získávání informací 
 z webů s důrazem na internetové obchody.
-Jelikož je tato problematika již řešena existujícími službami, nejprve existující služby zhodnotím.
+Jelikož je tato problematika již řešena existujícími službami, existující služby zhodnotím.
 
 \section{Problematika}
 Získávání informací z webů je efektivní možnost jak získat databázi informací, které se na internetu vyskytují.
@@ -142,35 +140,32 @@ Vzhledem k specificitě dat, která jsou v kontextu činnosti zajímavá a kvůl
 není možné jednoznačně určit jednotný a zcela automatizovaný postup, jak data získat v požadovaném formátu.
 
 \section{Výběr dat}
-Nejčastější řešení je kombinace automatizace a prvku lidské inteligence.
-To je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace nás ve stažených datech zajímají.
+Nejčastější řešení, jak získávat strukturované informace z webů je kombinace automatizace a prvku lidské inteligence.
+Což je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace jsou ve stažených datech zajímavá.
 \par
-Získávání informací ze stažených stránek lze poté zjednodušit na problematiku určení elementů v HTML, které jsou pro 
-nás zajímavé.
-Lokaci elementu v HTML se kterým je potřeba pracovat, lze poté jednoznačně určit například pomocí těchto dvou možností:
+Získávání informací ze stažených stránek lze zjednodušit na problematiku určení elementů v HTML.
+Element pak může obsahovat pouze požadovanou část, například cenu produktu.
+Lokaci lze jednoznačně určit mimo jiné pomocí těchto dvou možností:
 \begin{enumerate}
 \item XPath
 \item CSS Selector
 \end{enumerate}
 
-Možnost jednoznačného určení elementů na stránce umožňuje vybrat části, které jsou v kontextu
-hledání zajímavé.
-Přesná struktura dat, která lze z vybraných dat vytvořit pak může sloužit k dalšímu zpracování.
 
 \section{XML Path Language}
-XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk sloužící k výběru elementu v dokumentu ve formátu XML\cite{XML}.
+XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk sloužící k výběru elementu v  XML\cite{XML} dokumentu.
 \par
 XML chápeme jako jazyk popisující strukturu strojově i lidsky čitelných dat.
-HTML lze chápat jako formát podobný XML, ačkoliv se přímo o XML nejedná \cite{HTML}. 
+HTML lze vzhledem ke struktuře chápat jako formát podobný XML, ačkoliv se přímo o XML nejedná \cite{HTML}. 
 Popisuje způsob zobrazení dat ve formátu, které prohlížeče rozumí.
-Díky podobnosti s XML lze použít XPath pro definování cesty k prvku, který uchovává potřebnou informaci na webové stránce.
+Díky podobnosti s XML je však možné použít XPath pro definování cesty k prvku, který uchovává potřebnou informaci na webové stránce.
 \par
 \section{CSS Selector}
 Jazyk CSS je používán pro vizuální popis prezentace webové stránky v HTML. K určení prvků se kterými
 pracuje používá selektory, které označují konkrétní prvek v HTML, buď pomocí samotného názvu elementu, přiřazené třídy nebo nastaveného
 identifikátoru.\cite{CSS}
 \par
-Selektor nemusí být unikátní, ale pomocí řetězení těchto selektorů je možné element jednoznačně v HTML dokumentu získat.
+Selektor nemusí být vždy unikátní, ale řetězení selektorů je možné element jednoznačně v HTML dokumentu vybrat.
 
 \newpage
 
@@ -191,7 +186,7 @@ Potřebné informace o prodávaných produktech konkurencí se skládají z nás
 \item Dostupnost
 \end{enumerate}
 
-S těmito daty je možné dále pracovat, například při analýze konkurence schopnosti na trhu nebo za jaké ceny jsou produkty prodávané
+S těmito daty je možné dále pracovat, například při analýze konkurenceschopnosti nebo za jaké ceny jsou produkty prodávané
 jednotlivými prodejci, což je informace zajímavá především pro distributory zboží. \cite{hunka}
 
 \subsection{Srovnávače cen}
@@ -199,11 +194,11 @@ jednotlivými prodejci, což je informace zajímavá především pro distributo
 Data lze získat pomocí srovnávačů cen jako jsou \textit{zbozi.cz}\cite{heureka} 
 nebo \textit{heureka.cz}\cite{zbozi}. Problém u těchto služeb spočívá v orientaci na koncové zákazníky, kterým umožňuje
 nalezení nejlepší ceny na trhu pro hledaný produkt. Bohužel tím narážím na skutečnost, že největší srovnávače cen neposkytují veřejně 
-svá data nebo rozhraní přes které by je bylo možné jednoduše získat. 
+svá data, případně neexistuje možnost, jak je jednoduše získat. 
 \par
 V rámci výzkumu pro bakalářskou práci jsem měl možnost nahlédnout do dat, které \textit{heuréka} poskytuje některým obchodům. \cite{hunka}
-
 Data obsahují následující informace:
+
 \begin{itemize}
 \item Informace o produktu - Segment, Kategorie, Jméno, ID, Výrobce, EAN, Item ID
 \item URL na vlastním obchodu
@@ -216,8 +211,7 @@ Data obsahují následující informace:
 První zásadní nedostatek zprávy z jmenovaného srovnávače se ukázal být logistický a to, že obchod musí být označen \uv{Ověřeno zákazníky},
 aby měl provozovatel obchodu k datům přístup. Další nedostatek jsou data neobsahující konkrétní označení konkurenčních obchodů.\cite{heureka-report}
 Vzhledem k povaze struktury a splatnosti generovaných dat je také nemožné ceny sledovat v časovém období.
-Ostatní srovnávače mají výstup velmi podobný nebo konkrétní data vůbec neposkytují. Díky tomu se ukázaly
-srovnávače jako nedostatečný zdroj dat.\cite{hunka}
+Ostatní srovnávače mají výstup velmi podobný nebo konkrétní data vůbec neposkytují. Díky tomu se srovnávače ukázaly jako nedostatečný zdroj dat.\cite{hunka}
 
 
 \subsection{Existující služby}
@@ -442,17 +436,17 @@ Příklad zahraničních nástrojů:
 \newpage
 
 \chapter{Analýza týmového projektu}
-V této kapitole se budu věnovat řešení vytvořeného v rámci školní výuky na ČVUT FIT v akademickém roce 2015/16.
-Popíšu cíl, který měl projekt za úkol řešit a výsledná funkcionalita řešení. Dále také vysvětlím základní strukturu
-navrženého řešení.
+V této kapitole se budu věnovat řešení vytvořeného v rámci předmětů BI-SP1 a BI-SP2 na ČVUT FIT v akademickém roce 2015/16.
+Popíšu cíl, který měl projekt za úkol řešit a jaká měla být výsledná funkcionalita řešení. Dále také vysvětlím základní strukturu
+navrženého systému.
 
 \section{Cíl týmového projektu}
 
-V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt, v souladu s osnovami těchto předmětů byl nejdříve v BI-SP1 vytvořen návrh
-systému a v BI-SP2 implementován.
+V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt. V souladu s osnovami byl nejdříve v BI-SP1 vytvořen návrh
+systému a v BI-SP2 následně implementován.
 \par
-Cílem tohoto projektu byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz byl především kladem na optimalizaci počtu nutných lidských úkonů administrátora u kterého se předpokládá minimální technické vzdělání.
-Jediná nutná znalost co musí administrátor ovládat je parsování HTML stránek.
+Cílem tohoto projektu byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz byl především kladem na optimalizaci počtu nutných lidských úkonů. Byl navržen způsob, kdy systém při pouze nezbytných krocích spoléhá na administrátora.
+U administrátora se předpokládá technická zdatnost průměrného uživatele.
 \par
 
 \section{Požadovaná funkcionalita}
@@ -463,28 +457,26 @@ Systém na základě dat vyhledá obchody, které prodávají sledované produkt
 \textit{csv} či \textit{xlsx}.
 \par
 Proces samotného hledání byl navržen jako soubor více kroků, skládající se z procesů interních částí a interakcí administrátora, který zajišťuje
-řešení problémů, které systém nedokáže sám vyřešit.
+řešení problémů, které systém nedokáže vyřešit.
 
 \section{Návrh}
 Řešení bylo rozděleno na \textbf{část webového rozhraní} a na část zpracovávající interní procesy, nazývanou v této práci 
 jako \textbf{interní část}.
 Vzhledem k požadavkům na škálovatelnost aplikace se interní část skládá z více samostatných menších služeb - modulů komunikující
-spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu a je možné vytvářet více jeho instancí, procesy lze 
+spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu a je možné vytvářet více jeho instancí. Procesy lze 
 zpracovávat paralelně a na více serverech, kde je jediné kritérium připojení na systém zajišťující komunikaci.
 \par
 Uživatelská a interní část spolu sdílejí data pomocí relační databáze\cite{DB}.
 
 \section{Webové rozhraní}
-Webové rozhraní lze rozdělit na dvě části: pro uživatele a pro administrátory. 
 
 \subsection{Uživatelská část}\label{ch:analysis-front-end}
-Uživatelská část obsahuje množinu podstránek určených pro konečné uživatele
-služby. Webové rozhraní používá databázi, která pak 
-obsahuje všechny uložené a získané data.
+Uživatelská část obsahuje množinu podstránek určených pro koncové uživatele
+služby(klienti).
 \par
 Uživatelská část umožňuje vytvořit kampaň. Kampaň je proces trvající určitý časový úsek, který sleduje vložené produkty na konkurenčních
 obchodech.
-V rámci těchto běžících kampaních má poté uživatel možnost vidět vizualizaci získaných dat, případně je umožněn export dat do formátu
+V rámci běžící kampaně má poté uživatel možnost vidět vizualizaci získaných dat, případně je umožněn export dat do formátu
 \textit{csv} či \textit{xlsx}. Ze zobrazených dat lze zjistit, na kterých webových stránkách je produkt prodáván a za jakou cenu.
 
 \subsection{Část pro administrátory}
@@ -498,15 +490,15 @@ instancích, kromě modulu Manager. Vzhledem k možnostem front, lze také prác
 bezpečnost databáze, protože k ní je možný přístup pouze lokální. Moduly jsou detailněji popsány v následujících podsekcích.
 \subsection{Manager}
 Manager je hlavní modul, který má jako jediný interní část možnost připojení do databáze a jeho běžící instance může existovat pouze jednou.
-Manager má za úkol plánování práce pro ostatní části systému a samotnou správu komunikace s ostatními moduly.
+Manager má za úkol plánování práce pro ostatní části systému a samotnou správu komunikace s ostatními moduly. Práce je delegována pomocí
+\textit{požadavků}, které jsou odeslány pomocí front jednotlivým modulům. \textit{Odpovědí} a \textit{chyby} reprezentují výsledky požadavků.
 \subsection{Finder}
 Modul Finder získává URL adresy internetových obchodů, které prodávají požadované produkty.
-Na nalezeném obchodě poté vyhledává adresy vedoucí na detail vyhledávaných produktů. K tomu je použito interní vyhledávání, které
-obchod poskytuje svým zákazníkům. Získaný detail produktu pak obsahuje podrobné informace o prodávaném produktu.
+Na nalezeném obchodě poté vyhledává adresy vedoucí na detaily produktů. K tomu je použito interní vyhledávání, které
+obchod poskytuje svým zákazníkům. Získané adresy detailů pak obsahují podrobné informace prodávaných produktů.
 
 \subsection{DataProvider}
-DataProvider je modul, který zpracovává adresy vedoucí na detaily produktu. Zde existují čtyři hlavní větve možností zpracování požadavků.
-Hlavní činnost představuje následující seznam, kdy každý bod může skončit chybou. Výsledek je odeslán ke zpracování Managerem.
+DataProvider je modul, který zpracovává adresy vedoucí na detaily produktů. Proces modulu reprezentuje následující seznam, kdy každý hlavní bod může skončit uvedenou chybou. Výsledek je odeslán ke zpracování Managerem.
 \par
 \begin{enumerate}
 \item Stažení stránky
@@ -517,7 +509,7 @@ Hlavní činnost představuje následující seznam, kdy každý bod může skon
 	\begin{itemize}
 	\item Šablona neexistuje nebo je chybná
 	\end{itemize}
-\item Analýza dat vůči historickým datům pokud existují
+\item Analýza dat vůči historickým datům (pokud existují)
 	\begin{itemize}
 	\item Data jsou nevalidní
 	\end{itemize}
@@ -526,61 +518,17 @@ Hlavní činnost představuje následující seznam, kdy každý bod může skon
 
 
 \chapter{Vývoj a implementace týmového projektu}
-V této kapitole se věnuji průběhu vývoje týmového projektu a vytvořenému řešení. Popíši tedy zvolené postupy při vývoji a 
+V této kapitole se věnuji průběhu vývoje týmového projektu a vytvořenému řešení. Popíši zvolené postupy při vývoji a 
 jaké technologie byly vybrány.
 \par
 Poslední část rozebírá mou roli v tomto
-projektu, protože téma bakalářské práce jsem měl předběžně vybrané, již na začátku předmětu BI-SP2.
-
-
-\section{Pojmy}
-
-\subsection{Verzovací systém Git}
-Git \cite{GIT} je verzovací systém umožňující vytváření a sdílení jednotlivých verzí zvoleného projektu.
-Umožňuje jednoduchý přehled nad rozpracovanými částmi každého vývojáře. Úložiště systému se nazývá repozitář, který obsahuje veškerý kód.
-\par
-Repozitář existuje v lokálních verzi a zároveň serverové, tedy sdílené. Sdílený repozitář zajišťuje distribuci aktuální verze do lokálních 
-repozitářů. Pro lepší správu existují nadstavby nad serverovou částí repozitáře, které umožňují jednoduchou
-správu nad kódem a spouštění dalších služeb. Například sestavení aplikace nebo notifikace
-při změně.
-\par
-Základní jednotku tvoří verze, které jsou postupně vytvářeny vývojáři s jejich každou novou změnou.
-Verze jsou uchovávány v jednotlivých větvích programu. Vedlejší větve slouží pro samotný vývoj. 
-Hlavní větve tento kód spojují a reprezentují aktuální vývojovou a produkční verzi. Git také zajišťuje základní nástroje pro slučování kódu v případě spojování nebo slučovaní vedlejších větví do větví hlavních.
-
-\begin{figure}[h]\centering
- 	\includegraphics[width=0.7\textwidth]{resources/branches}
-	\caption[Větve v Git repozitáři]{Zobrazení větví v repozitáři, kde \textit{master} je produkční, \textit{develop} vývojová a \textit{topic}
-	představuje větev vedlejší}\label{fig:vetev}
-\end{figure}
-
-\subsection{Jednotkové a integrační testy}
-Jednotkovými testy se rozumí sada kladných a záporných testů ověřující funkcionalitu jediné třídy. Jednotkové testy
-jsou nezávislé na ostatních třídách a testech. \cite{testing} 
-Integrační pokrývají komunikaci více tříd nebo komunikaci s operačním systémem, hardwarem či rozhraním různých systémů. \cite{testing}
-\par
-Důvody pro psaní testů jsou například jednodušší nalezení chyby nebo lepší udržovatelnost projektu. V případě neexistujících testů nelze ověřit původní
-funkcionalitu při modifikaci aplikace, což může způsobit nutnost nejprve chyby před opravou nalézt.\cite{testing}
-
-\subsection{Statická analýza kódu}
-Statická analýza kódu je analýza softwarového produktu, která běží bez spuštění samotné aplikace. Kontroluje 
-pouze samotný kód. Označuje kritické konstrukce vedoucí k chybám nebo nedodržení programátorských konvencí daného
-jazyka.
-\subsection{Průběžná integrace}
-Průběžnou integrací se rozumí sada nástrojů sloužící k urychlení softwarového vývoje. Princip je průběžné sestavení
-a spouštění testů aplikace na základě změny ve sdíleném repozitáři. Lze tak rychle odhalit případné chyby před zařazením 
-příslušné verze do produkce.\cite{CI}
-
-\subsection{Sdílení dat pomocí front}
-Sdílení dat pomocí front funguje na principu odesílání zpráv, které reprezentují objekty. Zprávy jsou po zařazení producentem do fronty odebírány
-konzumenty, které je zpracovávají.
-Příklad takového systému pak může být například RabbitMQ. \cite{rabbitMQ}
+projektu, protože téma bakalářské práce jsem měl již předběžně vybrané na začátku předmětu BI-SP2.
 
 \section{Vývoj}
-Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. V každé iteraci bylo definováno jaké musí obsahovat funkcionality,
-které budou na jejím konci prezentovány vyučujícímu. Funkcionality byly rozděleny do jednotlivých úkolů a ty distribuovány do sprintů.
-Úkoly byly přiděleny jednotlivým členům týmu. Stav úkolů byl uchováván na systému Redmine\cite{Redmine}, který umožňuje sledovat jejich stav.
-Úkoly lze pak přiřadit k jednotlivým sprintům a iteracím, což umožňuje přehled o plnění časového plánu.
+Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. 
+V každé iteraci bylo definováno jakou musí obsahovat funkcionalitu, která bude na konci iterace prezentována vyučujícímu. Funkcionalita se skládala z jednotlivých úkolů rozložených do sprintů.
+Úkoly byly přiděleny jednotlivým členům týmu. Stav úkolů uchovával systém Redmine\cite{Redmine}, který umožňoval sledovat jejich stav.
+Úkoly bylo možné přiřadit k jednotlivým sprintům a iteracím, což umožňovalo přehled o plnění časového plánu.
 \par
 Jako verzovací systém byl zvolen systém Git, se vzdáleným repozitářem uložený na službě Gitlab \cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a spouštění služeb na základě definovaných aktivit v repozitáři. Repozitář se skládal ze 4 částí (větví):
 \begin{itemize}
@@ -608,7 +556,7 @@ aplikace, šablonovací systém a rozhraní pro tvorbu testů.
 \par
 Nette je navrženo s myšlenkou použití MVC architektury, která odděluje
 prezenční a logickou vrstvu. Zkratka MVC značí Model-View-Controller. V případě webového projektu v Nette představují vrstvu \textit{view} šablony.
-Šablony definují vzhled webových stránek. \textit{Controller} jsou třídy obsluhující šablony. \textit{Modelovou} vrstvu poté zajišťují třídy servisní, vykonávající logické části aplikace jako 
+Šablony definují vzhled webových stránek. \textit{Controller} vrstva se skládá z presenter tříd obsluhující šablony. \textit{Modelovou} vrstvu  zajišťují třídy servisní, vykonávající logické části aplikace jako 
 například práci s \textit{repository} třídami nebo zpracování formuláře. \textit{Repository} se starají o přímou komunikaci s databází.
 
 \begin{figure}[h]\centering
@@ -617,7 +565,7 @@ například práci s \textit{repository} třídami nebo zpracování formuláře
 \end{figure}
 \par
 Snadnou správu závislostí nad externími knihovnami zajišťuje balíčkovací systém Composer\cite{composer}. 
-Na základě souboru definující potřebné knihovny a jejich verze, jsou staženy z centrálního repozitáře. To zajišťuje jednotné verze
+Na základě souboru definující potřebné knihovny a jejich verze jsou staženy z centrálního repozitáře. To zajišťuje jednotné verze
 a eliminaci nutnosti knihovny manuálně stahovat či přidávat přímo do repozitáře.
 \subsection{Interní část}
 Interní část je implementována v jazyce Java verze 8. Sestavení, spouštění testů a správu závislostí zajišťuje Gradle\cite{gradle}.
@@ -626,14 +574,14 @@ centrální maven repozitář. \cite{mavenRepo}. Maven repozitář uchovává v�
 \par
 V rámci sestavení lze pustit testy a další definované úkoly jako například tvorba dokumentace. Projekt používá
 doplněk Cobertura\cite{cobertura}, který na základě spuštěné testovací sady vytváří zprávu obsahující pokrytí větví programu.
-Díky tomu lze jednoduše zjistit jaké větve aplikace nejsou otestované.
+Díky tomu je možné jednoduše zjistit jaké větve aplikace nejsou otestované.
 \par
 Aplikace je rozdělena do nezávislých modulů běžící jako služby. Jednotlivé moduly spolu komunikují
-pomocí posílání zpráv v definovaných frontách. Komunikaci zajišťuje systém RabbitMQ Server implementovaný v jazyce Erlang. Zprávy jsou serializovatelné objekty, jejichž definice je sdílena napříč všemi moduly.
+pomocí posílání zpráv v definovaných frontách. Komunikaci zajišťuje systém RabbitMQ Server\cite{rabbitMQ} implementovaný v jazyce Erlang. Zprávy jsou serializovatelné objekty, jejichž definice je sdílena napříč všemi moduly.
 \par
 \textit{Serializace} představuje proces, kdy je objekt serializovaný do posloupnosti bitů, které jsou poslány jako zpráva. 
-Vzhledem ke sdílené podobě objektu na obou stranách, zprávu lze jednoznačně deserializovat zpět do původního Java objektu se kterým
-je poté možné možné dále pracovat.\cite{serialization}
+Vzhledem ke sdílené podobě objektu na obou stranách, lze zprávu jednoznačně deserializovat zpět do původního Java objektu se kterým
+je možné dále pracovat.\cite{serialization}
 \par
 Projekt využívá mnoho volně dostupných knihoven, nejpodstatnější jsou však následující:
 \begin{itemize}
@@ -644,9 +592,10 @@ Projekt využívá mnoho volně dostupných knihoven, nejpodstatnější jsou v�
 \end{itemize}
 
 \section{Má role}
-V druhé části týmového projektu, samotné implementaci, jsem byl vedoucí týmu. Jelikož jsem již znal téma své bakalářské práce, 
-věnoval jsem se projektu nad rámec předmětu. Kromě plánování práce a samotné kontroly kódu jsem se také věnoval návrhu, který bylo třeba
-v průběhu pozměnit, jelikož dokumentace z předmětu BI-SP1 nebyla dostatečná.
+V druhé části týmového projektu, samotné implementaci, jsem byl vedoucí týmu. Jelikož jsem již měl téma své bakalářské práce vybrané, 
+věnoval jsem se projektu nad rámec předmětu. Kromě povinností vedoucího, které se skládaly z plánování práce a kontroly vytvořené implementace
+jsem se věnoval návrhu, který bylo třeba v průběhu semestru pozměnit, jelikož návrh z předmětu BI-SP1 nebyl dostatečný. Jednalo například
+o navržení modulu Manager, který byl navržen pouze jako black-box.
 \par
 Na začátku projektu jsem vytvořil celý ekosystém, tvořený z přidružených služeb použitých při vývoji.
 Zde se jedná především o propojení následujících služeb s Gitlabem:
@@ -654,66 +603,37 @@ Zde se jedná především o propojení následujících služeb s Gitlabem:
 \begin{itemize}
 \item Redmine - možnost prokliku na úkol na základě čísla ve zprávě verzované jednotky (commit message)
 \item Jenkins - spouštění sestavení aplikace na základě nové verze, oddělené dle jednotlivých větví (hlavní, vývojová, vedlejší) a
-				informace o výsledku
+				publikace výsledku
 \item SonarQube - zobrazování interaktivního výsledku statické analýzy přímo v rozhraní Gitlab
 \end{itemize}
 
-Samotný SonarQube bylo nejprve potřeba nastavit, aby se spouštěl při sestavení aplikace a výsledek se zobrazil v rozhraní
+Samotný SonarQube bylo potřeba nastavit, aby se spouštěl při sestavení aplikace a výsledek se zobrazil v rozhraní
 Gitlabu. V rámci sestavení aplikace jsem nastavil spouštění nástroje Cobertura.
 Doplňky v Jenkins umožňovaly zobrazení přehledných výsledků, jak je kód pokryt testy \ref{fig:cober-old}. Přesné pokrytí testů mi poté umožňovalo 
-jednoduše kontrolovat, zda jsou všechny požadované části kódu otestované.
+jednoduše kontrolovat jaké části kódu jsou otestované.
 
 
 \chapter{Zhodnocení týmového projektu}
 Pro návaznost na kapitolu o provedených vylepšeních je nejprve nutné uvést v jakém kontextu jsou navrhovány. K tomu je třeba
-popsat výsledný stav projektu a jeho funkcionalitu, čemuž se budu věnovat v této kapitole. Vysvětlím jaký byl výsledný stav
-řešení a zjištěné nedostatky.
+popsat výsledný stav projektu a jeho funkcionalitu, čemuž se budu věnovat v této kapitole.
 
-\section{Pojmy}
-
-\subsection{JSON}
-JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o formát, který je čitelný nejenom pro lidské oko, ale i pro stroj\cite{JSON},
-Zpracování toho formátu je implementováno pro většinu programovacích jazyků\cite{JSON-impl}. Skládá se z párů označující
-klíč a hodnotu. Hodnota může být řetězec, číslo nebo pole. Pole pak může uchovávat opět pole, řetězec nebo číslo. \cite{JSON}
-
-\begin{lstlisting}[language=JavaScript, caption={Ukázka formátu JSON}]
-{
-  "key": [
-    1,
-    2,
-    3
-  ],
-  "boolean": true,
-  "null": null,
-  "number": 123,
-  "object": {
-    "a": "b",
-    "c": "d",
-    "e": "f"
-  },
-  "string": "Hello World"
-}
-\end{lstlisting}
-
-
-\subsection{Web API}
-Web Aplication Programming Interface je rozhraní, které na definovaný HTTP dotaz vrátí požadované data. Data jsou standardně vracena ve formátech JSON nebo XML.
 
 \section{Stav}
-Ačkoliv stav projektu odpovídal požadavkům na úspěšné odevzdání, nebyla dosažena implementace všech procesů. Tím bohužel nemohlo být dáno reálné použití systému.
+Ačkoliv stav projektu odpovídal požadavkům na úspěšné odevzdání, nebyla dosažena implementace všech procesů. 
+Tím bohužel nebylo možné reálné použití systému.
 \par
-Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze základní funkcionality pro uživatele a pro administrátory.
-Část pro administrátory obsahovala správu uživatelů, možnost parsování stránek, evidenci známých obchodů a produktů či sledování
-chyb vzniklých v interní části.
-Uživatelská část umožňovala správu a vytvoření kampaně či kampaní. Splňovala návrh z analytické částí \ref{ch:analysis-front-end}.
-Na žádost jiného týmu jsme také vytvořili Web API rozhraní, poskytující získané ceny pro daný produktu ve formátu JSON.
+Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze základní funkcionality pro uživatele a administrátory.
+Část pro administrátory obsahovala správu uživatelů, evidenci známých obchodů a řešení chyb vzniklých v interní části.
+\par
+Uživatelská část umožňovala správu a vytvoření kampaní. Splňovala návrh z analytické částí \ref{ch:analysis-front-end}.
+Na žádost jiného týmu bylo také vytvořeno Web API rozhraní, poskytující získané ceny pro daný produktu ve formátu JSON.
 \par
 Interní část byla schopná pracovat pouze na základě dříve uložených url adres vedoucí na detaily produktů. 
 Manager dokázal vybrat adresy detailů, které je potřeba aktualizovat.
 \par
-Na základě adres vytvořil Manager požadavky obsahující potřebná data. Požadavky odeslal pomocí front pro zpracování do DataProvideru. Ten na základě obdržených dat stránku vyparsoval a zanalyzoval výsledek vůči historickým datům a poskytl informace o produktu, který se na adrese nachází.
+Na základě adres vytvořil Manager požadavky obsahující potřebná data. Požadavky odeslal pomocí front pro zpracování do DataProvideru. Ten na základě obdržených dat stránku stáhnul, vyparsoval a zanalyzoval výsledek vůči historickým datům a odeslal informace o produktu, který se na adrese nachází.
 \par
-Analýza se především skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
+Analýza se skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu.
 V případě, že požadavek neobsahoval šablonu pro vyparsování nebo byl výsledek označen jako chybný, tato chyba byla odeslána zpět do Manageru, kde se  výsledek uložil pro zobrazení ve webovém rozhraní, ať už se jednalo o chybu
 nebo nalezení ceny. Vyřešení chyby Manager detekoval a adresu využil k vytvoření nového požadavku.
 
@@ -741,13 +661,13 @@ následujícím pořadí:
 \item Adresy, které mají vyřešenou chybu
 \end{itemize}
 
-Z této množiny byly poté vybráno prvních 10, odebrány již odeslané adresy a ty které mají nevyřešenou chybu. Opakované spuštění v předdefinovaném 
+Z této množiny bylo poté vybráno prvních 10 adres, odebrány již odeslané a ty které mají nevyřešenou chybu. Opakované spuštění v předdefinovaném 
 intervalu zajistilo, že požadavky byly vytvořeny pro všechny požadované adresy.
 \par
 Další nedostatek se skládal z ukládání stavu do databáze. Část nejdůležitějších atributů vytvářeného požadavku byla uložena do databáze 
 s příznakem odesláno. Tento příznak bylo nutné uchovávat i u chyb šablon nebo analyzátoru, kde je potřeba označit, že byly zpracovány. 
 \par
-V případě šablon se nastavil příznak o zpracování, ale pokud se požadavek nepodařilo odeslat, příznak nebyl již změněn. To způsobilo, že chyba nebyla v příštích hledání znovu zpracována.
+V případě neúspěchu při odeslání požadavku už však příznak v případě chyb nebyl změněn. To způsobilo, že chyba nebyla v příštích hledání znovu zpracována.
 
 \subsection{Neefektivní chování modulu Manager a ProductProvider}\label{ch:manager-pd}
 První zásadní problém bylo neefektivní chování komunikace modulu Manager s ProductProviderem. V rámci testování jsem zjistil, že v 
@@ -771,16 +691,16 @@ Informace byly následně odeslány a Manager na jejich základě vytvořil chyb
 označit, zda je to opravdu chyba nebo se toto hlášení má do budoucna ignorovat.
 \par
 Problém nastával pokud se na adrese objevilo více chyb. To znamenalo, že každý požadavek vytvořil další
-chybu analyzátoru a administrátor tak musel všechny vyřešit. Při každém požadavku pak bylo nutné obsah adresy znova stáhnout.
+chybu analyzátoru a administrátor musel všechny vyřešit. Při každém požadavku pak bylo nutné obsah adresy znova stáhnout.
 
 \subsection{Vytváření chyb šablon}
 Jako další problém se ukázalo plánování práce založené na kritériu, kdy jsou k vytvoření požadavku vybrány všechny adresy, které neobsahují šablonu.
 Myšlenka byla taková, že pro vytvoření samotné šablony, je nutné nejdříve stránku stáhnout, nechat vytvořit chybu parsování
 a následně ji vyřešit.
 \par
-Systém však odeslal požadavek pro všechny uložené adresy na obchod. To vyústilo ve vytvoření mnoha chyb, 
-které musel administrátor všechny postupně vyřešit.
-\par
+Systém však odeslal požadavek pro všechny uložené adresy na obchodě. To vyústilo ve vytvoření mnoha chyb, 
+které musel administrátor postupně vyřešit.
+
 \subsection{Modul Finder}
 Modul Finder nebyl zapojený do systému. Existovala pouze hlavní implementace interních procesů, jejíchž funkčnost byla
 pouze ověřena jednotkovými testy. Neexistující rozhraní pro práci s frontami a chybějící příslušné třídy Managera, které zajišťují vytváření příslušných požadavků neumožňovaly ověření celkové funkcionality této části. Z tohoto důvodu nebyl systém jako celek vhodný pro jakékoliv reálné použití, jelikož
@@ -804,10 +724,10 @@ nepřesahovala 60 řádků bylo velmi obtížné zjistit, co mají vykonávat. P
 jako například DataProviderServiceImpl zajišťující celý proces v modulu DataProvider.
 \par
 Je nutné podotknout, že spousty špatných konstrukcí byla eliminována již v průběhu vývoje týmového projektu.
-První důvod byla automatická analýza kódu detekující konstrukce, které jsou zdrojem častých chyb. Automatická analýza
+První důvod byla statická analýza kódu detekující konstrukce, které jsou zdrojem častých chyb. Statická analýza
 však nebyla schopná najít všechny problémy. Druhý důvod byla moje kontrola při schvalování vytvořeného kódu pro 
 zadaný úkol. Z důvodu časové tísně, ale nebyl vždy prostor na to vrátit kód k přepsaní a opravení všech nedostatků. To způsobilo, že
-se vědomě dostaly do hlavních větví konstrukce, které nebyly považovány za ideální. Myšlenkou bylo, že budou přepracovány později, což ne vždy se povedlo.
+se vědomě dostaly do hlavních větví konstrukce, které nebyly považovány za ideální. Myšlenkou bylo, že budou přepracovány později, což se ne vždy povedlo.
 \par
 Další problém návrhu byly procesy v DataProvider modulu řízené pomocí výjimek obsahující 
 přídavné informace. A to i v případech, kdy byl takový výsledek očekávaný nebo dokonce chtěný. 
@@ -829,36 +749,62 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-old}
 \end{figure}
 
+\section{Shrnutí}\label{ch:project-analysis}
+Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nejpodstatnějších k nejméně důležitým: 
+
+\begin{itemize}
+\item Kritické chyby
+\item Úplnost požadované funkcionality
+\item Rozšiřitelnost (návrh, pokrytí testy, statická analýza kódu)
+\item Neefektivní chování
+\item Uživatelská přívětivost
+\item Škálovatelnost
+\end{itemize}
+
+Rozšiřitelnost je hodnocena na základě návrhu, pokrytí testy a počtu chyb statické analýzy kódu. Návrh byl podrobně zmíněn v kapitole 
+\ref{ch:architecture-tests}. 
+
+\begin{center}
+    \begin{tabular}{ | l | l | p{7cm} |}
+    \hline
+    Typ & Počet & Popis \\ \hline
+    Kritické chyby & 2 & 
+		V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována \\ \hline
+	& &	V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována \\ \hline
+	\hline
+    Úplnost funkcionality& 3 & 
+		Systém nevyhledává internetové obchody \\ \hline
+	& &	Systém nevyhledává adresy detailů produktů \\ \hline
+	& &	Systém neplánuje práci v požadovaných intervalech \\ \hline
+	& &	Neexistence procesu párování \\ \hline
+	\hline
+	    Rozšiřitelnost &  & 
+		Návrh tříd byl vyhodnocen jako nevhodný pro rozšiřování \\ \hline
+	& &	Pokrytí testy dle nástroje cobertura - 60\% \\ \hline
+	& &	Kritické chyby statické analýzy kódu - 3 \\ \hline
+	& &	Minoritní chyby statické analýzy kódu - 1 \\ \hline
+	\hline
+	    Neefektivní chování & 4 & 
+		Stránka je nově stažena v každém požadavku (i v případě chyby) \\ \hline
+	& &	V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována \\ \hline
+	& &	Každá chyba analyzátoru znamená samostatný požadavek a chybu \\ \hline
+	& &	Vytvoření více požadavků pokud neexistuje šablona na obchodě \\ \hline
+	\hline
+	    Uživatelská přívětivost & 2 & 
+		Nutnost řešit chyby analyzátoru po jedná \\ \hline
+	& &	Řešené chyby neobsahují bližší informace (informace o chybě, vyparsované hodnoty, použitá adresa detailu) \\ \hline
+	\hline
+	    Škálovatelnost & 1 & 
+		Nemožnost vytvořit více instancí modulů \\ \hline
+    \end{tabular}
+\end{center}
+
+\subsection{Závěr}
 
 \chapter{Návrhy na vylepšení}
 V této kapitole se věnuji návrhům na možná vylepšení. Samotné implementaci se poté věnuji v následující kapitole. 
 Nedostatky, které byly zjištěny až v průběhu implementace vylepšení a nebyly zároveň i opraveny, budou zmíněny v kapitole týkající se zhodnocení
 provedených vylepšení.
-
-\section{Pojmy}
-
-\subsection{Mock}
-V objektově orientovaném programování se Mock objekt používá pro simulování chování konkrétní třídy.\cite{mock}
-Při testování je tak možné docílit takových testů, které nejsou závislé na ostatních třídách, kromě té přímo testované.
-\par
-Testovaná třída obvykle vyžaduje závislost na jiných třídách či rozhraní. Pomocí Mocku je možné chování těchto tříd simulovat.
-Mimo nadefinování požadovaného chování, lze také na Mock objektu sledovat jaká na něm byla provedena volání, včetně toho
-s jakými parametry. Díky tomu je možné testovat i vnitřní chování testované třídy a ne pouze návratovou hodnotu na základě 
-obdrženého vstupu.\cite{mock}
-
-\subsection{Refaktorování kódu}
-Refaktorování v softwarovém vývoji chápeme jako proces restrukturalizace existující kódu, aniž by byla 
-pozměněna funkcionalita. Provádí se za účelem dosáhnout průhlednějšího a čitelnějšího kódu, který
-se lépe udržuje a rozšiřuje. \cite{refaktoring} Hlavní spouštěcí příčina refaktorování kódu je však existence 
-konstrukcí značící špatný návrh aplikace. 
-
-V kontextu této práce jsou důležité především následující konstrukce značící možné problémy \cite{refaktoring}:  
-\begin{itemize}
-\item Dlouhá metoda
-\item Velká třída
-\item Dlouhý seznam parametrů
-\item Složité struktury podmínek
-\end{itemize}
 
 \section{Refaktorování stávajícího řešení}
 Problémy původního řešení je třeba opravit. Na existujícím kódu však není možné stavět opravy nebo přidání nových funkcionalit. Příčinou jsou konstrukce jako zneužívání výjimek, dlouhé metody, velké třídy nebo dlouhé seznamy parametrů.
@@ -1595,26 +1541,25 @@ menší obchody: \textit{k24.cz} a \textit{elektrocr.cz}. Příčina byla odliš
 obsah adresy, která je v příslušném formátu.
 
 \chapter{Závěr}
-Vytvořené řešení týmového projektu nevyhovovalo požadavkům na funkcionalitu a možnostem budoucího rozvoje.
+Vytvořené řešení týmového projektu nevyhovovalo požadavkům na funkcionalitu a možnostem na budoucí rozvoj.
 Funkcionalita nebyla splněna především z důvodu nezapojení části, která má za úkol hledat samotné obchody a adresy detailů produktů, které obsahují
-hledaná data. Nebyl také vyřešen proces párování produktu k adrese. Návrh některých tříd se ukázal jako nevhodný pro budoucí rozšiřování.
+hledaná data. Nebyl také vyřešen proces párování produktu k adrese. Návrh některých tříd se ukázal jako nevhodný pro budoucí rozšíření.
 \par
 V návaznosti na tyto nedostatky bylo navrženo rozsáhlé refaktorování, změna architektury problémových tříd a opravení stávajících
 procesů. Bylo potřeba opravit procesy, které nebyly funkční, ztěžovaly práci administrátora nebo byly neefektivní. U funkcionality, kterou měla zajišťovat nezapojená část bylo rozhodnuto o jejím rozdělení, kdy
 podpora hledání samotných obchodů byla nahrazena manuálním vložením přes webové rozhraní.
 \par
-Refaktorování a změna návrhu tříd potvrdila, že se jedná do budoucna o výhodný krok zajišťující lepší udržovatelnost a rozšiřitelnost kódu. To se ukázalo už při následných změnách, které bylo možné provést v rámci vytvořeného návrhu.
+Refaktorování a změna návrhu tříd potvrdila, že se jedná do budoucna o výhodný krok zajišťující lepší udržovatelnost a rozšiřitelnost kódu. Což se ukázalo už při následných změnách, které bylo možné provést v rámci vytvořeného návrhu.
 Oprava stávajících procesů pak byla nejvíce viditelná v lepší uživatelské přivětivosti pro administrátora umožňují
 případné problémy řešit rychleji a spolehlivěji.
 \par
-Po implementování podpory hledání adres na obchodu a celého procesu párování produktů s adresami byly
+Po implementaci hledání detailu produktu na stránkách obchodů a procesu párování produktů s nalezenými adresami byly
 objevené nové nedostatky.
 \par
-Kritické problémy byly opravené v rámci implementace, ale ukázalo se, že i po provedení změn není možné systém použít pro provoz, kde
-je požadavek na univerzalitu systému. Systém je po správném nastavení schopný dlouhodobě a automaticky sbírat určitý vzorek dat. Byly však objeveny obchody, kde to není možné. Důvod je především odlišná implementace vyhledávání produktů, kterou vytvořený systém aktuálně nepodporuje.
+Kritické problémy opravila nová implementace, ale ukázalo se, že i po provedení změn není možné systém použít pro provoz, kde
+je požadavek na univerzalitu systému. Systém je po správném nastavení schopný dlouhodobě a automaticky sbírat určitý vzorek dat. Byly však objeveny obchody, kde to není možné. Důvod je především odlišná funkcionalita vyhledávání produktů na sledovaných obchodech, kterou vytvořený systém aktuálně nepodporuje.
 \par
-Ačkoliv nedostatky neumožňují požadované využití, věřím že případné opravy a přidání případných nových funkcionalit, které
-umožní reálné nasazení systému, by nebylo těžké implementovat.
+Ačkoliv v závěru objevené nedostatky způsobují diskomfort při používání, věřím že přidání funkcionalit navržených v 7. kapitole, umožní plnohodnotné použití výsledného systému.
 
 \bibliographystyle{csn690}
 
@@ -1623,6 +1568,102 @@ umožní reálné nasazení systému, by nebylo těžké implementovat.
 \bibliography{mybibliografy}
 
 \appendix
+
+\chapter{Seznam pojmů}
+
+\section{Web API}
+Web Aplication Programming Interface je rozhraní, které na definovaný HTTP dotaz vrátí požadované data. Data jsou standardně vracena ve formátech JSON nebo XML.
+
+\section{Verzovací systém Git}
+Git \cite{GIT} je verzovací systém umožňující vytváření a sdílení jednotlivých verzí projektu.
+Umožňuje jednoduchý přehled nad rozpracovanými částmi každého vývojáře. Úložiště systému se nazývá repozitář, který obsahuje veškerý kód.
+\par
+Repozitář existuje v lokálních verzi a zároveň serverové, tedy sdílené. Sdílený repozitář zajišťuje distribuci aktuální verze do lokálních 
+repozitářů. Pro lepší správu existují nadstavby nad serverovou částí repozitáře, které umožňují jednoduchou
+správu nad kódem a spouštění dalších služeb v závislosti na změnách v kódu.
+\par
+Základní jednotku tvoří verze, které jsou postupně vytvářeny vývojáři na základě provedených změn.
+Verze jsou uchovávány v jednotlivých větvích programu. 
+\par
+Repozitář je obvykle rozdělen na hlavní a vedlejší větve. Vedlejší větve slouží pro samotný vývoj. 
+Hlavní větve tento kód spojují a reprezentují aktuální vývojovou a produkční verzi. Git také obsahuje nástroj pro slučování větví.
+
+\begin{figure}[h]\centering
+ 	\includegraphics[width=0.7\textwidth]{resources/branches}
+	\caption[Větve v Git repozitáři]{Zobrazení větví v repozitáři, kde \textit{master} je produkční, \textit{develop} vývojová a \textit{topic}
+	představuje větev vedlejší}\label{fig:vetev}
+\end{figure}
+
+\section{Jednotkové a integrační testy}
+Jednotkovými testy se rozumí sada kladných a záporných testů ověřující funkcionalitu jediné třídy. Jednotkové testy
+jsou nezávislé na ostatních třídách a testech. \cite{testing} 
+\par
+Integrační testy pokrývají komunikaci více tříd nebo komunikaci s operačním systémem, hardwarem či rozhraním různých systémů. \cite{testing}
+\par
+Důvody pro psaní testů jsou například jednodušší nalezení chyby nebo lepší udržovatelnost projektu. V případě neexistujících testů nelze ověřit původní
+funkcionalitu při modifikaci aplikace, což může způsobit nutnost nejprve chyby před opravou nalézt.\cite{testing}
+
+\section{Statická analýza kódu}
+Statická analýza kódu je analýza softwarového produktu, která běží bez spuštění samotné aplikace. Kontroluje 
+pouze kód. Označuje kritické konstrukce vedoucí k chybám nebo nedodržení programátorských konvencí daného
+jazyka.
+\section{Průběžná integrace}
+Průběžnou integrací se rozumí sada nástrojů sloužící k urychlení softwarového vývoje. Základem je průběžné sestavení
+a spouštění testů aplikace na základě změn ve sdíleném repozitáři. Lze tak rychle odhalit případné chyby před zařazením 
+příslušné verze do produkce.\cite{CI}
+
+\section{Sdílení dat pomocí front}
+Sdílení dat pomocí front funguje na principu odesílání zpráv reprezentující objekty. Zprávy jsou po zařazení producentem do fronty odebírány
+konzumenty, které je zpracovávají.
+Příklad implementace takového systému pak může být RabbitMQ. \cite{rabbitMQ}
+
+\section{JSON}
+JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o formát, který je čitelný nejenom pro lidské oko, ale i pro stroj\cite{JSON},
+Zpracování toho formátu je implementováno pro většinu programovacích jazyků\cite{JSON-impl}. Skládá se z párů označující
+klíč a hodnotu. Hodnota může být řetězec, číslo nebo pole. Pole pak může uchovávat opět pole, řetězec nebo číslo. \cite{JSON}
+
+\begin{lstlisting}[language=JavaScript, caption={Ukázka formátu JSON}]
+{
+  "key": [
+    1,
+    2,
+    3
+  ],
+  "boolean": true,
+  "null": null,
+  "number": 123,
+  "object": {
+    "a": "b",
+    "c": "d",
+    "e": "f"
+  },
+  "string": "Hello World"
+}
+\end{lstlisting}
+
+\section{Mock}
+V objektově orientovaném programování se Mock objekt používá pro simulování chování konkrétní třídy.\cite{mock}
+Při testování je tak možné docílit takových testů, které nejsou závislé na ostatních třídách, kromě té přímo testované.
+\par
+Testovaná třída obvykle vyžaduje závislost na jiných třídách či rozhraní. Pomocí Mocku je možné chování těchto tříd simulovat.
+Mimo nadefinování požadovaného chování, lze také na Mock objektu sledovat jaká na něm byla provedena volání, včetně toho
+s jakými parametry. Díky tomu je možné testovat i vnitřní chování testované třídy a ne pouze návratovou hodnotu na základě 
+obdrženého vstupu.\cite{mock}
+
+\section{Refaktorování kódu}
+Refaktorování v softwarovém vývoji chápeme jako proces restrukturalizace existující kódu, aniž by byla 
+pozměněna funkcionalita. Provádí se za účelem dosáhnout průhlednějšího a čitelnějšího kódu, který
+se lépe udržuje a rozšiřuje. \cite{refaktoring} Hlavní spouštěcí příčina refaktorování kódu je však existence 
+konstrukcí značící špatný návrh aplikace. 
+
+V kontextu této práce jsou důležité především následující konstrukce značící možné problémy \cite{refaktoring}:  
+\begin{itemize}
+\item Dlouhá metoda
+\item Velká třída
+\item Dlouhý seznam parametrů
+\item Složité struktury podmínek
+\end{itemize}
+
 \chapter{Seznam použitých zkratek}
 % \printglossaries
 \begin{description}
@@ -1636,7 +1677,6 @@ umožní reálné nasazení systému, by nebylo těžké implementovat.
 	\item[URL] Uniform Resource Locator
 
 \end{description}
-
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % % Tuto kapitolu z výsledné práce ODSTRAŇTE.
