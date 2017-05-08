@@ -533,7 +533,7 @@ Hlavní větve tento kód spojují a reprezentují aktuální vývojovou a produ
 \subsection{Jednotkové a integrační testy}
 Jednotkovými testy se rozumí sada kladných a záporných testů ověřující funkcionalitu jediné třídy. Jednotkové testy
 jsou nezávislé na ostatních třídách a testech. \cite{testing} 
-Integrační testy pokrývají komunikaci více tříd nebo komunikaci s operačním systémem, hardwarem či rozhraním různých systémů. \cite{testing}
+Integrační pokrývají komunikaci více tříd nebo komunikaci s operačním systémem, hardwarem či rozhraním různých systémů. \cite{testing}
 \par
 Důvody pro psaní testů jsou například jednodušší nalezení chyby nebo lepší udržovatelnost projektu. V případě neexistujících testů nelze ověřit původní
 funkcionalitu při modifikaci aplikace, což může způsobit nutnost chyby nalézt a opravit.\cite{testing}
@@ -801,7 +801,7 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-old-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-old-2}
 	\caption[Pokrytí testy vytvořeného řešení]{Pokrytí testy vytvořeného řešení. Získáno pomocí nástroje Cobertura. Vizualizace
-	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:dp-dia}
+	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-old}
 \end{figure}
 
 
@@ -852,7 +852,7 @@ Výjimky by bylo vhodné odstranit a návratové hodnoty změnit na objekt obalu
 skončit při první chybě. Kód bude možné lépe rozdělit a metody následně zkrátit, což výrazně zlepší přehlednost kódu.
 
 \section{Plánování práce}
-Samotná logika plánování práce, nebo-li nalezení adres detailů produktů, které chceme použít při vytváření požadavků, se ukázala být nedostatečná. Chybí požadovaná funkcionalita, tedy použití intervalu určující, kdy je požadován nový výstup. Není také implementováno odstranění adres u kterýchg není vyžadováno vytvářet a odesílat nový požadavek.
+Samotná logika plánování práce, nebo-li nalezení adres detailů produktů, které chceme použít při vytváření požadavků, se ukázala být nedostatečná. Chybí požadovaná funkcionalita, tedy použití intervalu určující, kdy je požadován nový výstup. Není také implementováno odstranění adres u kterého není vyžadováno vytvářet a odesílat nový požadavek.
 \par
 Nový návrh hledá adresy podle těchto kritérií:
 
@@ -1208,7 +1208,7 @@ o tom, zda adresu použít. Tento návrh se podobá validačním kontrolám anal
 Důležitý prvek samotné opravy komunikace modulů Manager a ProductProvider je vytváření požadavků z nalezených adres.
 Vzhledem k změně rozhraní, které zachovává způsob nalezení, stačilo vytvořit ostatní části Managera, tak aby odpovídalo novému rozhraní.
 \par
-Hlavní metoda servisní třídy \textit{DPRequestSenderServiceImpl} volající postupně všechny tří části vypadá následovně:
+Hlavní metoda servisní třídy \textit{DPRequestSenderServiceImpl} volající všechny tří části vypadá následovně:
 \begin{lstlisting}[language=Java]
     /**
      * Creates requests and sends them.
@@ -1588,8 +1588,8 @@ objevené nové nedostatky.
 Kritické problémy byly opravené v rámci implementace, ale ukázalo se, že i po provedení změn není možné systém použít pro provoz, kde
 je požadavek na univerzalitu systému. Systém je po správném nastavení schopný dlouhodobě a automaticky sbírat určitý vzorek dat. Byly však objeveny obchody, kde to není možné. Důvod je především odlišná implementace vyhledávání produktů, kterou vytvořený systém aktuálně nepodporuje.
 \par
-Ačkoliv nedostatky neumožňují požadované využití, věřím v možnost opravy nedostatků a přidání případných nových funkcionalit, které
-umožní systému reálné nasazení.
+Ačkoliv nedostatky neumožňují požadované využití, věřím že případné opravy a přidání případných nových funkcionalit, které
+umožní reálné nasazení systému, by nebylo těžké implementovat.
 
 \bibliographystyle{csn690}
 
