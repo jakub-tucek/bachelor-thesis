@@ -751,7 +751,7 @@ mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. T�
 Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nejpodstatnějších k nejméně důležitým: 
 
 \begin{itemize}
-\item Počet kritických chyb
+\item Kritické chyby
 \item Úplnost požadované funkcionality
 \item Rozšiřitelnost
 \item Neefektivní chování
@@ -761,21 +761,19 @@ Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nej
 
 Rozšiřitelnost je hodnocena na základě obecného návrhu, pokrytí testy a počtu chyb statické analýzy kódu. 
 Návrh byl podrobně zmíněn v kapitole \ref{ch:architecture-tests} a proto
-bude zmíněn v následujícím přehledu pouze bodově.
-
+bude zmíněn v tabulkovém přehledu pouze bodově.
 \par
-
-Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2}je možné prohlásit, že pro základní použití systému je především nutná oprava všech kritických chyb a doplnění o chybějící funkcionalitu. Pro zajištění jednoduchého zapracování změn bude také nutný refaktoring, úprava návrhu a doplnění základních testů, které chybějí.
+Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2} je možné prohlásit, že pro základní použití systému je nutná oprava všech kritických chyb a doplnění o chybějící funkcionalitu. Pro zajištění jednoduchého zapracování změn bude také nutný refaktoring, úprava návrhu a doplnění základních testů, které chybějí.
 Statická analýza kódu ukázala, že počet chyb je minimální, což bylo způsobeno jejím průběžným použítím při vývoji.
 \par
-Problémy týkající se nedostatečné přívětivosti administrátorského rozhraní, způsobují nepohodlné použití systému a bylo by vhodně je též zapracovat.
+Problémy týkající se nedostatečné přívětivosti administrátorského rozhraní, způsobují nepohodlné použití systému a bylo by vhodné je též zapracovat.
 \par
-V případě opravy výše uvedených nedostatků předpokládám
-jednoduchou možnost oprav neefektivního chování, které se může negativně odrazit při velké zátěži. 
-Škálovatelnost má vzhledem k ostatním problémům nejnižší prioritu a není nepovažována narozdíl od ostatních bodů za nutnou k zapracování.
+V případě provedení výše uvedených změn, předpokládám
+snadnou možnost oprav částí týkající se neefektivního chování.
+Neefektivita se může negativně odrazit při velké zátěži a proto by měla být odstraněna.
+Škálovatelnost má vzhledem k ostatním problémům nejnižší prioritu. Z tohoto důvodu není nutné se škálovatelnosti věnovat .
 
-\begin{table}[h]\centering\label{table:analysis-old1}
-	\caption[První část tabulky přehledu nedostatků vytvořeného týmového řešení]{První část tabulky přehledu nedostatků vytvořeného týmového řešení}
+\begin{table}[h]\centering
     \begin{tabular}{ | l | l | p{7cm} |}
     \hline
     Typ & Počet & Popis \\ \hline
@@ -800,9 +798,10 @@ jednoduchou možnost oprav neefektivního chování, které se může negativně
   			\item 1 minoritní chyba statické analýzy kódu.
   		\end{itemize} \\ \hline
     \end{tabular}
+	\caption[První část tabulky přehledu nedostatků vytvořeného týmového řešení]{První část tabulky přehledu nedostatků vytvořeného týmového řešení}
+	  \label{table:analysis-old1}
 \end{table}
-\begin{table}[h]\centering\label{table:analysis-old2}
-	\caption[Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení]{Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení}
+\begin{table}[h]\centering
     \begin{tabular}{ | l | l | p{7cm} |}  
     \hline
     Typ & Počet & Popis \\ \hline
@@ -824,6 +823,8 @@ jednoduchou možnost oprav neefektivního chování, které se může negativně
   			\item Nemožnost vytvořit více instancí modulů.
   		\end{itemize} \\ \hline
     \end{tabular}
+	\caption[Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení]{Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení}
+	\label{table:analysis-old2}
 \end{table}
 
 
