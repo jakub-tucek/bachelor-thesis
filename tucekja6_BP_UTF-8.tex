@@ -740,8 +740,6 @@ složité otestovat. Chybějící testy se vykytovaly například u následujíc
 hlavní servisní třída DataProvideru nebo validace dat analyzátorem. Z tohoto důvodu jakákoliv oprava nebo implementace nových požadavků 
 mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. Tím by mohla být jakákoliv změna velmi časově náročná, s velmi nejistým konečným výsledkem.
 
-Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
-
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-old-1}
  	\includegraphics[width=0.7\textwidth]{resources/cobertura-report-old-2}
@@ -753,18 +751,28 @@ Systém proto v tomto stavu nebyl vhodný pro následný rozvoj.
 Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nejpodstatnějších k nejméně důležitým: 
 
 \begin{itemize}
-\item Kritické chyby
+\item Počet kritických chyb
 \item Úplnost požadované funkcionality
-\item Rozšiřitelnost (návrh, pokrytí testy, statická analýza kódu)
+\item Rozšiřitelnost
 \item Neefektivní chování
 \item Uživatelská přívětivost
 \item Škálovatelnost
 \end{itemize}
 
-Rozšiřitelnost je hodnocena na základě návrhu, pokrytí testy a počtu chyb statické analýzy kódu. Návrh byl podrobně zmíněn v kapitole 
-\ref{ch:architecture-tests}. 
+Rozšiřitelnost je hodnocena na základě obecného návrhu, pokrytí testy a počtu chyb statické analýzy kódu. 
+Návrh byl podrobně zmíněn v kapitole \ref{ch:architecture-tests} a proto
+bude zmíněn v následujícím přehledu pouze bodově.
 
-Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2}je možné prohlásit, že pro základní použití systému je potřeba opravit kritické chyby a doplnění požadované funkcionality. Pro pohodlné použití je však zapracovat i na zbylých požadavcích, jinak je možné, že systém bude systém z hlediska administrátorského rozhraní velmi nepřívětivý. Neefektivní chování se může negativně odrazit při velké zátěži. Škálovatelnost má v tomto případě prioritu nejmenší.
+\par
+
+Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2}je možné prohlásit, že pro základní použití systému je především nutná oprava všech kritických chyb a doplnění o chybějící funkcionalitu. Pro zajištění jednoduchého zapracování změn bude také nutný refaktoring, úprava návrhu a doplnění základních testů, které chybějí.
+Statická analýza kódu ukázala, že počet chyb je minimální, což bylo způsobeno jejím průběžným použítím při vývoji.
+\par
+Problémy týkající se nedostatečné přívětivosti administrátorského rozhraní, způsobují nepohodlné použití systému a bylo by vhodně je též zapracovat.
+\par
+V případě opravy výše uvedených nedostatků předpokládám
+jednoduchou možnost oprav neefektivního chování, které se může negativně odrazit při velké zátěži. 
+Škálovatelnost má vzhledem k ostatním problémům nejnižší prioritu a není nepovažována narozdíl od ostatních bodů za nutnou k zapracování.
 
 \begin{table}[h]\centering\label{table:analysis-old1}
 	\caption[První část tabulky přehledu nedostatků vytvořeného týmového řešení]{První část tabulky přehledu nedostatků vytvořeného týmového řešení}
@@ -787,7 +795,7 @@ Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{
 	Rozšiřitelnost &  & 
 		\begin{itemize}
   			\item Návrh tříd byl vyhodnocen jako nevhodný pro rozšiřování.
-  			\item Pokrytí testy dle nástroje cobertura. - 60\%.
+  			\item 60 \% pokrytí testy dle nástroje Cobertura
   			\item 3 kritické chyby statické analýzy kódu.
   			\item 1 minoritní chyba statické analýzy kódu.
   		\end{itemize} \\ \hline
@@ -798,12 +806,11 @@ Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{
     \begin{tabular}{ | l | l | p{7cm} |}  
     \hline
     Typ & Počet & Popis \\ \hline
-	Neefektivní chování & 4 & 
+	Neefektivní chování & 3 & 
 		\begin{itemize}
-  			\item Stránka je nově stažena v každém požadavku (i v případě chyby).
-  			\item V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována.
+  			\item Stránka je nově stažena  v každémpožadavku (i v případě uložení při chybě).
   			\item Každá chyba analyzátoru znamená samostatný požadavek a chybu.
-  			\item Vytvoření více požadavků pokud neexistuje šablona na obchodě.
+  			\item V případě neexistenci šablony detailu pro obchod jsou vytvořeny požadavky pro všechny adres, kdy každá způsobí chybu parsování, kterou je nutné vyřešit.
   		\end{itemize} \\ \hline	
 	\hline
 	Uživatelská přívětivost & 2 & 
