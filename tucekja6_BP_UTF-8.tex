@@ -774,15 +774,15 @@ Neefektivita se může negativně odrazit při velké zátěži a proto by měla
 Škálovatelnost má vzhledem k ostatním problémům nejnižší prioritu. Z tohoto důvodu není nutné se škálovatelnosti věnovat .
 
 \begin{table}[h]\centering
-    \begin{tabular}{ | l | l | p{7cm} |}
+    \begin{tabular}{ | l | p{7cm} |}
     \hline
-    Typ & Počet & Popis \\ \hline
-    Kritické chyby & 2 &
+    Typ & Popis \\ \hline
+    Kritické chyby &
     	\begin{itemize}
   			\item V případě chybného odeslání není chyba šablony nebo analyzátoru znova zpracována.
   		\end{itemize}\\ \hline
 	\hline
-    Úplnost funkcionality & 4 & 
+    Úplnost funkcionality & 
     	\begin{itemize}
   			\item Systém nevyhledává internetové obchody.
   			\item Systém nevyhledává adresy detailů produktů.
@@ -790,7 +790,7 @@ Neefektivita se může negativně odrazit při velké zátěži a proto by měla
   			\item Neexistence procesu párování.
   		\end{itemize} \\ \hline
 	\hline
-	Rozšiřitelnost &  & 
+	Rozšiřitelnost  & 
 		\begin{itemize}
   			\item Návrh tříd byl vyhodnocen jako nevhodný pro rozšiřování.
   			\item 60 \% pokrytí testy dle nástroje Cobertura
@@ -802,23 +802,23 @@ Neefektivita se může negativně odrazit při velké zátěži a proto by měla
 	  \label{table:analysis-old1}
 \end{table}
 \begin{table}[h]\centering
-    \begin{tabular}{ | l | l | p{7cm} |}  
+    \begin{tabular}{ | l | p{7cm} |}  
     \hline
-    Typ & Počet & Popis \\ \hline
-	Neefektivní chování & 3 & 
+    Typ & Popis \\ \hline
+	Neefektivní chování & 
 		\begin{itemize}
   			\item Stránka je nově stažena  v každémpožadavku (i v případě uložení při chybě).
   			\item Každá chyba analyzátoru znamená samostatný požadavek a chybu.
   			\item V případě neexistenci šablony detailu pro obchod jsou vytvořeny požadavky pro všechny adres, kdy každá způsobí chybu parsování, kterou je nutné vyřešit.
   		\end{itemize} \\ \hline	
 	\hline
-	Uživatelská přívětivost & 2 & 
+	Uživatelská přívětivost & 
 		\begin{itemize}
   			\item Nutnost řešit chyby analyzátoru po jedné.
   			\item Řešené chyby neobsahují bližší informace (informace o chybě, vyparsované hodnoty, použitá adresa detailu).
   		\end{itemize} \\ \hline	
 	\hline
-	Škálovatelnost & 1 & 
+	Škálovatelnost & 
 		\begin{itemize}
   			\item Nemožnost vytvořit více instancí modulů.
   		\end{itemize} \\ \hline
