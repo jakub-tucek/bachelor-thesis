@@ -92,7 +92,7 @@ doplňují funkcionalitu, umožňují lepší rozšiřitelnost a opravují než�
 Výsledkem práce je refaktoring týmového řešení spolu s rozšířením o nejdůležitější vylepšení. Vzniklý systém je na základě důkladného otestování znova zhodnocen. Finálně jsou navržena další vylepšení pro budoucnost projektu.
 }
 \abstractEN{
-This thesis describes difficulties of data mining from web with emphasis on the needs of online shops. Such needs is for example trends of product prices sold by competitors. Because issue was already addresed in team project implemented in courses BI-SP1 BI-SP2, thesis describes created system including chosen work methods.
+This thesis describes difficulties of data mining from web with emphasis on the needs of online shops. Such need is for example trend of product prices sold by competitors. Because this issue was already addresed in team project implemented in courses BI-SP1 BI-SP2, thesis describes created system, including chosen work methods.
 After analysis of created team project, possible changes are designed. These changes are extending existing functionality, improving expandability and fixing unwanted behaviour of created system.
 Goal of thesis is refactoring team project along with implementation of most important changes. Created system is evaluated based on thorough 
 testing. Finally, additional improvements are designed for possible future.
@@ -108,7 +108,7 @@ testing. Finally, additional improvements are designed for possible future.
 % \newacronym{FIT}{FIT}{Fakulta informa{\v c}n{\' i}ch technologi{\' i}}
 
 \begin{introduction}
-Práce uvádí čtenáře do problematiky získávání informací z webů s důrazem na požadavky internetových obchodů popřípadě distributorům zboží, 
+Práce uvádí čtenáře do problematiky získávání informací z webů s důrazem na požadavky internetových obchodů popřípadě distributorů zboží, 
 konkrétně sledováním
 vývoje cen prodávaných produktů. Je popsán současný stav řešení potřeb internetových obchodů a to včetně existujících služeb.
 \par
@@ -140,11 +140,11 @@ Vzhledem k specificitě dat, která jsou v kontextu činnosti zajímavá a kvůl
 není možné jednoznačně určit jednotný a zcela automatizovaný postup, jak data získat v požadovaném formátu.
 
 \section{Výběr dat}
-Nejčastější řešení, jak získávat strukturované informace z webů je kombinace automatizace a prvku lidské inteligence.
-Což je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace jsou ve stažených datech zajímavá.
+Možné řešení, jak získávat strukturované informace z webů je kombinace automatizace a prvku lidské inteligence.
+Což je obvykle dosaženo roboty, kteří data stahují a lidské práce určující jaké informace jsou ve stažených datech zajímavé.
 \par
 Získávání informací ze stažených stránek lze zjednodušit na problematiku určení elementů v HTML.
-Element pak může obsahovat pouze požadovanou část, například cenu produktu.
+Element pak může obsahovat pouze požadovanou informaci, například cenu produktu.
 Lokaci lze jednoznačně určit mimo jiné pomocí těchto dvou možností:
 \begin{enumerate}
 \item XPath,
@@ -158,14 +158,14 @@ XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk sloužící k
 XML chápeme jako jazyk popisující strukturu strojově i lidsky čitelných dat.
 HTML lze vzhledem ke struktuře chápat jako formát podobný XML, ačkoliv se přímo o XML nejedná \cite{HTML}. 
 Popisuje způsob zobrazení dat ve formátu, které prohlížeče rozumí.
-Díky podobnosti s XML je však možné použít XPath pro definování cesty k prvku, který uchovává potřebnou informaci na webové stránce.
+Díky podobnosti s XML je však možné XPath použít pro definování cesty k prvku, který uchovává potřebnou informaci na webové stránce.
 \par
 \section{CSS Selector}
 Jazyk CSS je používán pro vizuální popis prezentace webové stránky v HTML. K určení prvků se kterými
 pracuje používá selektory, které označují konkrétní prvek v HTML, buď pomocí samotného názvu elementu, přiřazené třídy nebo nastaveného
 identifikátoru.\cite{CSS}
 \par
-Selektor nemusí být vždy unikátní, ale řetězení selektorů je možné element jednoznačně v HTML dokumentu vybrat.
+Selektor nemusí vybírat pouze jeden element, nicméně zřetězením selektorů je možné jedinečného výběru snadno docílit.
 
 \newpage
 
@@ -442,18 +442,17 @@ navrženého systému.
 
 \section{Cíl týmového projektu}
 
-V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt. V souladu s osnovami byl nejdříve v BI-SP1 vytvořen návrh
-systému a v BI-SP2 následně implementován.
+V předmětech BI-SP1 a BI-SP2 byl realizován týmový projekt. V souladu s osnovami byl BI-SP1 vytvořen návrh, který
+se v BI-SP2 následně implementoval.
 \par
-Cílem tohoto projektu byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz byl především kladem na optimalizaci počtu nutných lidských úkonů. Byl navržen způsob, kdy systém při pouze nezbytných krocích spoléhá na administrátora.
-U administrátora se předpokládá technická zdatnost průměrného uživatele.
+Cílem tohoto projektu byla maximální možná míra automatizace získávání informací o produktech prodávaných konkurencí. Důraz byl především kladem na optimalizaci počtu nutných lidských úkonů. Navržený způsob spoléhal v nezbytných krocích na administrátora, u kterého se předpokládala technická zdatnost průměrného uživatele.
 \par
 
 \section{Požadovaná funkcionalita}
 Požadovaný stav projektu umožňuje uživateli vložit produkty do systému ve formátu \textit{cvs} či \textit{xlsx}, poté pomocí
 rozhraní definovat význam jednotlivých sloupců v tomto dokumentu a zvolit požadovanou frekvenci sledování dat.
 \par
-Systém na základě dat vyhledá obchody, které prodávají sledované produkty. Z nich v definovaných intervalech získává data, ze kterých je vytvořen výstup pro uživatele obsahující především informace o cenách. Výstup lze vizualizovat i na grafech ve webovém rozhraní nebo stáhnout ve formátu
+Systém na základě dat vyhledá obchody, které prodávají vložené produkty. Z nich v definovaných intervalech získává data, ze kterých je vytvořen výstup pro uživatele obsahující především informace o cenách. Výstup lze vizualizovat i na grafech ve webovém rozhraní nebo stáhnout ve formátu
 \textit{csv} či \textit{xlsx}.
 \par
 Proces samotného hledání byl navržen jako soubor více kroků, skládající se z procesů interních částí a interakcí administrátora, který zajišťuje
@@ -487,11 +486,11 @@ nebo potvrzení zda jsou získaná data validní.
 \section{Interní část}
 Interní část je rozdělena do samostatných modulů, které spolu komunikují pomocí front. Moduly je možné spustit jako služby ve více 
 instancích, kromě modulu Manager. Vzhledem k možnostem front, lze také práci distribuovat na více serverů, aniž by byla ohrožena 
-bezpečnost databáze, protože k ní je možný přístup pouze lokální. Moduly jsou detailněji popsány v následujících podsekcích.
+bezpečnost databáze, protože k ní je možný umožnit pouze lokální přístup. Moduly jsou detailněji popsány v následujících podsekcích.
 \subsection{Manager}
-Manager je hlavní modul, který má jako jediný interní část možnost připojení do databáze a jeho běžící instance může existovat pouze jednou.
+Manager je hlavní modul, který má jako jediný možnost přímého připojení do databáze. Jeho běžící instance může existovat pouze jednou.
 Manager má za úkol plánování práce pro ostatní části systému a samotnou správu komunikace s ostatními moduly. Práce je delegována pomocí
-\textit{požadavků}, které jsou odeslány pomocí front jednotlivým modulům. \textit{Odpovědí} a \textit{chyby} reprezentují výsledky požadavků.
+\textit{požadavků}, které jsou odeslány pomocí front jednotlivým modulům. \textit{Odpovědi} a \textit{chyby} reprezentují výsledky.
 \subsection{Finder}
 Modul Finder získává URL adresy internetových obchodů, které prodávají požadované produkty.
 Na nalezeném obchodě poté vyhledává adresy vedoucí na detaily produktů. K tomu je použito interní vyhledávání, které
@@ -527,21 +526,24 @@ projektu, protože téma bakalářské práce jsem měl již předběžně vybra
 \section{Vývoj}
 Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. 
 V každé iteraci bylo definováno jakou musí obsahovat funkcionalitu, která bude na konci iterace prezentována vyučujícímu. Funkcionalita se skládala z jednotlivých úkolů rozložených do sprintů.
-Úkoly byly přiděleny jednotlivým členům týmu. Stav úkolů uchovával systém Redmine\cite{Redmine}, který umožňoval sledovat jejich stav.
-Úkoly bylo možné přiřadit k jednotlivým sprintům a iteracím, což umožňovalo přehled o plnění časového plánu.
+\par
+Úkoly byly přidělovány jednotlivým členům týmu. Stav úkolů uchovával systém Redmine\cite{Redmine}, který umožňoval sledovat jejich stav.
+Úkoly bylo možné v Redmine přiřadit k jednotlivým sprintům a iteracím, což umožňovalo přehled o plnění časového plánu.
 \par
 Jako verzovací systém byl zvolen systém Git, se vzdáleným repozitářem uložený na službě Gitlab \cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a spouštění služeb na základě definovaných aktivit v repozitáři. Repozitář se skládal ze 4 částí (větví):
+
 \begin{itemize}
 \item Master - hlavní větev uchovávající verze určené k nasazení na produkční server.
 \item Develop - vývojová větev obsahující aktuální stav vývoje.
 \item Feature - vedlejší větev vytvořená pro konkrétní úkol přidávající novou funkcionalitu.
 \item Fix - vedlejší větev určená pro úkoly opravující chybu.
 \end{itemize}
-Protože přístup k modifikacím větví Master a Develop měl pouze vedoucí projektu, musel být pro každou Feature a Fix větev
-vytvořen požadavek o zařazení(Merge request). Po kontrole vedoucím byl požadavek zařazen nebo vrácen k opravě.
+
+Protože práva k modifikaci větví Master a Develop měl pouze vedoucí projektu, musel být pro každou Feature a Fix větev
+vytvořen požadavek o zařazení(Merge request). Až po kontrole vedoucím byl požadavek zařazen nebo vrácen k opravě.
 \par
 Na konci každé iterace byla poslední verze označená pomocí \textit{tagu} a poté prezentována vedoucímu.
-Označení bylo zvoleno na základě pořadí iterace. 1. iterace je označena verzí \uv{0.1}.
+Označení bylo zvoleno na základě pořadí iterace. První iterace je označena verzí \uv{0.1}.
 \par
 Pro vývoj se využil princip průběžné integrace. Každá verze byla zkompilována, otestována a zanalyzována na vzdáleném serveru.
 Tyto činnosti zajišťovaly systémy Jenkins\cite{jenkins} a Gitlab. Po změně v repozitáři byl spuštěn úkol v Jenkins. Ten aplikaci sestavil, spustil testy a statickou analýzu kódu 
@@ -555,9 +557,8 @@ obsahuje nástroje pro automatickou správu závislostí, komunikaci s databáz�
 aplikace, šablonovací systém a rozhraní pro tvorbu testů. 
 \par
 Nette je navrženo s myšlenkou použití MVC architektury, která odděluje
-prezenční a logickou vrstvu. Zkratka MVC značí Model-View-Controller. V případě webového projektu v Nette představují vrstvu \textit{view} šablony.
-Šablony definují vzhled webových stránek. \textit{Controller} vrstva se skládá z presenter tříd obsluhující šablony. \textit{Modelovou} vrstvu  zajišťují třídy servisní, vykonávající logické části aplikace jako 
-například práci s \textit{repository} třídami nebo zpracování formuláře. \textit{Repository} se starají o přímou komunikaci s databází.
+prezenční a logickou vrstvu. Zkratka MVC značí Model-View-Controller. V případě webového projektu v Nette představují \textit{view} vrstvu šablony, definující vzhled webových stránek. \textit{Controller} vrstva se skládá z presenter tříd obsluhující šablony. \textit{Modelovou} vrstvu  zajišťují třídy servisní, vykonávající logické části aplikace jako 
+například práci s \textit{repository} třídami nebo zpracování formulářů. \textit{Repository} se starají o přímou komunikaci s databází.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=0.7\textwidth]{resources/mvc}
@@ -569,7 +570,7 @@ Na základě souboru definující potřebné knihovny a jejich verze jsou staže
 a eliminaci nutnosti knihovny manuálně stahovat či přidávat přímo do repozitáře.
 \subsection{Interní část}
 Interní část je implementována v jazyce Java verze 8. Sestavení, spouštění testů a správu závislostí zajišťuje Gradle\cite{gradle}.
-Umožňuje automatické stažení knihoven. Standardně je nastavený jako zdroj
+Umožňuje automatické stažení knihoven. Standardně je nastavený jako jejich zdroj
 centrální maven repozitář. \cite{mavenRepo}. Maven repozitář uchovává většinu volně přístupných knihoven, v tomto případě všechny, které jsou v rámci tohoto projektu použity.
 \par
 V rámci sestavení lze pustit testy a další definované úkoly jako například tvorba dokumentace. Projekt používá
@@ -585,10 +586,10 @@ je možné dále pracovat.\cite{serialization}
 \par
 Projekt využívá mnoho volně dostupných knihoven, nejpodstatnější jsou však následující:
 \begin{itemize}
-\item Google Guice - automatická správa závislostí \cite{guice}.
-\item Hibernate - objektově relační zobrazení databázových entit a práce s nimi \cite{hibernate}.
-\item Apache Commons - pomocné knihovny pro práci s řetězcemi a soubory \cite{commons}.
-\item RabbitMQ - rozhraní pro komunikaci s frontami \cite{rabbitMQ}.
+\item Google Guice - automatická správa závislostí. \cite{guice}
+\item Hibernate - objektově relační zobrazení databázových entit a práce s nimi. \cite{hibernate}
+\item Apache Commons - pomocné knihovny pro práci s řetězcemi a soubory. \cite{commons}
+\item RabbitMQ - rozhraní pro komunikaci s frontami. \cite{rabbitMQ}
 \end{itemize}
 
 \section{Má role}
@@ -609,7 +610,7 @@ Zde se jedná především o propojení následujících služeb s Gitlabem:
 
 Samotný SonarQube bylo potřeba nastavit, aby se spouštěl při sestavení aplikace a výsledek se zobrazil v rozhraní
 Gitlabu. V rámci sestavení aplikace jsem nastavil spouštění nástroje Cobertura.
-Doplňky v Jenkins umožňovaly zobrazení přehledných výsledků, jak je kód pokryt testy \ref{fig:cober-old}. Přesné pokrytí testů mi poté umožňovalo 
+Doplňky v Jenkins umožňovaly zobrazení přehledných výsledků, jak je kód pokryt testy. \ref{fig:cober-old} Přesné pokrytí testů mi poté umožňovalo 
 jednoduše kontrolovat jaké části kódu jsou otestované.
 
 
@@ -630,12 +631,11 @@ Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nej
 \end{itemize}
 
 Rozšiřitelnost je hodnocena na základě obecného návrhu, pokrytí testy a počtu chyb statické analýzy kódu. 
-Jednotlivým bodům se budu nejprve věnovat v rámci popisu nalezených problémů. Následně budou shrnuty pomocí tabulky ze které
-bude vyvozen závěr analýzy týmového projektu.
+Jednotlivým bodům se budu nejprve věnovat v rámci popisu nalezených konkrétních problémů. Následně budou shrnuty pomocí tabulky ze které
+bude vyvozen závěr analýzy.
 \par
-Zhodnocení byl provedeno především na základě testování a prozkoumání kódu.
-Při testování jsem využil testovací data \ref{table:testing-data-1}. Postup spočíval ve vytvoření kampaně, namapování
-produktů a manuálního přidání detailů produktů do databáze.
+Zhodnocení bylo provedeno na základě testování a prozkoumání kódu.
+Při testování jsem využil testovací data zobrazené v tabulce \ref{table:testing-data-1}. Postup inicializace systému spočíval ve vytvoření kampaně, namapování produktů a manuálního přidání detailů produktů do databáze.
 
 \begin{table}[h]\centering
     \begin{tabular}{ | l | p{7cm} |}
@@ -661,14 +661,14 @@ Tím bohužel nebylo možné reálné použití systému.
 Odevzdávaný stav obsahoval funkční webové rozhraní, které se skládalo ze základní funkcionality pro uživatele a administrátory.
 Část pro administrátory obsahovala správu uživatelů, evidenci známých obchodů a řešení chyb vzniklých v interní části.
 \par
-Uživatelská část umožňovala správu a vytvoření kampaní. Splňovala návrh z analytické částí \ref{ch:analysis-front-end}.
-Na žádost jiného týmu bylo také vytvořeno Web API rozhraní, poskytující získané ceny pro daný produktu ve formátu JSON.
+Uživatelská část umožňovala správu a vytvoření kampaní. Splňovala tak návrh z analytické částí \ref{ch:analysis-front-end}.
+Na žádost jiného týmu bylo vytvořeno Web API rozhraní, poskytující získané ceny pro daný produktu ve formátu JSON.
 \par
 Interní část dokázala hledat nové data na již uložených adresách detailů. Manager vybral adresy detailů pro zpracování, vytvořil
-jednotlivé požadavky obsahující potřebná data a odeslal je k zpracování do DataProvideru. DataProvider obsah adresy stáhnul, vyparsoval a výsledek zanalyzoval vůči historickým datům. Analýza se skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu. Pokud všechny části proběhly bezchybně byly data odeslány pro zpracování Managerem.
+jednotlivé požadavky obsahující potřebná data a odeslal je k zpracování do DataProvideru. DataProvider obsah adresy stáhnul, vyparsoval a výsledek zanalyzoval vůči historickým datům. Analýza se skládala z kontrol velkých výkyvů cen a rozdílných identifikátorů produktu. Pokud všechny části proběhly bezchybně, byly data odeslány pro zpracování Managerem.
 \par
 Systém se korektně zachoval i pokud při stažení, parsování nebo analyzování byla objevena chyba. Proces zastavil, výsledek označil jako chybný
-a odeslal správnou chybnou odpověď. Zpracování Managerem zajistilo, že bylo možné chybu vyřešit administrátorem ve webovém rozhraní. Po vyřešení chyby systém zareagoval a vytvořil opětovný požadavek.
+a odeslal chybnou odpověď. Zpracování Managerem zajistilo, že bylo možné chybu vyřešit administrátorem ve webovém rozhraní. Po vyřešení chyby systém zareagoval a vytvořil opětovný požadavek.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/legacy-process-activity}
@@ -682,7 +682,7 @@ a odeslal správnou chybnou odpověď. Zpracování Managerem zajistilo, že byl
 Některé nedostatky byly úzce spjaty s tím, jak aplikace plánovala práci. Plánováním práce je myšlen proces
 nalezení adres detailů produktů pro které je požadováno získat aktualizované data. Z adres jsou vytvořeny a odeslány požadavky pro ProductProvider.
 \par
-Jak bylo řečeno, prvotním kritériem hledání jsou adresy detailů. Ty se mohou vyskytovat v různých stavech. Systém je vybral v 
+Prvotním kritériem hledání jsou adresy detailů. Ty se mohou vyskytovat v různých stavech. Systém je vybral v 
 následujícím pořadí:
 
 \begin{itemize}
@@ -693,29 +693,29 @@ následujícím pořadí:
 \end{itemize}
 
 Z této množiny bylo vybráno prvních 10 adres, odebrány již odeslané a takové které mají nevyřešenou chybu. Opakované spuštění v předdefinovaném 
-intervalu zajistilo, že požadavky byly vytvořeny pro všechny požadované adresy.
+intervalu zajistilo vytvoření požadavků pro všechny požadované adresy.
 \par
 Další nedostatek se skládal z ukládání stavu do databáze. Část nejdůležitějších atributů vytvářeného požadavku byla uložena do databáze 
-s příznakem odesláno. Tento příznak bylo nutné uchovávat i u chyb šablon nebo analyzátoru, kde je potřeba označit, že byly zpracovány. 
+s příznakem odesláno. Tento příznak bylo nutné uchovávat i u chyb šablon nebo analyzátoru, kde je potřeba označit zpracování Managerem. 
 \par
-V případě neúspěchu při odeslání požadavku už však příznak v případě chyb nebyl změněn. To způsobilo, že chyba nebyla v příštích hledání znovu zpracována.
+Při neúspěchu odeslání požadavku už příznak u chyb nebyl změněn. To způsobilo, že chyba zůstala navždy s příznakem \uv{zpracována}, ačkoliv
+se příslušný požadavek nepodařilo odeslat.
 
 \subsection{Neefektivní chování modulu Manager a ProductProvider}\label{ch:manager-pd}
-V rámci testování jsem zjistil, že v případě chyby při parsování stránky není použit uložený HTML dokument. Dokument byl ukládán do databáze
-v rámci zpracování chyby. 
+V rámci testování jsem zjistil, že v případě chyby při parsování stránky není použit uložený HTML dokument. I když dokument do databáze
+při zpracování chyby ukládán byl.  
 \par
-Manager vyhledal korektně adresy detailů, ale vytvoření objektu představující požadavek pro všechny adresy stejné. 
-Byl ztracen stav z jakého důvodu byla adresa původně vybrána, což ani neumožňovalo jednoduché uložení HTML dokumentu
-do požadavku. Každý požadavek znamenal opětovné stažení příslušné stránky.
+Manager vyhledal korektně adresy detailů, ale vytvoření objektu představující požadavek bylo pro všechny adresy stejné. 
+Ztracení důvodu z jakého byla adres původně vybrána, způsobilo nemožnost jednoduchého uložení HTML dokumentu do požadavku. Každý požadavek znamenal opětovné stažení příslušné stránky.
 
 \subsection{Chyby analyzování}
 Poslední fáze procesu v modulu ProductProvider byla navržena jako analyzování získaných dat vůči již dříve uloženým. Implementace analyzátoru 
 spouštěla jednotlivé validace, jejíchž logika se nacházela v oddělených třídách. 
 Analýza kontrolovala zda se shoduje získaný EAN, název a modelové číslo, vůči uloženým identifikátorům. Pokud na jedné ze stran hodnota neexistovala, byly data označená, že jsou pravděpodobně chybná. 
 \par
-Dále probíhala kontrola získané ceny \uv{s} a \uv{bez} DPH oproti dříve získaným cenám na stejné adrese. Kontrola porovnala průměr historických hodnot se hodnotami získaných cen. V případě, že rozdíl byl větší jak 25\%, byl výsledek označen jako chybný.
+Dále probíhala kontrola získané ceny \uv{s} a \uv{bez} DPH oproti dříve získaným cenám na stejné adrese. Kontrola porovnala průměr historických hodnot s hodnotami získaných cen. V případě, že rozdíl byl větší jak 25\%, byl výsledek označen jako chybný.
 \par
-Informace byly následně odeslány a Manager na jejich základě vytvořil chybu pro administrátora k vyřešení. Administrátor tak mohl 
+Po odeslání a přijetí chyby, Manager ji uložil do databáze pro administrátora k vyřešení. Administrátor pak mohl 
 označit, zda je to opravdu chyba nebo se toto hlášení má do budoucna ignorovat.
 \par
 \subsubsection{Problémová implementace}
@@ -780,8 +780,8 @@ mohla narušit stávající funkcionalitu bez možnosti rychlého ověření. T�
 
 \section{Shrnutí}\label{ch:project-analysis}
 
-Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2} je možné prohlásit, že pro základní použití systému je nutná oprava všech kritických chyb a doplnění o chybějící funkcionalitu. Pro zajištění jednoduchého zapracování změn bude také nutný refaktoring, úprava návrhu a doplnění základních testů, které chybějí.
-Výsledek statická analýzy kódu ukázal, že počet nalezených chyb je minimální, což bylo způsobeno jejím průběžným použitím při vývoji. Při přezkoumání byly i přes to nalezeny nežádoucí konstrukce.
+Na základě shrnutí nedostatků v tabulkách \ref{table:analysis-old1} a \ref{table:analysis-old2} je možné prohlásit, že pro základní použití systému by byla nutná oprava všech kritických chyb a doplnění o chybějící funkcionalitu. Pro zajištění jednoduchého zapracování změn bude také nutný refaktoring, úprava návrhu a doplnění základních testů, které chybějí.
+Výsledek statická analýzy kódu ukázal, že počet nalezených chyb je minimální, což bylo způsobeno jejím průběžným použitím při vývoji. Při přezkoumání byly i přes výsledek analýzy kódu nalezeny nežádoucí konstrukce.
 \par
 Problémy týkající se nedostatečné přívětivosti administrátorského rozhraní způsobují nepohodlné použití systému a bylo by vhodné je též zapracovat.
 \par
@@ -897,12 +897,12 @@ stahování webových stránek.
 Při analýze kódu se ukázalo, že v aktuálním návrhu aplikace není možné tuto funkcionalitu jednoduše implementovat, aniž by se nejednalo o rychlou opravu neefektivním řešením. Oprava by znamenala, že pro každou vytvářenou adresu se systém musí pokusit najít
 existující chybu a následně využít staženou stránku. Hledání by tak probíhalo ve většině případů zbytečně, jelikož chyba by neexistovala.
 \par
-Korektní oprava je úzce spjata s předchozími kapitolami, především s refaktorováním a úpravou plánování práce. Pokud úprava plánování zachová
-informaci o důvodu udávající, proč je adresa pro vytvoření požadavku zařazena, stačí pouze nalézt příslušnou chybu, která uchovává staženou stránku.
+Korektní oprava je úzce spjata s předchozími kapitolami. Především s refaktorováním a úpravou plánování práce. 
+Pokud úprava plánování zachová informaci o důvodu udávající, proč je adresa pro vytvoření požadavku zařazena, stačí chybu obsahující staženou stránku nalézt pouze u příslušných požadavků.
 \par
-Informace důvodu nalezení by však měla být zachována i při odesílání. V rámci odesílání požadavků jsou nastavovány příznaky o odeslání a zpracování šablony. Když se požadavek nepodaří odeslat musí příznak uchovávat příslušný stav. 
+Informace důvodu nalezení by však měla být zachována i při odesílání. V rámci odesílání požadavků jsou nastavovány příznaky o odeslání a zpracování chyby. Když se požadavek nepodaří odeslat musí existovat možnost příznak změnit.
 \par
-Z hlediska DataProvider stačí pouze zkontrolovat, zda požadavek uchovává staženou stránku a v kladném případě ji použít pro
+Z hlediska DataProvider stačí zkontrolovat, zda požadavek uchovává staženou stránku a v kladném případě ji použít pro
 parsování.
 
 \section{Spojení chyb analyzátoru a vylepšení rozhraní} \label{analyser-join}
@@ -910,9 +910,9 @@ Analyzátor provádí kontrolu získaných dat. V případě podezření o neval
 administrátorem. Validace kontrolují ekvivalenci identifikátorů vůči již uloženým a velké výkyvy cen na daném obchodu.
 \par
 Administrátor má možnost chybu vyřešit a uložit příznak, aby se chyba do budoucna ignorovala. Toto rozhodnutí je však
-založené pouze na informaci obsahující jaká validace se nepovedla. Nemá možnost porovnat jaká data byla využita při validaci.
+založené pouze na informaci obsahující jaká validace se nepovedla bez dalších informací.
 Webové rozhraní nemá možnost zobrazit dodatečné informace o chybě, protože nejsou ukládána. Interní část by měla takové informace
-uchovávat a ukládat do databáze, aby webové rozhraní mohlo tyto informace použít.
+uchovávat, aby webové rozhraní mohlo tyto informace použít.
 \par
 V případě adresy, která obsahuje více chyb, je nutné řešit každou samostatně. Po každém vyřešení se musí počkat na zpracování interní částí.
 Pro vylepšení administrátorské rozhraní je požadováno chyby spojit do jedné, tak aby bylo možné vyřešit všechny chyby analyzátoru najednou.
@@ -955,7 +955,7 @@ pro produkt
 \par
 V případě neúspěchu párování, musí existovat možnost produkt spárovat manuálně, tedy akcí administrátora. 
 Výše uvedený proces poté spoléhá na to, že vložená data jsou při vytváření kampaně validní. V případě nevalidních dat jako
-příliš obecných a krátkých názvů by párování proběhlo chybně.
+příliš obecných a krátkých názvů by párování mohlo proběhnout chybně.
 
 
 \section{Neimplementované návrhy}
@@ -963,20 +963,18 @@ příliš obecných a krátkých názvů by párování proběhlo chybně.
 Párování produktu lze vylepšit o možnost uchování více hodnot u identifikátorů produktů. V praxi by to znamenalo, že produkt je vytvořen 
 s hlavními identifikátory. V průběhu hledání na obchodech a po potvrzení administrátorem by bylo možné uložit identifikátory alternativní.
 \par
-Alternativní název je možné například využít při párování produktu pokud by použití hlavního názvu nebyla nalezena shoda.
+Alternativní název by bylo možné využít při párování produktu pokud by při použití hlavního názvu nebyla nalezena shoda.
 
 \subsection{Uchování a využití hodnot z nespárovaných adres}
-Vyhledáváním na obchodu je zpravidla výsledek, který obsahuje více adres detailů produktu. Na všech adresách je proveden pokud o párování, takže
-jsou vyparsována příslušná data z těchto stránek. Pokud systém neuchovává všechny produkty, pak část vždy obsahuje neznámý produkt a není v době hledání potřebný. Získává data by bylo možné uchovávat a pokusit se je spárovat při přidání nových produktů do databáze.
-To umožní odlehčení zátěže na stahování stránek a zrychlí celý proces nalezení detailu adresy a párování produktu.
-\par
-Adresy nemusejí být v době párování aktuální. Zde je proto nutné nastavit mechanismus ověření platnosti adresy.
+Vyhledáváním na obchodu je zpravidla výsledek, který obsahuje více adres detailů produktu. Na všech získaných adresách je proveden pokus o spárování, takže jsou nejdříve vyparsována příslušná data z těchto stránek. Pokud systém neuchovává všechny produkty, co existují pak část adres
+náleží neznámým produktům a není v době hledání potřebná. Získáná data by bylo možné uchovávat a pokusit se je spárovat při přidání nových produktů do databáze.
+To umožní odlehčení zátěže na stahování stránek a urychlí celý proces nalezení detailu adresy a párování produktu.
 
 
 \chapter{Realizace vylepšení}\label{ch:realisation}
-Kapitola realizace vylepšení se věnuje implementovaným vylepšením. Popisuje jak byly navržené změny provedeny.
+Kapitola Realizace vylepšení se věnuje implementovaným vylepšením. Popisuje jak byly navržené změny provedeny.
 V průběhu realizace byly objeveny nové nedostatky, z nichž některé byly také zpracovány, i když se s nimi původně nepočítalo.
-Změny jsou v repozitáři webového rozhraní a interní části označeny. Původní verze týmového projektu byla označena jako
+Změny jsou v repozitáři webového rozhraní a interní části přehledně označeny. Původní verze týmového projektu byla označena jako
 tag \textit{v0.53}, realizované vylepšení jsou označeny jako \textit{v0.6}.
 
 \section{Refaktorování stávajícího řešení}
@@ -1089,7 +1087,7 @@ Při úpravě validací jsem zjistil, že základní validace lze rozdělit na d
 V případě těchto skupin se vytvořený kód lišil pouze v tom, jaká hodnota se má získat ze získaných dat a z dat již uložených.
 Poslední rozdíl byl pouze v chybové hlášce. Z toho důvodu jsem společnou logiku obou skupin implementoval
 pomocí abstraktní a generické třídy \textit{AbstractAnalysis}. Vlastnosti kontrol jednotlivých skupin zajišťují třídy \textit{AbstractStringAnalysis} 
-nebo \textit{AbstractPriceAnalysis}. Výsledná validace kontrolující získaný název s název uloženým, vypadá následovně:
+nebo \textit{AbstractPriceAnalysis}. Výsledná validace kontrolující získaný název s uloženým vypadá následovně:
 
 \begin{lstlisting}[language=Java, caption={Validace kontrolující hodnotu získaného jména produktu}]
 /**
@@ -1430,7 +1428,7 @@ Nakonec jsem zvolil možnost, kdy administrátor má v rámci řešení chyby š
 \begin{figure}\centering
  	\includegraphics[width=1.0\textwidth]{resources/template-detail-err}
 	\caption[Administrátorské rozhraní pro opravu detailu šablony]{Administrátorské rozhraní pro opravu detailu šablony.
-	Původnímu řešení neobsahovalo informaci o použité url adrese, vyparsované hodnoty a formulář pro chybný řetězec.}\label{fig:temp-det-err}
+	Původní řešení neobsahovalo informaci o použité URL adrese, vyparsované hodnoty a formulář pro chybný řetězec.}\label{fig:temp-det-err}
 \end{figure}
 
 \section{Více šablon detailů produktů}
@@ -1448,8 +1446,9 @@ Chyby lze predikovat a v případě neexistující šablony odeslat pouze jedin�
 stav upravil plánování práce a zároveň přidal kontrolu, která kontroluje zda není takový požadavek již ve frontě, tak se
 i přesto stávalo, že administrátor byl zahlcen chybami. Zahlcení v tomto způsobovala šablona, která přestala fungovat.
 \par
-Jelikož tento stav není možné predikovat, zvolil jsem možnost, kdy je pouze upraveno webové rozhraní a následné uložení opravené chyby.
-Úprava webového rozhraní spočívala v omezení zobrazování chyb, kdy stejný list je v seznamu pouze jednou.  Uložení nově vyřešilo i ostatní chyby stejného typu na obchodě, čímž odpadá nutnost administrátora všechny vyřešit.
+Jelikož tento stav není možné predikovat, zvolil jsem možnost, kdy je pouze upraveno webové rozhraní.
+Úprava webového rozhraní spočívala v omezení zobrazování chyb, kdy související chyby jsou v seznamu pouze jednou.  
+Změněné zpracování formuláře \uv{vyřeší} i ostatní chyby stejného typu na obchodě, čímž odpadá nutnost administrátora řešit chyby postupně.
 
 \section{Skladem}
 V rámci získávání dat u detailu produktu jsem přidal možnost získávat informaci zda je produkt skladem.
@@ -1537,6 +1536,8 @@ Díky implementaci požadované funkcionality a oprav kritických chyb je v upra
 Administrátor nově musí zadat přes webové rozhraní obchody na kterých chceme hledat. Po vytvoření kampaně a rozběhnutí samotného sběru
 musí administrátor nastavit příslušné šablony a provedl případné spárování produktů.
 
+\newpage
+
 \section{Dodatečné opravy}
 Plynulost a funkčnost celého procesu hledání dat byla dosažena pouze díky opravám chyb, které jsem nalezl v průběhu testování.
 V kapitole Realizace vylepšení \ref{ch:realisation} jsem popisoval implementaci dodatečných oprav. Je však nutné zmínit, jak byly tyto nedostatky nalezeny.
@@ -1544,9 +1545,9 @@ V kapitole Realizace vylepšení \ref{ch:realisation} jsem popisoval implementac
 \subsection{Více šablon detailů produktu a Více stejných chyb}
 Chyba, kdy obchod obsahoval více možných struktur pro detaily produktů a zobrazení více stejných chyb ve webovém rozhraní měly stejnou příčinu.
 \par
-Systém při vyhledávání na obchodech alza.cz a nakupka.cz nalezl detaily produktů, které měli jinou strukturu než uložená šablona.
+Systém při vyhledávání na obchodech \textit{alza.cz} a \textit{nakupka.cz} nalezl detaily produktů, které měly jinou strukturu než uložená šablona.
 Výsledek byla neočekávaná chyba, což způsobilo více stejných chyb. Chyby zahlcovaly webového rozhraní. Oprava rozhraní ovšem neřešila
-problém odlišné struktury a proto bylo třeba vytvořit šablony alternativní.
+problém odlišné struktury a proto bylo třeba vytvořit i podporu pro šablony alternativní.
 \subsection{Neexistující stránka}
 Neúspěšné vyhledávání se vykytovalo na většině obchodech, protože hledaný produkt se na stránkách nenacházel. Systém prázdnou stránku detekoval jako chybu šablony, což způsobilo chybu.
 \par
@@ -1555,22 +1556,22 @@ Neexistující stránka detailu pak byla objevena na obchodě kudrnka.cz, kdy in
 \section{Párování}
 Při testování bylo zjištěno, že velké množství obchodů neobsahuje správné nebo přímo odlišné identifikátory produktů. Nejčastější je výskyt pouze jména, které často neodpovídá tomu uloženému.
 \par
-Na obchodech poskytující pouze název je nutné provést párování manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím produktů je počet těchto chyb velmi rozsáhlý. 
+Obchody poskytující pouze název znamenají nutnost provést párování manuálně. Systém se párování snaží ulehčit rozhraním, nicméně i při malém množstvím produktů je celkový počet těchto chyb velmi rozsáhlý. 
 \par
-Na obchodě mall.cz bylo nutné manuálně spárovat 4 ze 6 produktů, kdy administrátor měl na výběr z 30 možností. Jeden produkt se na obchodě nepodařilo nalézt a spárovat vůbec, jelikož obsahoval kompletně odlišný název oproti uloženému.
+Například na obchodě \textit{mall.cz} bylo nutné manuálně spárovat 4 ze 6 produktů. Počet nabízených všech nabízených možností ke spárování pro administrátor bylo 30. Jeden produkt se na obchodě nepodařilo nalézt a spárovat vůbec, jelikož obsahoval kompletně odlišný název oproti uloženému.
 \par
 Proces párování by bylo možné vylepšit, pokud by systém uchovával více identifikátorů. Více uložených jmen by pak zátěž na administrátora mohla s časem klesat, protože použitých jmen napříč obchody by mělo být omezené množství.
 U kompletně odlišných názvů je jediné řešení vytvořit rozhraní umožňující čistě manuální párování.
 
 \section{Webové rozhraní}\label{ch:web-interface}
 Nalezl jsem nedostatky ve webovém rozhraní, kdy jeho funkčnost sloužící k opravám šablony detailu, nebyla na některých obchodech funkční.
-Jednalo se například o obchod pilulka.cz, kde se při zobrazení staženého HTML nezobrazuje EAN, takže není možné k EAN nastavit cestu. 
-Obchod mall.cz pro změnu obsah stránky překrývá upozorněním o nepodporovaném prohlížeči.
+Jednalo se například o obchod \textit{pilulka.cz}, kde se při zobrazení staženého HTML nezobrazuje EAN, takže není možné k EAN nastavit selektor. 
+Obchod \textit{mall.cz} pro změnu obsah stránky překrývá upozorněním o nepodporovaném prohlížeči.
 \par
 Problém obsahovala i část pro šablonu sloužící k nalezení adres detailů. Pokud bylo použito rozhraní, šablona nebyla ve většině
 případů funkční. 
 \par
-Chyby v obou částech nejsou kritické, jelikož při zadání cesty k elementu manuálně uložení šablony proběhne správně a systém může pokračovat
+Chyby v obou částech nejsou kritické, jelikož při zadání cesty k elementu manuálně, uložení šablony proběhne správně a systém může pokračovat
 v práci.
 
 \section{Návrh a testy}
@@ -1609,7 +1610,7 @@ Nevýhodou jsou nedostatky týkající se vytváření šablon, které byly zmí
 
 \section{Nemožnost vyhledávání na některých obchodech}
 V rámci testování jsem objevil nemožnost vyhledávat na obchodech, které mají vyhledávání implementované pomocí POST požadavku, což
-systém aktuálně nepodporuje. Jedná se například o obchod elektrocr.cz.
+systém aktuálně nepodporuje. Jedná se například o obchod \textit{elektrocr.cz}.
 
 
 \section{Shrnutí}
