@@ -617,16 +617,16 @@ jednoduše kontrolovat jaké části kódu jsou otestované.
 Pro návaznost na kapitolu o provedených vylepšeních je nejprve nutné uvést v jakém kontextu jsou navrhovány. K tomu je třeba
 popsat způsob hodnocení, výsledný stav projektu a jeho funkcionalitu, čemuž se budu věnovat v této kapitole.
 
-\section{Způsob hodnocení}
+\section{Způsob hodnocení}\label{sec:zhodnoceni-typ}
 Jako metriky zhodnocení byly zvoleny následující kritéria seřazené od nejpodstatnějšího k nejméně důležitému: 
 
 \begin{itemize}
-\item Kritické chyby
-\item Úplnost požadované funkcionality
-\item Rozšiřitelnost
-\item Neefektivní chování
-\item Uživatelská přívětivost
-\item Škálovatelnost
+\item Kritické chyby;
+\item Úplnost požadované funkcionality;
+\item Rozšiřitelnost;
+\item Neefektivní chování;
+\item Uživatelská přívětivost;
+\item Škálovatelnost.
 \end{itemize}
 
 Rozšiřitelnost je hodnocena na základě obecného návrhu, pokrytí testy a počtu chyb statické analýzy kódu. 
@@ -650,8 +650,7 @@ produktů a manuálního přidání detailů produktů do databáze.
     24" Samsung S24D300H & 
     	\href{https://www.alza.cz}{alza.cz} \\ \hline
     \end{tabular}
-	\caption[Tabulka obsahující data použitá k testování vytvořeného řešení]{
-	Tabulka obsahující data použitá k testování vytvořeného řešení.}
+	\caption{Data použitá k otestování řešení týmového projektu.}
 	  \label{table:testing-data-1}
 \end{table}
 
@@ -687,10 +686,10 @@ Jak bylo řečeno, prvotním kritériem hledání jsou adresy detailů. Ty se mo
 následujícím pořadí:
 
 \begin{itemize}
-\item Adresy, které mají produkty v zaplacené kampani
-\item Adresy bez produktů
-\item Adresy, pro které neexistuje šablona pro parsování
-\item Adresy, které mají vyřešenou chybu
+\item Adresy, které mají produkty v zaplacené kampani.
+\item Adresy bez produktů.
+\item Adresy, pro které neexistuje šablona pro parsování.
+\item Adresy, které mají vyřešenou chybu.
 \end{itemize}
 
 Z této množiny bylo vybráno prvních 10 adres, odebrány již odeslané a takové které mají nevyřešenou chybu. Opakované spuštění v předdefinovaném 
@@ -811,12 +810,12 @@ Neefektivita se může negativně odrazit při velké zátěži a proto by měla
 	Rozšiřitelnost  & 
 		\begin{itemize}
   			\item Návrh tříd byl vyhodnocen jako nevhodný pro rozšiřování.
-  			\item 60 \% pokrytí testy dle nástroje Cobertura
+  			\item 60 \% pokrytí testy dle nástroje Cobertura.
   			\item 3 kritické chyby statické analýzy kódu.
   			\item 1 minoritní chyba statické analýzy kódu.
   		\end{itemize} \\ \hline
     \end{tabular}
-	\caption[První část tabulky přehledu nedostatků vytvořeného týmového řešení]{První část tabulky přehledu nedostatků vytvořeného týmového řešení}
+	\caption{První část přehledu nedostatků vytvořeného týmového řešení.}
 	  \label{table:analysis-old1}
 \end{table}
 \begin{table}[h]\centering
@@ -841,7 +840,7 @@ Neefektivita se může negativně odrazit při velké zátěži a proto by měla
   			\item Nemožnost vytvořit více instancí modulů.
   		\end{itemize} \\ \hline
     \end{tabular}
-	\caption[Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení]{Druhá část tabulky přehledu nedostatků vytvořeného týmového řešení}
+	\caption{Druhá část přehledu nedostatků vytvořeného týmového řešení.}
 	\label{table:analysis-old2}
 \end{table}
 
@@ -873,19 +872,19 @@ Samotná logika plánování práce, nebo-li nalezení adres detailů produktů,
 Nový návrh hledá adresy podle těchto kritérií:
 
 \begin{itemize}
-\item Adresy, které mají produkty v aktivní kampani a požadovaný interval hledání odpovídá aktuálnímu dni
-\item Adresy bez produktů
-\item Adresy, pro které neexistuje šablona pro parsování
-\item Adresy, které mají vyřešenou chybu
+\item Adresy, které mají produkty v aktivní kampani a požadovaný interval hledání odpovídá aktuálnímu dni.
+\item Adresy bez produktů.
+\item Adresy, pro které neexistuje šablona pro parsování.
+\item Adresy, které mají vyřešenou chybu.
 \end{itemize}
 
 Po nalezení těchto disjunktních množin a odstranění duplicit jsou vyřazeny adresy, které z nějakého důvodu nevyhovují svým stavem.
 Nežádoucí stavy jsou momentálně tyto:
 
 \begin{itemize}
-\item Pro obchod existuje nevyřešená parsovací chyba
-\item Existuje nevyřešená chyba analyzátoru
-\item Požadavek pro adresu byl již odeslán
+\item Pro obchod existuje nevyřešená chyba šablony.
+\item Existuje nevyřešená chyba analyzátoru.
+\item Požadavek pro adresu byl již odeslán.
 \end{itemize}
 
 Z důvodu možnosti, že nežádoucí stavy bude pravděpodobně požadované přidat či odebrat, je potřeba implementaci navrhnout tak, aby bylo možné kontroly kdykoliv modifikovat bez velkých zásahů do interní funkcionality.
@@ -974,7 +973,7 @@ To umožní odlehčení zátěže na stahování stránek a zrychlí celý proce
 Adresy nemusejí být v době párování aktuální. Zde je proto nutné nastavit mechanismus ověření platnosti adresy.
 
 
-\chapter{Realizace vylepšení}
+\chapter{Realizace vylepšení}\label{ch:realisation}
 Kapitola realizace vylepšení se věnuje implementovaným vylepšením. Popisuje jak byly navržené změny provedeny.
 V průběhu realizace byly objeveny nové nedostatky, z nichž některé byly také zpracovány, i když se s nimi původně nepočítalo.
 Změny jsou v repozitáři webového rozhraní a interní části označeny. Původní verze týmového projektu byla označena jako
@@ -1370,7 +1369,7 @@ budoucí analyzování. Přidal jsem také možnost opravit šablonu pro parsov�
 
 \begin{figure}\centering
  	\includegraphics[width=1.0\textwidth]{resources/analyser-err}
-	\caption[Webové rozhraní pro vyřešení chyby analyzátoru po provedení vylepšení]{Ukázka webového rozhraní pro vyřešení chyby analyzátoru po provedených vylepšení.}\label{fig:analyser-error}
+	\caption[Webové rozhraní pro vyřešení chyby analyzátoru po provedení vylepšeních]{Ukázka webového rozhraní pro vyřešení chyby analyzátoru po provedení vylepšeních.}\label{fig:analyser-error}
 \end{figure}
 
 \section{Monitorování}
@@ -1435,7 +1434,7 @@ Nakonec jsem zvolil možnost, kdy administrátor má v rámci řešení chyby š
 	Původnímu řešení neobsahovalo informaci o použité url adrese, vyparsované hodnoty a formulář pro chybný řetězec.}\label{fig:temp-det-err}
 \end{figure}
 
-\section{Více šablon detailů produktu}
+\section{Více šablon detailů produktů}
 Původní návrh počítal s možností, kdy stránka detailu produktu má stejnou strukturu napříč celým obchodem.
 Tento předpoklad se při testování ukázal jako chybný, kdy například výskyt slevy způsobí odlišný název elementu.
 \par
@@ -1487,15 +1486,20 @@ a produkční.
 
 
 \chapter{Zhodnocení provedených vylepšení}
-Zde bych se rád věnoval konečné funkcionalitě systému. V návaznosti na výsledný stav popíšu nedostatky objevené v rámci testování, které jsem uskutečnil. Zhodnocení jsem provedl stejným způsobem jako u týmového řešení. Jediná změna je použití více rozsáhlých testovacích dat, které
-se skládá z produktů popsaných v tabulce \ref{product-test} a 20 internetových obchodů.
+Zde bych se rád věnoval konečné funkcionalitě systému. Zhodnocení bude provedeno stejným způsobem a podle stejných kriterií jako zhodnocení
+týmového projektu, což je podrobně popsáno v sekci \ref{sec:zhodnoceni-typ}. Jediný rozdíl je použití jiných testovacích dat.
 
-\begin{table}[h]
+
+\section{Data}
+Testování samotného systému jsem provedl nad reálným vzorkem dat, které mi poskytl provozovatel internetového obchodu.
+Data se skládají z údajů o produktech popsaných v tabulce \ref{table:product-test} a internetových obchodů vyjmenovaných v tabulce
+\ref{table:product-test-products}.
+U každého internetového obchodu bylo zaznamenáno jaké produkty se na něm vyskytují, což mi umožnilo jednoduše kontrolovat, zda systém nalezl všechny adresy detailů.
+
+
+\begin{table}
 \centering
-\caption{Tabulka testovaných produktů}
-\label{product-test}
 \begin{tabular}{@{}lll@{}}
-\toprule
 \textbf{značka} & \textbf{model}   & \textbf{název}                                                                                                  \\ Scholl          & F215311016 (43)  & \begin{tabular}[c]{@{}l@{}}AIR BAG - přírodní\\ zdravotní pantofle\end{tabular}                                 \\ \midrule
 Scholl          & F200781065 (43)  & \begin{tabular}[c]{@{}l@{}}CLOG SUPERCOMFORT\\ bílá\end{tabular}                                                \\ \midrule
 Scholl          & 4002448095262    & \begin{tabular}[c]{@{}l@{}}Velvet Smooth wet \& dry \\ - elektrický pilník na chodidla do vody\end{tabular}     \\ \midrule
@@ -1507,52 +1511,79 @@ Salter          & SA1008GSBKXR     & SALTER 1008 GSBKXR                         
 Homedics        & MIR-8150         & MIR M-8150 - kosmetické zrcadlo                                                                                 \\ \midrule
 Philips         & Phil-71768/08/16 & Softpal Battery Olaf White                                                                                      \\ \bottomrule
 \end{tabular}
+\caption{Produkty použité v testovacích datech pro zhodnocení výsledného řešení.}
+\label{table:product-test}
 \end{table}
 
 
+\begin{table}
+\centering
+\begin{tabular}{ | l | l | l |}
+\toprule
+muj-scholl.cz & kudrnka.cz & 4home.cz \\
+muj-beurer.cz & zdravotnickaprodejna.cz & medipharma.cz \\
+muj-sanitas.cz & eobuv.cz & obuv-scholl.cz \\
+muj-salter.cz & mall.cz & k24.cz \\
+muj-homedics.cz & pilulka.cz & alza.cz \\
+elektrocr.cz & expert.cz & cesky-obchodak.eu \\
+ajtrade.cz & datart.cz & diagnosticketesty.cz \\
+nakupka.cz & & \\ \bottomrule
+\end{tabular}
+\caption{Obchody použité v testovacích datech pro zhodnocení výsledného řešení.}
+\label{table:product-test-products}
+\end{table}
+
 \section{Funkcionalita}
-Nejpodstatnější rozdíl při porovnání starého řešení a nového, je samotná funkcionalita, která byla značně rozšířena. Především je možné
-využít celý proces hledání informací. Administrátorem stačí zadat přes webové rozhraní obchody na kterých chceme hledat.
-Oproti původnímu řešení není nutné definovat adresy detailů přímo vložením do databáze. 
-Podpora více šablon rozšiřuje použití na více obchodech.
+Díky implementaci požadované funkcionality a oprav kritických chyb je v upraveném řešení možné využít celý proces hledání informací.
+Administrátor nově musí zadat přes webové rozhraní obchody na kterých chceme hledat. Po vytvoření kampaně a rozběhnutí samotného sběru
+musí administrátor nastavit příslušné šablony a provedl případné spárování produktů.
 
-\section{Kampaň}
-Vytvoření kampaně zůstalo stejné jako v původním řešení. Rozdíl je nejvíce markantní v rozhraní pro administrátora, kdy je
-možné vyřešit všechny možné chyby, což zajišťuje validní běh kampaně. Výsledek je pak očekávaný výstup, data ze sledovaných
-produktů. Uživatel má pak možnost si výstup zobrazit ve webovém rozhraní nebo stáhnout export jako v původním řešení.
-\par
-Jako nevýhoda a hlavní nedostatek se však ukázal velký důraz na administrátora při řešením prvotních situací, především párování produktů.
-\par
-Při možném reálném použití systému je pak potřeba zajistit, aby v rámci kampaně byla možnost výběru jaké obchody jsou požadovány sledovat, jelikož
-aktuální stav hledá na všech obchodech v systému.
+\section{Dodatečné opravy}
+Plynulost a funkčnost celého procesu hledání dat byla dosažena pouze díky opravám chyb, které jsem nalezl v průběhu testování.
+V kapitole Realizace vylepšení \ref{ch:realisation} jsem popisoval implementaci dodatečných oprav. Je však nutné zmínit, jak byly tyto nedostatky nalezeny.
 
+\subsection{Více šablon detailů produktu a Více stejných chyb}
+Chyba, kdy obchod obsahoval více možných struktur pro detaily produktů a zobrazení více stejných chyb ve webovém rozhraní měly stejnou příčinu.
+\par
+Systém při vyhledávání na obchodech alza.cz a nakupka.cz nalezl detaily produktů, které měli jinou strukturu než uložená šablona.
+Výsledek byla neočekávaná chyba, což způsobilo více stejných chyb. Chyby zahlcovaly webového rozhraní. Oprava rozhraní ovšem neřešila
+problém odlišné struktury a proto bylo třeba vytvořit šablony alternativní.
+\subsection{Neexistující stránka}
+Neúspěšné vyhledávání se vykytovalo na většině obchodech, protože hledaný produkt se na stránkách nenacházel. Systém prázdnou stránku detekoval jako chybu šablony, což způsobilo chybu.
+\par
+Neexistující stránka detailu pak byla objevena na obchodě kudrnka.cz, kdy interní vyhledávání vracelo odkaz na neexistující detail produktu, což opět způsobilo chybu šablony, jelikož nebyla vyparsována žádná hodnota.
 
 \section{Párování}
 Při testování bylo zjištěno, že velké množství obchodů neobsahuje správné nebo přímo odlišné identifikátory produktů. Nejčastější je výskyt pouze jména, které často neodpovídá tomu uloženému.
 \par
-Párování je nutné na obchodech, které poskytují pouze název, provést ve většině množstvím případů manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím 
-produktů je počet těchto chyb velmi rozsáhlý. 
+Na obchodech poskytující pouze název je nutné provést párování manuálně. Systém se manuální párování snaží ulehčit rozhraním, nicméně i při malém množstvím produktů je počet těchto chyb velmi rozsáhlý. 
 \par
-Proces párování by bylo možné vylepšit, pokud by systém uchovával více identifikátorů. Více uložených jmen by pak zátěž na administrátora mohla s časem klesat, protože použitých jmen napříč obchody by mělo být omezené množství. 
-Podpora pro tuto možnost však zcela nebyla zcela implementována, ačkoliv v některých částech byla interní část na tuto možnost již připravena.
+Na obchodě mall.cz bylo nutné manuálně spárovat 4 ze 6 produktů, kdy administrátor měl na výběr z 30 možností. Jeden produkt se na obchodě nepodařilo nalézt a spárovat vůbec, jelikož obsahoval kompletně odlišný název oproti uloženému.
+\par
+Proces párování by bylo možné vylepšit, pokud by systém uchovával více identifikátorů. Více uložených jmen by pak zátěž na administrátora mohla s časem klesat, protože použitých jmen napříč obchody by mělo být omezené množství.
+U kompletně odlišných názvů je jediné řešení vytvořit rozhraní umožňující čistě manuální párování.
 
 \section{Webové rozhraní}\label{ch:web-interface}
-Nalezl jsem nedostatky ve webovém rozhraní, kdy jeho funkčnost sloužící k opravám šablony detailu, nebylo na některých obchodech funkční.
-Stačilo zadat cestu k elementům manuálně. 
+Nalezl jsem nedostatky ve webovém rozhraní, kdy jeho funkčnost sloužící k opravám šablony detailu, nebyla na některých obchodech funkční.
+Jednalo se například o obchod pilulka.cz, kde se při zobrazení staženého HTML nezobrazuje EAN, takže není možné k EAN nastavit cestu. 
+Obchod mall.cz pro změnu obsah stránky překrývá upozorněním o nepodporovaném prohlížeči.
 \par
 Problém obsahovala i část pro šablonu sloužící k nalezení adres detailů. Pokud bylo použito rozhraní, šablona nebyla ve většině
-případů funkční, je proto nutné zadávat cestu k elementu manuálně.
+případů funkční. 
+\par
+Chyby v obou částech nejsou kritické, jelikož při zadání cesty k elementu manuálně uložení šablony proběhne správně a systém může pokračovat
+v práci.
 
 \section{Návrh a testy}
 Zásadní refaktoring a změna návrhu komunikace tříd velmi pozměnila interní část. 
-Interní část vyhovuje nárokům na formu v původních částech kódu, ale i v případě nové funkcionality. Je složena z přehlednějšího, udržitelnějšího a
+Interní část vyhovuje nárokům na formu. Je složena z přehlednějšího, udržovatelnějšího a
 lépe rozšiřitelného kódu.
 \par
-Lepší rozšiřitelnost byla výrazná především při přidávání vylepšení, kdy
-tyto změny byly často triviální záležitost a po jejich provedení bylo zachována
-původní funkcionalita. Toto dávám za důsledek především lepšího pokrytí
+Tyto vlastnosti byly výrazné při úpravách, kdy změny byly často triviální záležitost.
+Kromě subjektivního pocitu rychlejší orientace v kódu, nová architektura umožnila jednoduché přidání vylepšení
+a po provedení bylo zachována původní funkcionalita. Toto dávám za důsledek lepšímu pokrytí
 testy a rozdělení tříd do menších celků. Oproti původnímu řešení narostl počet jednotkových
-testů ze 170 na 492. Pokrytí demonstruje následující vizualizace.
+testů ze 170 na 492. Pokrytí v procentech demonstruje následující vizualizace.
 
 \begin{figure}[h]\centering
  	\includegraphics[width=1.0\textwidth]{resources/cobertura-report-new-1}
@@ -1561,24 +1592,75 @@ testů ze 170 na 492. Pokrytí demonstruje následující vizualizace.
 	výsledků byla vytvořena při sestavení na Jenkins s příslušným doplňkem.}\label{fig:cober-new}
 \end{figure}
 
-Pokrytí vzrostlo zhruba o 20\%. Základní funkcionalita servisních tříd je, až na výjimky testy, pokrytá celá.
-Zbylé neotestované třídy jsou především inicializační třídy front a jejich komunikační rozhraní, které je závislé na jiné běžící službě.
+Pokrytí vzrostlo zhruba o 20\%. Základní funkcionalita servisních tříd je testy pokrytá celá.
+Neotestované části jsou především větve, která nastanou při neočekávané chybě, vyhození výjimky, kterou není možné jednoduše v testech nasimulovat.
+Další neotestované třídy se pak týkají komunikaci s frontami a jednoduchých objektů, které vrací v \textit{get} metodě \textit{Optional}.
+
 \par
 I po provedení těchto změn zůstala nemožnost vytvoření více instancí jednotlivých modulů, tedy ProductDetailProvider a DataProvider.
 Tato změna je však požadována, až při nárokům na zpracování velkého množství dat. Pro změnu stačí přidat instanční rozhraní jednotlivých modulů, jelikož momentálně jsou spouštěny přímo modulem Manager. Oddělení neovlivní samotnou komunikaci jednotlivých části, nicméně 
-vzroste zátěž na nastavení infrastruktury nasazení aplikace na server.
+vzroste zátěž na nastavení infrastruktury a nasazení aplikace na server.
 
 \section{Rozhraní administrátora}
 Systém se stal z hlediska pro administrátora uživatelsky přívětivější. Při řešení chyb je rozhraní přehlednější a informace o chybách
-obsáhlejší, tím se docílí lepší rozhodování. Dále bylo podstatně zrychleno celkové zpracování. Odpadla nutnost řešit
-každý požadavek, ať už se jedná o víc chyb šablon u stejného obchodu či chyb analyzátoru.
+obsáhlejší. Dále byla snížena zátěž na administrátora, jelikož odpadla nutnost řešit
+všechny požadavky týkající se stejného obchodu či chyb analyzátoru.
 \par 
 Nevýhodou jsou nedostatky týkající se vytváření šablon, které byly zmíněny v kapitole \ref{ch:web-interface}.
 
 \section{Nemožnost vyhledávání na některých obchodech}
-V rámci testování jsem objevil nemožnost vyhledávat na některých obchodech. Jednalo se o dva
-menší obchody: \textit{k24.cz} a \textit{elektrocr.cz}. Příčina byla odlišná implementace hledání, kdy nestačilo pouze stáhnout
-obsah adresy, která je v příslušném formátu.
+V rámci testování jsem objevil nemožnost vyhledávat na obchodech, které mají vyhledávání implementované pomocí POST požadavku, což
+systém aktuálně nepodporuje. Jedná se například o obchod elektrocr.cz.
+
+
+\section{Shrnutí}
+
+\begin{table}[h]\centering
+    \begin{tabular}{ | l | p{7cm} |}
+    \hline
+    Typ & Popis \\ \hline
+    Kritické chyby & 
+  		 \\ \hline
+	\hline
+    Úplnost funkcionality & 
+    	\begin{itemize}
+  			\item Systém nevyhledává internetové obchody.
+  			\item Nemožnost vyhledávat na některých obchodech.
+  		\end{itemize} \\ \hline
+	\hline
+	Rozšiřitelnost  & 
+		\begin{itemize}
+  			\item Návrh se ukázal jako vhodný pro úpravy.
+  			\item 80 \% pokrytí testy dle nástroje Cobertura.
+  			\item 0 chyb statické analýzy kódu.
+  		\end{itemize} \\ \hline
+    \end{tabular}
+	\caption{První část přehledu nedostatků po implementaci navržených vylepšení.}
+	  \label{table:analysis-new1}
+\end{table}
+\begin{table}[h]\centering
+    \begin{tabular}{ | l | p{7cm} |}  
+    \hline
+    Typ & Popis \\ \hline
+	Neefektivní chování & 
+	 \\ \hline	
+	\hline
+	Uživatelská přívětivost & 
+		\begin{itemize}
+  			\item Velká náročnost párování detailů adres s produkty.
+  			\item Rozhraní pro editace šablony detailu není funkční na některých stránkách.
+  			\item Nefunkční rozhraní pro editaci šablony pro vyhledávání na obchodě.
+  		\end{itemize} \\ \hline	
+	\hline
+	Škálovatelnost & 
+		\begin{itemize}
+  			\item Nemožnost vytvořit více instancí modulů.
+  		\end{itemize} \\ \hline
+    \end{tabular}
+	\caption{Druhá část přehledu nedostatků po implementaci navržených vylepšení.}
+	\label{table:analysis-new2}
+\end{table}
+
 
 \chapter{Závěr}
 Vytvořené řešení týmového projektu nevyhovovalo požadavkům na funkcionalitu a možnostem na budoucí rozvoj.
