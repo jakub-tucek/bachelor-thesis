@@ -153,10 +153,10 @@ Lokaci lze jednoznačně určit mimo jiné pomocí těchto dvou možností:
 
 
 \section{XML Path Language}
-XML Path Language\cite{XPath} nazývaný zkráceně XPath je jazyk sloužící k výběru elementu v  XML\cite{XML} dokumentu.
+XML Path Language~\cite{XPath} nazývaný zkráceně XPath je jazyk sloužící k výběru elementu v  XML~\cite{XML} dokumentu.
 \par
 XML chápeme jako jazyk popisující strukturu strojově i lidsky čitelných dat.
-HTML lze vzhledem ke struktuře chápat jako formát podobný XML, ačkoliv se přímo o XML nejedná \cite{HTML}. 
+HTML lze vzhledem ke struktuře chápat jako formát podobný XML, ačkoliv se přímo o XML nejedná~\cite{HTML}. 
 Popisuje způsob zobrazení dat ve formátu, které prohlížeče rozumí.
 Díky podobnosti s XML je však možné XPath použít pro definování cesty k prvku, který uchovává potřebnou informaci na webové stránce.
 \par
@@ -229,7 +229,7 @@ pohybovat od stovek korun po desítek tisíc korun.
 
 \section{Popis konkrétních existujících služeb}
 
-\subsection{Price checking\cite{priceChecking}} 
+\subsection{Price checking~\cite{priceChecking}} 
 
 
 \textbf{Hlavní funkce}
@@ -284,7 +284,7 @@ pohybovat od stovek korun po desítek tisíc korun.
 
 \newpage
 
-\subsection{Pricing intelligence\cite{pricingIntelligence}} 
+\subsection{Pricing intelligence~\cite{pricingIntelligence}} 
 
 \textbf{Hlavní funkce}
 \begin{itemize}
@@ -317,7 +317,7 @@ pohybovat od stovek korun po desítek tisíc korun.
 \end{itemize}
 
 
-\subsection{Sledování trhu\cite{sledovaniTrhu}} 
+\subsection{Sledování trhu~\cite{sledovaniTrhu}} 
 \textbf{Hlavní funkce}
 \begin{itemize}
 \item sledování cen, pozic, dostupnosti a hodnocení na porovnávačích zboží i jednotlivých obchodech,
@@ -358,7 +358,7 @@ pohybovat od stovek korun po desítek tisíc korun.
 \item individuální cena.
 \end{itemize}
 
-\subsection{Pricebot \cite{priceBot}}
+\subsection{Pricebot~\cite{priceBot}}
 
 Web je datován roku 2015, avšak popis funkcí není dokončený. Obsahuje výplňový text, proto je popis funkcí nekompletní.
 
@@ -409,7 +409,7 @@ použití přímo provozovateli e-shopů, jelikož těmito znalostmi z povahy pr
 Příklad zahraničních nástrojů:
 
 \begin{enumerate}
-\item Screen scraper \cite{ScreenScraper}
+\item Screen scraper~\cite{ScreenScraper}
 
   \begin{itemize}
     \item webová služba,
@@ -420,7 +420,7 @@ Příklad zahraničních nástrojů:
     \item cena: \$549 - \$2,799 za měsíc.
   \end{itemize}
   
-\item Web extractor \cite{WebExtractor}
+\item Web extractor~\cite{WebExtractor}
 
   \begin{itemize}
     \item Windows Aplikace,
@@ -465,7 +465,7 @@ Vzhledem k požadavkům na škálovatelnost aplikace se interní část skládá
 spolu pomocí front. Díky tomu, že každý modul zajišťuje určitou funkcionalitu, je možné vytvářet více jejich instancí. Procesy lze 
 zpracovávat paralelně a na více serverech, kde je jediné kritérium připojení na systém zajišťující komunikaci.
 \par
-Uživatelská a interní část spolu sdílejí data pomocí relační databáze\cite{DB}.
+Uživatelská a interní část spolu sdílejí data pomocí relační databáze~\cite{DB}.
 
 \section{Webové rozhraní}
 
@@ -527,10 +527,10 @@ projektu, protože téma bakalářské práce jsem měl již předběžně vybra
 Vývoj byl rozdělen do 5 iterací, z nichž každá obsahovala 10 sprintů. 
 V každé iteraci bylo definováno jakou musí obsahovat funkcionalitu, která bude na konci iterace prezentována vyučujícímu. Funkcionalita se skládala z jednotlivých úkolů rozložených do sprintů.
 \par
-Úkoly byly přidělovány jednotlivým členům týmu. Samotné úkoly uchovával systém Redmine\cite{Redmine} a umožňoval sledovat jejich stav.
+Úkoly byly přidělovány jednotlivým členům týmu. Samotné úkoly uchovával systém Redmine~\cite{Redmine} a umožňoval sledovat jejich stav.
 Úkoly bylo možné v Redmine přiřadit k jednotlivým sprintům a iteracím, což umožňovalo přehled o plnění časového plánu.
 \par
-Jako verzovací systém byl zvolen systém Git se vzdáleným repozitářem uložený na službě Gitlab \cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a možnost spouštění služeb na základě definovaných aktivit v repozitáři. Repozitář se skládal ze 4 částí (větví):
+Jako verzovací systém byl zvolen systém Git se vzdáleným repozitářem uložený na službě Gitlab~\cite{gitlab}. Gitlab poskytuje webové rozhraní pro snadnou správu a možnost spouštění služeb na základě definovaných aktivit v repozitáři. Repozitář se skládal ze 4 částí (větví):
 
 \begin{itemize}
 \item Master - hlavní větev uchovávající verze určené k nasazení na produkční server.
@@ -546,13 +546,13 @@ Na konci každé iterace byla poslední verze označená pomocí \textit{tagu} a
 Označení bylo zvoleno na základě pořadí iterace. První iterace je označena verzí \uv{0.1}.
 \par
 Pro vývoj se využil princip průběžné integrace. Každá verze byla zkompilována, otestována a zanalyzována na vzdáleném serveru.
-Tyto činnosti zajišťovaly systémy Jenkins\cite{jenkins} a Gitlab. Po změně v repozitáři byl spuštěn úkol v Jenkins. Ten aplikaci sestavil, spustil testy a statickou analýzu kódu 
-zajištěnou systémem SonarQube\cite{sonar}. Výsledky publikoval ve svém webovém rozhraní a zároveň v rozhraní Gitlab.  
+Tyto činnosti zajišťovaly systémy Jenkins~\cite{jenkins} a Gitlab. Po změně v repozitáři byl spuštěn úkol v Jenkins. Ten aplikaci sestavil, spustil testy a statickou analýzu kódu 
+zajištěnou systémem SonarQube~\cite{sonar}. Výsledky publikoval ve svém webovém rozhraní a zároveň v rozhraní Gitlab.  
 \section{Implementace}
 
 
 \subsection{Webové rozhraní}
-Webové rozhraní je implementováno v jazyce PHP verze 7. Základem aplikace je aplikační rámec Nette\cite{nette}. Nette
+Webové rozhraní je implementováno v jazyce PHP verze 7. Základem aplikace je aplikační rámec Nette~\cite{nette}. Nette
 obsahuje nástroje pro automatickou správu závislostí, komunikaci s databází, vytváření bezpečných formulářů, zabezpečení
 aplikace, šablonovací systém a rozhraní pro tvorbu testů. 
 \par
@@ -565,20 +565,20 @@ například práci s \textit{repository} třídami nebo zpracování formulář�
 	\caption[MVC]{Vizualizace návrhu MVC (Model-View-Controller)}\label{fig:mvc}
 \end{figure}
 \par
-Snadnou správu závislostí nad externími knihovnami zajišťuje balíčkovací systém Composer\cite{composer}. 
+Snadnou správu závislostí nad externími knihovnami zajišťuje balíčkovací systém Composer~\cite{composer}. 
 Na základě souboru definující potřebné knihovny a jejich verze jsou staženy pomocí jednoho příkazu z centrálního repozitáře. To zajišťuje jednotné verze
 a eliminaci nutnosti knihovny manuálně stahovat či přidávat přímo do repozitáře.
 \subsection{Interní část}
-Interní část je implementována v jazyce Java verze 8. Sestavení, spouštění testů a správu závislostí zajišťuje Gradle\cite{gradle}.
+Interní část je implementována v jazyce Java verze 8. Sestavení, spouštění testů a správu závislostí zajišťuje Gradle~\cite{gradle}.
 Umožňuje automatické stažení knihoven. Standardně je nastavený jako zdroj
 centrální maven repozitář.\cite{mavenRepo} Maven repozitář uchovává většinu volně přístupných knihoven, v tomto případě všechny, které jsou v rámci tohoto projektu použity.
 \par
 V rámci sestavení lze pustit testy a další definované úkoly jako například tvorba dokumentace. Projekt používá
-doplněk Cobertura\cite{cobertura}, který na základě spuštěné testovací sady vytváří zprávu obsahující pokrytí větví programu.
+doplněk Cobertura~\cite{cobertura}, který na základě spuštěné testovací sady vytváří zprávu obsahující pokrytí větví programu.
 Díky tomu je možné jednoduše zjistit jaké větve aplikace nejsou otestované.
 \par
 Aplikace je rozdělena do nezávislých modulů běžící jako služby. Jednotlivé moduly spolu komunikují
-pomocí posílání zpráv v definovaných frontách. Komunikaci zajišťuje systém RabbitMQ Server\cite{rabbitMQ} implementovaný v jazyce Erlang. Zprávy jsou serializovatelné objekty, jejichž definice je sdílena napříč všemi moduly.
+pomocí posílání zpráv v definovaných frontách. Komunikaci zajišťuje systém RabbitMQ Server~\cite{rabbitMQ} implementovaný v jazyce Erlang. Zprávy jsou serializovatelné objekty, jejichž definice je sdílena napříč všemi moduly.
 \par
 \textit{Serializace} představuje proces, kdy je objekt serializovaný do posloupnosti bitů, které jsou poslány jako zpráva. 
 Vzhledem ke sdílené podobě objektu na obou stranách, lze zprávu jednoznačně deserializovat zpět do původního Java objektu se kterým
@@ -1050,10 +1050,10 @@ public class DPParserResponse {
 
 Třídy zajišťující parsování parsování hodnot ze stažené stránky v modulu DataProvider používají uvedenou strukturu.
 Ukázka kódu ukazuje použití příznaku označující, zda parsování proběhlo úspěšně. Další důležitý prvek
-je zapouzdření proměnných uchovávající data\cite{encapsulation}, jelikož přístup k proměnným je umožněn pouze pomocí \textit{get} a \textit{set} metod.
+je zapouzdření proměnných uchovávající data~\cite{encapsulation}, jelikož přístup k proměnným je umožněn pouze pomocí \textit{get} a \textit{set} metod.
 \par
 Metody \textit{get} jsou oproti standardnímu návrhu pozměněny a nevrací přímo proměnnou, ale \textit{Optional} této proměnné.
-Optional je kontejner, který může obsahovat požadovanou hodnotu \cite{optional} nebo být prázdný. 
+Optional je kontejner, který může obsahovat požadovanou hodnotu~\cite{optional} nebo být prázdný. 
 Před přístupem k hodnotě nepřímo vyžaduje ověření stavu objektu. Očividnost prázdnoty návratové hodnoty nutí vývojáře s touto možností počítat, což
 omezuje výskyt nežádoucích výjimek, především \textit{NullPointerException} \cite{nullPointerException}.
 \par
@@ -1361,7 +1361,7 @@ budoucí analyzování.
 \end{figure}
 
 \section{Monitorování}
-Na virtuální server jsem nasadil službu DataDog \cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
+Na virtuální server jsem nasadil službu DataDog~\cite{dataDog}, která po jednoduché instalaci umožňuje sledování běžících služeb
 a vytížení serveru. Data jsou odesílána přímo do služby DataDog. Externí webové rozhraní umožňuje zobrazení posbíraných údajů.
 \par
 Základní funkcionalita poskytuje pouze informace o využití prostředků a přístup k logům. Ačkoliv základní funkcionalita postačovala pro potřeby 
@@ -1684,7 +1684,7 @@ Ačkoliv v závěru objevené nedostatky způsobují diskomfort při používán
 Web Aplication Programming Interface je rozhraní, které na definovaný HTTP dotaz vrátí požadované data. Data jsou standardně vracena ve formátech JSON nebo XML.
 
 \section{Verzovací systém Git}
-Git \cite{GIT} je verzovací systém umožňující vytváření a sdílení jednotlivých verzí projektu.
+Git~\cite{GIT} je verzovací systém umožňující vytváření a sdílení jednotlivých verzí projektu.
 Umožňuje jednoduchý přehled nad rozpracovanými částmi každého vývojáře. Úložiště systému se nazývá repozitář, který obsahuje veškerý kód.
 \par
 Repozitář existuje v lokálních verzi a zároveň serverové, tedy sdílené. Sdílený repozitář zajišťuje distribuci aktuální verze do lokálních 
@@ -1727,8 +1727,8 @@ konzumenty, které je zpracovávají.
 Příklad implementace takového systému pak může být RabbitMQ. \cite{rabbitMQ}
 
 \section{JSON}
-JSON označuje specifikaci formátu pro výměnu dat\cite{JSON}. Jedná se o formát, který je čitelný nejenom pro lidské oko, ale i pro stroj\cite{JSON},
-Zpracování toho formátu je implementováno pro většinu programovacích jazyků\cite{JSON-impl}. Skládá se z párů označující
+JSON označuje specifikaci formátu pro výměnu dat~\cite{JSON}. Jedná se o formát, který je čitelný nejenom pro lidské oko, ale i pro stroj~\cite{JSON},
+Zpracování toho formátu je implementováno pro většinu programovacích jazyků~\cite{JSON-impl}. Skládá se z párů označující
 klíč a hodnotu. Hodnota může být řetězec, číslo nebo pole. Pole pak může uchovávat opět pole, řetězec nebo číslo. \cite{JSON}
 
 \begin{lstlisting}[language=JavaScript, caption={Ukázka formátu JSON}]
@@ -1765,7 +1765,7 @@ pozměněna funkcionalita. Provádí se za účelem dosáhnout průhlednějšíh
 se lépe udržuje a rozšiřuje. \cite{refaktoring} Hlavní spouštěcí příčina refaktorování kódu je však existence 
 konstrukcí značící špatný návrh aplikace. 
 
-V kontextu této práce jsou důležité především následující konstrukce značící možné problémy \cite{refaktoring}:  
+V kontextu této práce jsou důležité především následující konstrukce značící možné problémy~\cite{refaktoring}:  
 \begin{itemize}
 \item Dlouhá metoda.
 \item Velká třída.
@@ -1786,112 +1786,6 @@ V kontextu této práce jsou důležité především následující konstrukce 
 	\item[URL] Uniform Resource Locator.
 
 \end{description}
-
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% % Tuto kapitolu z výsledné práce ODSTRAŇTE.
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % 
-% 
-% \chapter{Návod k~použití této šablony}
-% 
-% Tento dokument slouží jako základ pro napsání závěrečné práce na Fakultě informačních technologií ČVUT v~Praze.
-% 
-% \section{Výběr základu}
-% 
-% Vyberte si šablonu podle druhu práce (bakalářská, diplomová), jazyka (čeština, angličtina) a kódování (ASCII, \mbox{UTF-8}, \mbox{ISO-8859-2} neboli latin2 a nebo \mbox{Windows-1250}). 
-% 
-% V~české variantě naleznete šablony v~souborech pojmenovaných ve formátu práce\_kódování.tex. Typ může být:
-% \begin{description}
-% 	\item[BP] bakalářská práce,
-% 	\item[DP] diplomová (magisterská) práce.
-% \end{description}
-% Kódování, ve kterém chcete psát, může být:
-% \begin{description}
-% 	\item[UTF-8] kódování Unicode,
-% 	\item[ISO-8859-2] latin2,
-% 	\item[Windows-1250] znaková sada 1250 Windows.
-% \end{description}
-% V~případě nejistoty ohledně kódování doporučujeme následující postup:
-% \begin{enumerate}
-% 	\item Otevřete šablony pro kódování UTF-8 v~editoru prostého textu, který chcete pro psaní práce použít -- pokud můžete texty s~diakritikou normálně přečíst, použijte tuto šablonu.
-% 	\item V~opačném případě postupujte dále podle toho, jaký operační systém používáte:
-% 	\begin{itemize}
-% 		\item v~případě Windows použijte šablonu pro kódování \mbox{Windows-1250},
-% 		\item jinak zkuste použít šablonu pro kódování \mbox{ISO-8859-2}.
-% 	\end{itemize}
-% \end{enumerate}
-% 
-% 
-% V~anglické variantě jsou šablony pojmenované podle typu práce, možnosti jsou:
-% \begin{description}
-% 	\item[bachelors] bakalářská práce,
-% 	\item[masters] diplomová (magisterská) práce.
-% \end{description}
-% 
-% \section{Použití šablony}
-% 
-% Šablona je určena pro zpracování systémem \LaTeXe{}. Text je možné psát v~textovém editoru jako prostý text, lze však také využít specializovaný editor pro \LaTeX{}, např. Kile.
-% 
-% Pro získání tisknutelného výstupu z~takto vytvořeného souboru použijte příkaz \verb|pdflatex|, kterému předáte cestu k~souboru jako parametr. Vhodný editor pro \LaTeX{} toto udělá za Vás. \verb|pdfcslatex| ani \verb|cslatex| \emph{nebudou} s~těmito šablonami fungovat.
-% 
-% Více informací o~použití systému \LaTeX{} najdete např. v~\cite{wikilatex}.
-% 
-% \subsection{Typografie}
-% 
-% Při psaní dodržujte typografické konvence zvoleného jazyka. České \uv{uvozovky} zapisujte použitím příkazu \verb|\uv|, kterému v~parametru předáte text, jenž má být v~uvozovkách. Anglické otevírací uvozovky se v~\LaTeX{}u zadávají jako dva zpětné apostrofy, uzavírací uvozovky jako dva apostrofy. Často chybně uváděný symbol "{} (palce) nemá s~uvozovkami nic společného.
-% 
-% Dále je třeba zabránit zalomení řádky mezi některými slovy, v~češtině např. za jednopísmennými předložkami a spojkami (vyjma \uv{a}). To docílíte vložením pružné nezalomitelné mezery -- znakem \texttt{\textasciitilde}. V~tomto případě to není třeba dělat ručně, lze použít program \verb|vlna|.
-% 
-% Více o~typografii viz \cite{kobltypo}.
-% 
-% \subsection{Obrázky}
-% 
-% Pro umožnění vkládání obrázků je vhodné použít balíček \verb|graphicx|, samotné vložení se provede příkazem \verb|\includegraphics|. Takto je možné vkládat obrázky ve formátu PDF, PNG a JPEG jestliže používáte pdf\LaTeX{} nebo ve formátu EPS jestliže používáte \LaTeX{}. Doporučujeme preferovat vektorové obrázky před rastrovými (vyjma fotografií).
-% 
-% \subsubsection{Získání vhodného formátu}
-% 
-% Pro získání vektorových formátů PDF nebo EPS z~jiných lze použít některý z~vektorových grafických editorů. Pro převod rastrového obrázku na vektorový lze použít rasterizaci, kterou mnohé editory zvládají (např. Inkscape). Pro konverze lze použít též nástroje pro dávkové zpracování běžně dodávané s~\LaTeX{}em, např. \verb|epstopdf|.
-% 
-% \subsubsection{Plovoucí prostředí}
-% 
-% Příkazem \verb|\includegraphics| lze obrázky vkládat přímo, doporučujeme však použít plovoucí prostředí, konkrétně \verb|figure|. Například obrázek \ref{fig:float} byl vložen tímto způsobem. Vůbec přitom nevadí, když je obrázek umístěn jinde, než bylo původně zamýšleno -- je tomu tak hlavně kvůli dodržení typografických konvencí. Namísto vynucování konkrétní pozice obrázku doporučujeme používat odkazování z~textu (dvojice příkazů \verb|\label| a \verb|\ref|).
-% 
-% \begin{figure}\centering
-% 	\includegraphics[width=0.5\textwidth, angle=30]{cvut-logo-bw}
-% 	\caption[Příklad obrázku]{Ukázkový obrázek v~plovoucím prostředí}\label{fig:float}
-% \end{figure}
-% 
-% \subsubsection{Verze obrázků}
-% 
-% % Gnuplot BW i barevně
-% Může se hodit mít více verzí stejného obrázku, např. pro barevný či černobílý tisk a nebo pro prezentaci. S~pomocí některých nástrojů na generování grafiky je to snadné.
-% 
-% Máte-li například graf vytvořený v programu Gnuplot, můžete jeho černobílou variantu (viz obr. \ref{fig:gnuplot-bw}) vytvořit parametrem \verb|monochrome dashed| příkazu \verb|set term|. Barevnou variantu (viz obr. \ref{fig:gnuplot-col}) vhodnou na prezentace lze vytvořit parametrem \verb|colour solid|.
-% 
-% \begin{figure}\centering
-% 	\includegraphics{gnuplot-bw}
-% 	\caption{Černobílá varianta obrázku generovaného programem Gnuplot}\label{fig:gnuplot-bw}
-% \end{figure}
-% 
-% \begin{figure}\centering
-% 	\includegraphics{gnuplot-col}
-% 	\caption{Barevná varianta obrázku generovaného programem Gnuplot}\label{fig:gnuplot-col}
-% \end{figure}
-% 
-% 
-% \subsection{Tabulky}
-% 
-% Tabulky lze zadávat různě, např. v~prostředí \verb|tabular|, avšak pro jejich vkládání platí to samé, co pro obrázky -- použijte plovoucí prostředí, v~tomto případě \verb|table|. Například tabulka \ref{tab:matematika} byla vložena tímto způsobem.
-% 
-% \begin{table}\centering
-% 	\caption[Příklad tabulky]{Zadávání matematiky}\label{tab:matematika}
-% 	\begin{tabular}{|l|l|c|c|}\hline
-% 		Typ		& Prostředí		& \LaTeX{}ovská zkratka	& \TeX{}ovská zkratka	\tabularnewline \hline \hline
-% 		Text		& \verb|math|		& \verb|\(...\)|	& \verb|$...$|		\tabularnewline \hline
-% 		Displayed	& \verb|displaymath|	& \verb|\[...\]|	& \verb|$$...$$|	\tabularnewline \hline
-% 	\end{tabular}
-% \end{table}
-% 
-% % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
 \chapter{Obsah přiloženého CD}
 
